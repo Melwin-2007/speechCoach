@@ -37,3 +37,13 @@ With the virtual environment activated, install the required packages from the `
 ```powershell
 pip install -r requirements.txt
 ```
+
+> **Note:** This installs PyTorch with CUDA 12.4 GPU support. The `--extra-index-url` in `requirements.txt` pulls the GPU-enabled wheels automatically.
+
+## 5. Verify GPU Access
+After installation, confirm that PyTorch can see your NVIDIA GPU:
+```powershell
+python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}'); print(f'GPU: {torch.cuda.get_device_name(0)}') if torch.cuda.is_available() else None"
+```
+You should see `CUDA available: True` and your GPU name (e.g. `NVIDIA GeForce GTX 1050`).
+

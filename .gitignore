@@ -1,9 +1,31 @@
+# Virtual environment
 .venv/
 __pycache__/
+*.pyc
+
+# Data (large files, not committed)
 data/
 dataset/audio/
 !dataset/audio/sample/
 *.npz
+
+# Frontend build artifacts
 node_modules/
 app/dist/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# Model weights (downloaded at runtime)
+*.pt
+*.bin
+*.onnx
