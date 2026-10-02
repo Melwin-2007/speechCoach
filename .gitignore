@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+data/
+dataset/audio/
+!dataset/audio/sample/
+*.npz
+node_modules/
+app/dist/
+.DS_Store
