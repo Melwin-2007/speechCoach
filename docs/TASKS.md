@@ -10,7 +10,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **C1 [C] Repo scaffold and kit.** Needs: nothing.
   Do: folder structure, `.gitignore`, `requirements.txt` (pinned), `Makefile` (setup/test/check/smoke/app), commit the AI kit files, FastAPI app with `/health`, Vite+React skeleton, `app/public/mock_result.json` valid against CONTRACTS section 6 (3 flaws), `tests/test_health.py`.
   Accept: fresh clone then `make setup && make check` passes; `make app` shows a page that loads mock JSON.
-- [ ] **A1 [A] Texts and sources.** Needs: nothing.
+- [x] **A1 [A] Texts and sources.** Needs: nothing.
   Do: finalize T1-T6 text files in `dataset/texts/` (exact spoken wording, punctuation kept), `dataset/SOURCES.md` (URL, license, notes per text), download source audio for historical texts, `scripts/prepare_audio.py` (ffmpeg convert to 16 kHz mono WAV, trim to <=1 s edge silence, print duration and peak level).
   Accept: >= 3 prepared source WAVs in `data/interim/`; every text has a transcript and a SOURCES entry.
 - [ ] **B1 [B] Transcript parsing and forced alignment.** Needs: a sample wav + text (use any 10 s recording).
