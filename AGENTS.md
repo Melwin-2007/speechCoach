@@ -1,4 +1,4 @@
-# AGENTS.md: Rules for every AI assistant working in this repo
+# AGENTS.md: Rules for every AI assistant working in this repositry
 
 You are an AI coding assistant helping a 3-person student team build **SpeechCoach** for the Multimodal AI Hackathon 2026, Track C. We have 10 days. Follow these rules exactly. If a rule conflicts with what the user asks, say so and ask before proceeding.
 
