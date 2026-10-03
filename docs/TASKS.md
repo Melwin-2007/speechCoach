@@ -7,7 +7,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 
 ---
 ## Day 1: Foundations
-- [ ] **C1 [C] Repo scaffold, design foundation and mock data.** Needs: nothing. Prompts: C1 from `docs/PROMPTS.md`, then D0a and D0 from `docs/DASHBOARD_PROMPTS.md`.
+- [x] **C1 [C] Repo scaffold, design foundation and mock data.** Needs: nothing. Prompts: C1 from `docs/PROMPTS.md`, then D0a and D0 from `docs/DASHBOARD_PROMPTS.md`.
   Do: folder structure, `.gitignore`, `requirements.txt` (pinned), `Makefile` (setup/test/check/smoke/app/lint:design), FastAPI app with `/health`, Vite+React (JavaScript) skeleton with CSS Modules, `scripts/make_mock_result.py` generating contract-valid mock JSON for 3 presets (botched/almost/ideal) plus demo WAVs, `app/src/styles/tokens.css` + `base.css` + `motion.css` (exact copies from design system), `app/src/lib/colors.js` + `format.js` + `motion.js`, design linter (`app/scripts/check-design.mjs` via `npm run lint:design`), `/#/styleguide` page showing palette/type/buttons/chips/radii/shadows/motion demos, `tests/test_health.py`.
   Accept: fresh clone then `make setup && make check` passes; `make app` shows a page that loads mock JSON; `npm run lint:design` passes; `/#/styleguide` renders correctly; mock data is deterministic (two runs give identical files).
 - [x] **A1 [A] Texts and sources.** Needs: nothing.

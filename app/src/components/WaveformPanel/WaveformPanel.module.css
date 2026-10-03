@@ -1,0 +1,197 @@
+.waveformCard {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.titleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.timeDisplay {
+  background-color: var(--paper);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.timeSeparator {
+  color: var(--muted);
+}
+
+.errorBanner {
+  background-color: var(--blush);
+  color: var(--bad);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.waveformStage {
+  position: relative;
+  background-color: var(--paper);
+  border-radius: var(--r-card);
+  padding: var(--s-4) var(--s-4) var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-height: 170px;
+}
+
+.flawOverlayLayer {
+  position: relative;
+  width: 100%;
+}
+
+.flawRegionBtn {
+  position: absolute;
+  height: 24px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  z-index: 2;
+}
+
+.flawRegionBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-1);
+  z-index: 5;
+}
+
+.flawRegionSelected {
+  box-shadow: 0 0 0 2px var(--ink);
+  z-index: 6;
+}
+
+.regionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  pointer-events: none;
+}
+
+.waveformCanvasWrap {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.controlsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  padding-top: var(--s-2);
+}
+
+.playControls {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.playBtn {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-pill);
+  background-color: var(--ink);
+  color: var(--card);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--t-fast), background-color var(--t-fast);
+}
+
+.playBtn:hover {
+  transform: scale(1.05);
+}
+
+.playBtn:active {
+  transform: scale(0.96);
+}
+
+.navFlawBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-pill);
+  background-color: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--t-fast);
+}
+
+.navFlawBtn:hover:not(:disabled) {
+  background-color: var(--paper-2);
+}
+
+.navFlawBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.playbackLegend {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legendColorBox {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--r-sm);
+}

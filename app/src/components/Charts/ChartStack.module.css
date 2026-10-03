@@ -1,0 +1,192 @@
+.chartStackCard {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  padding: var(--s-6);
+  box-shadow: var(--shadow-1);
+  margin-top: var(--s-6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-5);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.legendLine {
+  width: 18px;
+  height: 3px;
+  background-color: var(--ink);
+  border-radius: var(--r-pill);
+}
+
+.legendDashed {
+  width: 18px;
+  height: 2px;
+  border-top: 2px dashed var(--ok);
+}
+
+.legendBand {
+  width: 18px;
+  height: 10px;
+  background-color: var(--mint-2);
+  border-radius: var(--r-xs);
+  opacity: 0.8;
+}
+
+.chartsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  position: relative;
+}
+
+/* TimeChart styles */
+.chartContainer {
+  position: relative;
+  background-color: var(--paper);
+  border-radius: var(--r-md);
+  padding: var(--s-3) var(--s-4);
+}
+
+.chartTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-2);
+}
+
+.chartTitle {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chartUnit {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.svgWrap {
+  width: 100%;
+  height: 140px;
+  overflow: visible;
+  position: relative;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.gridLine {
+  stroke: var(--line);
+  stroke-dasharray: 2 4;
+  stroke-width: 1;
+}
+
+.axisText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.participantPath {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.baselinePath {
+  fill: none;
+  stroke: var(--ok);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+.baselineArea {
+  fill: var(--mint-2);
+  opacity: 0.65;
+}
+
+.flawRect {
+  rx: 10px;
+  opacity: 0.25;
+  transition: opacity var(--d-fast) var(--ease-out);
+}
+
+.flawRect:hover {
+  opacity: 0.4;
+}
+
+.crosshair {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-4);
+  background-color: var(--ink);
+  color: var(--on-ink);
+  border-radius: var(--r-sm);
+  padding: 6px 12px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  box-shadow: var(--shadow-pop);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tooltipVal {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}

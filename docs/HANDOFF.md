@@ -70,6 +70,18 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): Run the plot_features script to visualize the data.
 - Requests for others: Member B or C can now move to Comparing features (Task B3).
 
+### [2026-10-03 20:15] Member C, task C1
+- Goal: Build repo scaffold, FastAPI API, mock generator, design token foundation, styleguide, and interactive dashboard graphs (Score ring, 7-axis Radar, 3-tier Pitch/Loudness/Pacing time series charts, WaveformPanel with lane assignment, WordRibbon, TranscriptPanel, FlawList, and ExplanationCard with MathDisclosure).
+- Files changed: `app/package.json`, `app/vite.config.js`, `app/src/main.jsx`, `app/src/App.jsx`, `app/src/styles/tokens.css`, `app/src/styles/base.css`, `app/src/styles/motion.css`, `app/src/lib/colors.js`, `app/src/lib/format.js`, `app/src/lib/motion.js`, `app/src/lib/lanes.js`, `app/src/components/Styleguide/*`, `app/src/components/Charts/*`, `app/src/components/ScoreCard/*`, `app/src/components/WaveformPanel/*`, `app/src/components/WordRibbon/*`, `app/src/components/TranscriptPanel/*`, `app/src/components/FlawList/*`, `app/src/components/ExplanationCard/*`, `scripts/make_mock_result.py`, `app/scripts/check-design.mjs`, `tests/test_mock_result.py`, `pytest.ini`.
+- What I ran and what it printed (real output, short):
+  `pytest tests/test_health.py tests/test_mock_result.py` -> 4 passed in 0.53s
+  `cd app && npm run lint:design` -> ✅ Design Linter: All design system checks passed!
+  `cd app && npm run build` -> ✓ built in 350ms
+- Status: done
+- NOT done / open problems: Live backend POST /analyze integration with real MMS_FA pipeline on GPU (Task C4).
+- How a teammate can verify (exact command): `npm run lint:design` in `app/`, `pytest` in repo root, open `http://localhost:5173` to explore interactive graphs.
+- Requests for others: Member B pipeline modules can now connect directly to the FastAPI `/analyze` endpoint when ready.
+
 ### [2026-10-03 23:45] Member A, task A1 (Human Recordings Ingestion)
 - Goal: Standardize 4 teammate recordings for Text T1 (Adi, Krutika, Sagar Take 1, Sagar Take 2) from diverse media formats into 16 kHz mono 16-bit PCM WAVs, produce matching word-for-word spoken transcripts, and register them in metadata.csv and SOURCES.md.
 - Files changed:
@@ -122,7 +134,4 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command):
   `.\.venv\Scripts\python.exe scripts/validate_labels.py dataset/labels`
 - Requests for others: Member B can now calibrate baselines (Task B3) on both American (T4) and Indian (T1) accents with identical flaw dimensions.
-
-
-
 
