@@ -23,6 +23,8 @@ Format: `[date] who: exact proposed diff to docs/CONTRACTS.md. Approvals: A[ ] B
 Format: `[date] decision: reason`
 - Stack fixed as in AGENTS.md section 3.
 - Dev split T1,T2,T4,T5; test split T3,T6 (never tune on test).
+- Focused the primary corpus on the 4 user-provided speeches: T1 (Indian Pep Talk), T2 (Martin Luther King Jr.), T3 (Dr. A.P.J. Abdul Kalam), T4 (Abraham Lincoln), providing a 2-2 accent balance (Indian vs American).
+- [2026-10-03] decision: Committed ideal audio files (T1-T4 WAVs, ~23.3 MB) directly to branch a/A1-texts-sources per explicit user instruction so all team members have immediate access to canonical audio.
 
 ## 5. Known issues
 Format: `[date] who: issue, how to reproduce, status`
