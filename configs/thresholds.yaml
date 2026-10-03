@@ -1,0 +1,9 @@
+seed: 42
+sr: 16000
+hop_length_s: 0.010
+frame_period_ms: 5.0
+target_lufs: -23.0
+f0_floor: 60.0
+f0_ceil: 600.0
+silence_threshold_db: -42.0
+edge_silence_s: 0.5
