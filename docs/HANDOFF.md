@@ -57,3 +57,14 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: Caching logic computes the hash and saves it in the JSON, but full skip-if-cached logic isn't wired yet.
 - How a teammate can verify (exact command): `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe tests/test_align.py`
 - Requests for others: Member C can wire the JSON output into the UI mock / backend.
+
+### [2026-10-03 13:14] Member B, task B2
+- Goal: Feature extraction (pitch, loudness, spectral flux), word aggregation, and syllable counting.
+- Files changed: `src/speechcoach/features/frame.py`, `src/speechcoach/features/words.py`, `src/speechcoach/features/syllables.py`, `scripts/plot_features.py`, `tests/test_features.py`
+- What I ran and what it printed (real output, short):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe tests/test_features.py` -> 3 passed
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/plot_features.py dataset/audio/ideal/T1__orig-indianpep__ideal.wav results/T1_alignment.json` -> Rendered plot successfully.
+- Status: done
+- NOT done / open problems: None.
+- How a teammate can verify (exact command): Run the plot_features script to visualize the data.
+- Requests for others: Member B or C can now move to Comparing features (Task B3).
