@@ -19,9 +19,10 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **ALL: record ideal T4 (Gitanjali 35)**, 3 takes each, Day 1 evening (see guide for recording protocol).
 
 ## Day 2: Features and first flaw
-- [ ] **A2 [A] WORLD analysis, time-program renderer, first flaw.** Needs: A1.
+- [x] **A2 [A] WORLD analysis, time-program renderer, first flaw.** Needs: A1.
   Do: `dataset/world_engine.py` with `analyze_world`, `render`, anchors-based time map, `inject` for PACE_FAST L1-L5 on T4 using `configs/flaws.yaml`; `resynth_control`; `scripts/validate_labels.py`; build `dataset/sample/` (1 ideal + 1 flawed + label + transcript).
   Accept: 5 PACE_FAST files + control for T4 with labels passing `validate_labels.py`; A listened to L1, L3, L5; word times in labels consistent with the time map.
+
 - [x] **B2 [B] Frame features, word table, syllables.** Needs: B1.
   Do: `features/frame.py`, `features/words.py` (`word_table`), syllable counter (cmudict + fallback), `scripts/plot_features.py` (figure: pitch, energy, pauses over time), tests with a 150 Hz sine (F0 ~150 +/- 2 Hz), a known-gap signal (pause length error < 20 ms), two synthetic speakers with different base pitch giving equal normalized `st`.
   Accept: `make test` passes; figure produced for one real file and shown to the team.

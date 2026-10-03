@@ -7,7 +7,7 @@ AI assistants forget everything between chats. **This file is their memory.** Re
 - Day: 1
 - Last green tag: none
 - Milestones: M1 (upload shows real flaw regions): [ ]   M2 (demo mode + explanations): [ ]   Freeze (Day 6): [ ]
-- Counts: ideal recordings: 4 | synthetic files: 0 | human flawed: 0
+- Counts: ideal recordings: 4 | synthetic files: 30 | human takes: 4
 - Latest dev metrics (F1@IoU0.5 / Spearman score-vs-level): n/a
 - Biggest risk right now: n/a
 
@@ -69,3 +69,60 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: None.
 - How a teammate can verify (exact command): Run the plot_features script to visualize the data.
 - Requests for others: Member B or C can now move to Comparing features (Task B3).
+
+### [2026-10-03 23:45] Member A, task A1 (Human Recordings Ingestion)
+- Goal: Standardize 4 teammate recordings for Text T1 (Adi, Krutika, Sagar Take 1, Sagar Take 2) from diverse media formats into 16 kHz mono 16-bit PCM WAVs, produce matching word-for-word spoken transcripts, and register them in metadata.csv and SOURCES.md.
+- Files changed:
+  - Audio: `dataset/audio/human/T1__h-adi__ideal.wav`, `dataset/audio/human/T1__h-krutika__ideal.wav`, `dataset/audio/human/T1__h-sagar__take1.wav`, `dataset/audio/human/T1__h-sagar__take2.wav` (plus `data/interim/human/` copies)
+  - Transcripts: `dataset/texts/takes/T1__h-adi__ideal.txt`, `dataset/texts/takes/T1__h-krutika__ideal.txt`, `dataset/texts/takes/T1__h-sagar__take1.txt`, `dataset/texts/takes/T1__h-sagar__take2.txt`
+  - Metadata: `dataset/metadata.csv`, `dataset/SOURCES.md`
+  - Tests: `tests/test_dataset_prep.py`
+- What I ran and what it printed (real output, short):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py` -> 9 passed in 0.07s
+- Status: done
+- NOT done / open problems: None for data ingestion. Baseline builder can leverage these human takes for multi-reference comparisons.
+- How a teammate can verify (exact command):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py`
+- Requests for others: Member B can align these takes with MMS_FA once torch/torchaudio dependencies are loaded into the environment.
+
+### [2026-10-04 00:15] Member A, task A2 (WORLD Vocoder Engine & First Flaw PACE_FAST)
+- Goal: Implement WORLD vocoder analysis-synthesis engine (`world_engine.py`), anchors-based time map renderer, `inject()` for `resynth_control` and `PACE_FAST` L1-L5 on T4, label schema validator (`validate_labels.py`), and populate smoke sample package in `dataset/sample/`.
+- Files changed:
+  - Source: `src/speechcoach/dataset/world_engine.py`, `scripts/validate_labels.py`
+  - Configs: `configs/flaws.yaml`, `configs/thresholds.yaml`
+  - Alignments & Audio: `dataset/alignments/T4__orig-lincoln__ideal.json`, `dataset/audio/synthetic/T4__synth-orig-lincoln__*.wav` (6 files)
+  - Labels: `dataset/labels/T4__synth-orig-lincoln__*.json` (6 files)
+  - Sample package: `dataset/sample/` (ideal.wav, flawed.wav, label.json, alignment.json, transcript.txt)
+  - Metadata: `dataset/metadata.csv`
+  - Tests: `tests/test_dataset_world.py`, `docs/TASKS.md`
+- What I ran and what it printed (real output, short):
+  - `python -m speechcoach.dataset.world_engine --text T4 --flaw PACE_FAST --levels 1,2,3,4,5` -> generated control (145.24s) and PACE_FAST L1 (143.88s) through L5 (100.01s).
+  - `python scripts/validate_labels.py dataset/labels` -> `6/6 passed, 0 failed.`
+  - `pytest -v tests/test_dataset_prep.py tests/test_dataset_world.py` -> `14 passed in 1.83s`
+- Status: done
+- NOT done / open problems: Full batch build with other flaw types (Task A3).
+- How a teammate can verify (exact command):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe -v tests/test_dataset_world.py`
+- Requests for others: Member B can use `dataset/sample/` or `T4__synth-orig-lincoln__PACE_FAST_L3.wav` to test feature shifts and detection.
+
+### [2026-10-04 00:30] Member A, task A3 (Multi-Text & Multi-Flaw Expansion: T1 & T4)
+- Goal: Expand flaw injection engine with `PACE_SLOW`, `MONOTONE`, and `VOLUME_DROP`. Generate synthetic spectrum for both T1 (Indian Pep Talk) and T4 (Lincoln), bringing total synthetic benchmark files to 21.
+- Files changed:
+  - Engine: `src/speechcoach/dataset/world_engine.py` (added PACE_SLOW, MONOTONE, VOLUME_DROP)
+  - Alignments: `dataset/alignments/T1__orig-indianpep__ideal.json` (corrected word 244 numeric timestamp)
+  - Audio & Labels (30 synthetic files):
+    - T1 (15 takes): `PACE_FAST` L1-L5, `PACE_SLOW` L1, L3, L5; `MONOTONE` L1, L3, L5; `VOLUME_DROP` L1, L3, L5; `resynth_control` (WAVs + JSONs)
+    - T4 (15 takes): `PACE_FAST` L1-L5, `PACE_SLOW` L1, L3, L5; `MONOTONE` L1, L3, L5; `VOLUME_DROP` L1, L3, L5; `resynth_control` (WAVs + JSONs)
+  - Metadata: `dataset/metadata.csv` (now tracking 38 total recordings)
+- What I ran and what it printed (real output, short):
+  - `python scripts/validate_labels.py dataset/labels` -> `30/30 passed, 0 failed.`
+  - `pytest -v tests/test_dataset_prep.py tests/test_dataset_world.py` -> `14 passed in 1.68s`
+- Status: done
+- NOT done / open problems: Flaws PAUSE_MISSING and PAUSE_EXCESS, plus T2/T3 generation.
+- How a teammate can verify (exact command):
+  `.\.venv\Scripts\python.exe scripts/validate_labels.py dataset/labels`
+- Requests for others: Member B can now calibrate baselines (Task B3) on both American (T4) and Indian (T1) accents with identical flaw dimensions.
+
+
+
+

@@ -101,3 +101,61 @@ def test_interim_wavs_conformance():
             assert wf.getsampwidth() == 2, f"{wav_path.name} sampwidth is {wf.getsampwidth()}, expected 2 (16-bit)"
             duration = wf.getnframes() / float(wf.getframerate())
             assert duration >= 30.0, f"{wav_path.name} duration {duration}s is too short"
+
+
+def test_human_audio_conformance():
+    """Assert all 4 teammate recordings in dataset/audio/human/ are strictly 16 kHz mono 16-bit PCM."""
+    human_dir = REPO_ROOT / "dataset" / "audio" / "human"
+    assert human_dir.is_dir(), "Missing dataset/audio/human/ directory"
+
+    wav_files = sorted(list(human_dir.glob("*.wav")))
+    assert len(wav_files) == 4, f"Expected 4 human recordings, found {len(wav_files)}"
+
+    expected_files = {
+        "T1__h-adi__ideal.wav",
+        "T1__h-krutika__ideal.wav",
+        "T1__h-sagar__take1.wav",
+        "T1__h-sagar__take2.wav",
+    }
+    found_names = {f.name for f in wav_files}
+    assert found_names == expected_files
+
+    for wav_path in wav_files:
+        with wave.open(str(wav_path), "rb") as wf:
+            assert wf.getframerate() == 16000, f"{wav_path.name} SR is {wf.getframerate()}, expected 16000"
+            assert wf.getnchannels() == 1, f"{wav_path.name} channels is {wf.getnchannels()}, expected 1 (mono)"
+            assert wf.getsampwidth() == 2, f"{wav_path.name} sampwidth is {wf.getsampwidth()}, expected 2 (16-bit)"
+            duration = wf.getnframes() / float(wf.getframerate())
+            assert 50.0 <= duration <= 100.0, f"{wav_path.name} unexpected duration {duration}s"
+
+
+def test_human_transcripts_integrity():
+    """Assert transcript text files exist for all human recordings and have sufficient words."""
+    takes_dir = REPO_ROOT / "dataset" / "texts" / "takes"
+    assert takes_dir.is_dir(), "Missing dataset/texts/takes/ directory"
+
+    expected_transcripts = [
+        "T1__h-adi__ideal.txt",
+        "T1__h-krutika__ideal.txt",
+        "T1__h-sagar__take1.txt",
+        "T1__h-sagar__take2.txt",
+    ]
+
+    for name in expected_transcripts:
+        txt_path = takes_dir / name
+        assert txt_path.is_file(), f"Missing transcript {name}"
+        words = txt_path.read_text(encoding="utf-8").strip().split()
+        assert len(words) >= 100, f"Transcript {name} has fewer than 100 words ({len(words)})"
+
+
+def test_metadata_csv_structure():
+    """Assert metadata.csv conforms to CONTRACTS.md section 4."""
+    meta_path = REPO_ROOT / "dataset" / "metadata.csv"
+    assert meta_path.is_file()
+
+    lines = [line.strip() for line in meta_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 9  # Header + 4 canonical + 4 human
+    header = lines[0]
+    expected_header = "file_id,text_id,source,speaker,variant,severity_level,flaw_types,split,duration_s,license,audio_path,label_path"
+    assert header == expected_header
+
