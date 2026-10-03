@@ -7,13 +7,13 @@ AI assistants forget everything between chats. **This file is their memory.** Re
 - Day: 1
 - Last green tag: none
 - Milestones: M1 (upload shows real flaw regions): [ ]   M2 (demo mode + explanations): [ ]   Freeze (Day 6): [ ]
-- Counts: ideal recordings: 0 | synthetic files: 0 | human flawed: 0
+- Counts: ideal recordings: 4 | synthetic files: 0 | human flawed: 0
 - Latest dev metrics (F1@IoU0.5 / Spearman score-vs-level): n/a
 - Biggest risk right now: n/a
 
 ## 2. Requests between members
 Format: `[date] FROM -> TO: request. Status: open/done`
-- (none yet)
+- [2026-10-03] A -> B: 4 ideal recordings prepared (T1 Indian Pep, T2 MLK, T3 Kalam, T4 Lincoln) in `data/interim/` and `dataset/audio/ideal/`. Status: done
 
 ## 3. Contract change requests
 Format: `[date] who: exact proposed diff to docs/CONTRACTS.md. Approvals: A[ ] B[ ] C[ ]`
@@ -31,14 +31,19 @@ Format: `[date] who: issue, how to reproduce, status`
 - (none yet)
 
 ## 6. Session log (newest at the bottom)
-Template: copy, fill in, append.
-```
-### [YYYY-MM-DD HH:MM] Member X, task ID
-- Goal:
-- Files changed:
+
+### [2026-10-03 02:20] Member A, task A1
+- Goal: Ingest 4 user-provided video speeches (2 Indian, 2 American), transcribe their entire word-for-word spoken subtitles, build audio standardization pipeline (`prepare_audio.py`), and establish exactly 4 matching transcripts (T1.txt to T4.txt) and provenance in `SOURCES.md`.
+- Files changed: `scripts/prepare_audio.py`, `dataset/SOURCES.md`, `dataset/texts/T{1..4}.txt`, `tests/test_dataset_prep.py`.
 - What I ran and what it printed (real output, short):
-- Status: done / partial / blocked
-- NOT done / open problems:
-- How a teammate can verify (exact command):
-- Requests for others:
-```
+  `.\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py` -> 6 passed in 0.04s.
+  Converted 4 MP4s to 16 kHz mono WAVs with edge silence trimmed:
+  - `T1__orig-indianpep__ideal.wav`: 186.5s (302 words, intro & outro trimmed)
+  - `T2__orig-mlk__ideal.wav`: 234.1s (388 words)
+  - `T3__orig-kalam__ideal.wav`: 198.9s (391 words)
+  - `T4__orig-lincoln__ideal.wav`: 145.2s (270 words)
+- Status: done
+- NOT done / open problems: Forced alignment (Task B1) and WORLD vocoder flaw injection (Task A2).
+- How a teammate can verify (exact command): `.\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py`
+- Requests for others: Member B can align and inspect ideal baseline audios.
+
