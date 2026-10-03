@@ -1,0 +1,64 @@
+.transcriptCard {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.wordFlow {
+  line-height: 1.8;
+  font-size: 15px;
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: var(--s-3);
+  background-color: var(--paper);
+  border-radius: var(--r-md);
+}
+
+.wordSpan {
+  display: inline-block;
+  padding: 1px 4px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background-color var(--t-fast), transform var(--t-fast);
+}
+
+.wordSpan:hover {
+  background-color: var(--paper-2) !important;
+  transform: translateY(-1px);
+}
+
+.wordPlaying {
+  box-shadow: 0 2px 0 0 var(--ink);
+  font-weight: 700;
+}
+
+.wordInsideFlaw {
+  outline: 1.5px solid var(--ink);
+  font-weight: 600;
+}

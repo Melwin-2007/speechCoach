@@ -23,10 +23,10 @@ eval:
 
 app:
 	@echo "Starting API on port 8000..."
-	uvicorn speechcoach.api.main:app --port 8000 --reload &
+	python -m uvicorn --app-dir src speechcoach.api.main:app --port 8000 --reload &
 	@echo "Starting Vite dev server..."
 	cd app && npm run dev
 
 app-prod:
 	cd app && npm run build
-	uvicorn speechcoach.api.main:app --host 0.0.0.0 --port 7860
+	python -m uvicorn --app-dir src speechcoach.api.main:app --host 0.0.0.0 --port 7860

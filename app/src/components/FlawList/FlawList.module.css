@@ -1,0 +1,158 @@
+.flawListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 var(--s-2);
+}
+
+.cardsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.flawCard {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast), background-color var(--t-fast);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.flawCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+.flawCardSelected {
+  border-color: var(--ink);
+  background-color: var(--paper);
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.iconBadge {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metaCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.flawName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flawTime {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bandPill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pill_minor {
+  background-color: var(--sev-1);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+}
+
+.pill_moderate {
+  background-color: var(--sev-2);
+  color: var(--ink);
+  border: 1px solid var(--c-pacing);
+}
+
+.pill_major {
+  background-color: var(--blush);
+  color: var(--bad);
+  border: 1px solid var(--bad);
+}
+
+.severityBarTrack {
+  width: 100%;
+  height: 4px;
+  background-color: var(--paper-2);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.severityBarFill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  transition: width 0.4s ease;
+}
+
+.emptyCard {
+  background-color: var(--mint);
+  border-radius: var(--r-card);
+  padding: var(--s-6);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-4);
+  color: var(--ink);
+}
+
+.emptyIcon {
+  color: var(--ok);
+  flex-shrink: 0;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0;
+}

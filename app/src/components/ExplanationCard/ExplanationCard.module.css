@@ -1,0 +1,259 @@
+.card {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  position: sticky;
+  top: 84px;
+}
+
+.emptyCard {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  padding: var(--s-6);
+  text-align: center;
+  color: var(--muted);
+  box-shadow: var(--shadow-1);
+}
+
+.emptyText {
+  font-size: 14px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--paper-2);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.iconBadge {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.flawHeading {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.timeMono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bandPill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pill_minor {
+  background-color: var(--sev-1);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+}
+
+.pill_moderate {
+  background-color: var(--sev-2);
+  color: var(--ink);
+  border: 1px solid var(--c-pacing);
+}
+
+.pill_major {
+  background-color: var(--blush);
+  color: var(--bad);
+  border: 1px solid var(--bad);
+}
+
+.blockSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.blockLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.blockText {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.whereRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.playPartBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--t-fast);
+}
+
+.playPartBtn:hover {
+  background-color: var(--paper-2);
+}
+
+.fixPanel {
+  background-color: var(--butter);
+  padding: var(--s-4);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fixLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fixText {
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.mathSection {
+  margin-top: var(--s-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.mathToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  transition: color var(--t-fast);
+}
+
+.mathToggleBtn:hover {
+  color: var(--ink);
+}
+
+.mathBtnLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mathPanel {
+  background-color: var(--paper);
+  border-radius: var(--r-md);
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  animation: var(--a-fade);
+}
+
+.mathGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--s-3);
+}
+
+.mathCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.colLabel {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.colVal {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.unit {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: normal;
+}
+
+.mathExplanation {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.formulaBox {
+  background-color: var(--paper-2);
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  font-size: 11px;
+  color: var(--ink);
+}
