@@ -19,6 +19,7 @@ Details: `docs/PROJECT_BRIEF.md`, `docs/ARCHITECTURE.md`.
 2. Your role file: `docs/roles/MEMBER_<X>.md`
 3. The task the user names in `docs/TASKS.md`
 4. The latest entries of `docs/HANDOFF.md`
+5. If you are Member C: also read `docs/design/DESIGN_SYSTEM.md`, `docs/design/MOTION.md`, `docs/design/COMPONENTS.md`, and the matching prompt in `docs/DASHBOARD_PROMPTS.md`
 
 If any of these is missing or contradicts the user's message, stop and ask.
 
@@ -27,7 +28,7 @@ If any of these is missing or contradicts the user's message, stop and ask.
 - praat-parselmouth (F0, HNR), pyworld (flaw injection)
 - torch + torchaudio 2.5.1+cu124 GPU/CUDA (MMS_FA forced alignment)
 - scikit-learn, ruptures (optional)
-- FastAPI + uvicorn; React (Vite) + wavesurfer.js v7 + Plotly.js
+- FastAPI + uvicorn; React (Vite, JavaScript) + CSS Modules + d3-scale/d3-shape/d3-array + wavesurfer.js v7 (audio and waveform only) + lucide-react; design rules in docs/design/. No Plotly, no Tailwind, no UI kit.
 - pytest, Docker
 - NVIDIA GPU with CUDA 12.4 (minimum GTX 1050 / compute capability 6.1). No paid APIs. **No LLM calls inside the product**: explanations are template-based and deterministic.
 
@@ -35,11 +36,12 @@ If any of these is missing or contradicts the user's message, stop and ask.
 ```
 make setup    # install dependencies
 make test     # pytest
-make check    # tests + smoke test (MUST pass before any commit)
+make check    # tests + smoke test + lint:design (MUST pass before any commit)
 make smoke    # end-to-end run on dataset/sample/
 make dataset  # build synthetic dataset (Member A)
 make eval     # evaluation on dev/test splits (Member B)
-make app      # run API + dashboard
+make app      # run API + dashboard (dev)
+make app-prod # build + serve on port 7860 (production)
 ```
 
 ## 5. Ownership: only edit your own area
@@ -47,7 +49,7 @@ make app      # run API + dashboard
 |---|---|---|
 | Data | Member A | `src/speechcoach/dataset/`, `dataset/`, `data/`, `configs/flaws.yaml`, `scripts/prepare_audio.py`, `scripts/validate_labels.py`, `scripts/audacity_to_labels.py`, `scripts/upload_dataset.sh`, `scripts/download_dataset.sh`, `tests/test_dataset*.py` |
 | Pipeline | Member B | `src/speechcoach/{audio,align,features,compare,explain,scoring}/`, `src/speechcoach/analyze.py`, `configs/thresholds.yaml`, `configs/rubric.yaml`, `configs/sigma.json`, `scripts/{calibrate,run_eval,make_plots,plot_features}.py`, `results/`, `notebooks/`, tests for these modules |
-| App/Platform | Member C | `src/speechcoach/api/`, `app/`, `Dockerfile`, `Makefile`, `requirements*.txt`, `.gitignore`, `.github/`, `README.md`, `scripts/smoke.sh`, `tests/test_api*.py` |
+| App/Platform | Member C | `src/speechcoach/api/`, `app/`, `docs/design/`, `docs/DASHBOARD_PROMPTS.md`, `scripts/make_mock_result.py`, `Dockerfile`, `Makefile`, `requirements*.txt`, `.gitignore`, `.github/`, `README.md`, `scripts/smoke.sh`, `tests/test_api*.py` |
 | Shared (ask first) | everyone | `AGENTS.md`, `docs/CONTRACTS.md`, `docs/ARCHITECTURE.md`, `docs/FLAW_SPEC.md` |
 | Append-only | everyone | `docs/HANDOFF.md`; in `docs/TASKS.md` only tick your own task |
 
@@ -80,7 +82,7 @@ If you need a change in someone else's area: do NOT edit it. Write a request in 
 - Units: seconds; pitch in semitones relative to the speaker's median; loudness in dB relative to the speaker's 95th percentile; z-scores signed (see CONTRACTS).
 - Every module that does real work has a small CLI (`python -m speechcoach.<module> ...`) so a human can test it by hand.
 - Errors: raise clear exceptions with context. No bare `except`. No silent fallbacks that change results.
-- Frontend: all data comes from the API contract. **No analysis logic in the frontend.** Small components.
+- Frontend: all data comes from the API contract. **No analysis logic in the frontend.** JavaScript with JSDoc types. CSS Modules + design tokens (`docs/design/DESIGN_SYSTEM.md` section 4.4). Small components (under ~150 lines, split if larger). No Plotly, no Tailwind, no UI kit. Icons: lucide-react only. Animations: only those listed in `docs/design/MOTION.md` catalogue. No blue/purple (hue 190-320°), no gradients, no square corners (min radius 8 px).
 - Tests: `tests/test_<module>.py`, tiny synthetic fixtures, no network access.
 
 ## 9. Handoff (end of EVERY session)
