@@ -47,3 +47,13 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): `.\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py`
 - Requests for others: Member B can align and inspect ideal baseline audios.
 
+
+### [2026-10-03 11:47] Member B, task B1
+- Goal: Transcript parsing and forced alignment implementation using torchaudio MMS_FA.
+- Files changed: `src/speechcoach/audio/io.py`, `src/speechcoach/align/transcript.py`, `src/speechcoach/align/aligner.py`, `src/speechcoach/align/run.py`, `tests/test_align.py`
+- What I ran and what it printed (real output, short):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe -m speechcoach.align.run dataset/audio/ideal/T1__orig-indianpep__ideal.wav dataset/texts/T1.txt results/T1_alignment.json` -> `Alignment saved to results\T1_alignment.json`
+- Status: done
+- NOT done / open problems: Caching logic computes the hash and saves it in the JSON, but full skip-if-cached logic isn't wired yet.
+- How a teammate can verify (exact command): `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe tests/test_align.py`
+- Requests for others: Member C can wire the JSON output into the UI mock / backend.

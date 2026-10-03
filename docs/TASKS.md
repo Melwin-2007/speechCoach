@@ -13,7 +13,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [x] **A1 [A] Texts and sources.** Needs: nothing.
   Do: finalize T1-T6 text files in `dataset/texts/` (exact spoken wording, punctuation kept), `dataset/SOURCES.md` (URL, license, notes per text), download source audio for historical texts, `scripts/prepare_audio.py` (ffmpeg convert to 16 kHz mono WAV, trim to <=1 s edge silence, print duration and peak level).
   Accept: >= 3 prepared source WAVs in `data/interim/`; every text has a transcript and a SOURCES entry.
-- [ ] **B1 [B] Transcript parsing and forced alignment.** Needs: a sample wav + text (use any 10 s recording).
+- [x] **B1 [B] Transcript parsing and forced alignment.** Needs: a sample wav + text (use any 10 s recording).
   Do: `audio/io.py`, `align/transcript.py`, `align/aligner.py`, CLI `python -m speechcoach.align.run`, caching by content hash, tests for `parse_transcript`.
   Accept: CLI prints and saves a valid Alignment JSON (CONTRACTS section 2); word starts are non-decreasing; test passes.
 - [ ] **ALL: record ideal T4 (Gitanjali 35)**, 3 takes each, Day 1 evening (see guide for recording protocol).
