@@ -25,7 +25,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [x] **B2 [B] Frame features, word table, syllables.** Needs: B1.
   Do: `features/frame.py`, `features/words.py` (`word_table`), syllable counter (cmudict + fallback), `scripts/plot_features.py` (figure: pitch, energy, pauses over time), tests with a 150 Hz sine (F0 ~150 +/- 2 Hz), a known-gap signal (pause length error < 20 ms), two synthetic speakers with different base pitch giving equal normalized `st`.
   Accept: `make test` passes; figure produced for one real file and shown to the team.
-- [ ] **C2 [C] Dashboard v0 on mock data.** Needs: C1. Prompts: D1, D6, D8, D9a from `docs/DASHBOARD_PROMPTS.md`.
+- [x] **C2 [C] Dashboard v0 on mock data.** Needs: C1. Prompts: D1, D6, D8, D9a from `docs/DASHBOARD_PROMPTS.md`.
   Do: App shell (Nav, state machine, API client with mock mode), waveform panel (wavesurfer.js v7, audio only) with our own region overlay layer (NOT the Regions plugin, lane assignment via `lib/lanes.js`), three stacked custom SVG charts (d3-scale, d3-shape; pitch/loudness/rate with baseline band and flaw regions as rounded rects), flaw list with selection behaviour, upload form posting to `/analyze` (stub returns mock).
   Accept: opening the page shows all of that from `mock_result.json`; clicking a region selects the flaw and plays the segment; overlapping flaws render in lanes; `npm run build` and `npm run lint:design` pass.
 - [ ] **ALL: record ideal T5 and T6**, 3 takes each.
@@ -37,7 +37,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **B3 [B] Window stats, baseline, signals, calibration.** Needs: B2 and >= 2 ideal recordings of T4 aligned.
   Do: `window_stats`, `build_baseline`, `signals`, `calibrate` + `scripts/calibrate.py` writing `configs/sigma.json`; tests for `signals` (sped-up clip gives negative pace signal with correct magnitude).
   Accept: sigma values printed per signal and look sane (no zeros, no NaN); tests pass.
-- [ ] **C3 [C] UI completion with mock data.** Needs: C2. Prompts: D9b, D5, D7 from `docs/DASHBOARD_PROMPTS.md`.
+- [x] **C3 [C] UI completion with mock data.** Needs: C2. Prompts: D9b, D5, D7 from `docs/DASHBOARD_PROMPTS.md`.
   Do: ExplanationCard with "Show the math" (MathDisclosure, grid-rows accordion), ScoreCard (SVG ring with count-up, 7 dimension chips), RadarCard (SVG radar with polygon draw-in, list fallback below 420 px), WordRibbon (severity ramp colours, aligned with waveform), TranscriptPanel (click to seek, playback highlight via rAF), ResultsHeader, loading and error states (LoadingCard with honest bars, ErrorBanner with mapping table), pydantic response models, `/baselines` stub, Docker skeleton that builds.
   Accept: all UI parts render from mock JSON; `docker build` succeeds; `npm run lint:design` passes.
 - [ ] **ALL: record ideal T1 and T3**; A and one teammate start human flawed takes (cards A-G) for T4.

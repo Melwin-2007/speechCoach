@@ -46,17 +46,21 @@ export default function WordRibbon({
         </div>
       </div>
 
-      {hoveredWord && (
-        <div className={styles.wordTooltip}>
-          <span className={styles.tooltipWord}>"{hoveredWord.w}{hoveredWord.punct || ""}"</span>
-          <span className="mono-sm">{fmtTime(hoveredWord.start)} – {fmtTime(hoveredWord.end)}</span>
-          {hoveredWord.z && (
-            <span className="small" style={{ color: "var(--ink-2)" }}>
-              Pace: {fmtNum(hoveredWord.z.pace, 1)} · Pitch: {fmtNum(hoveredWord.z.pitch, 1)} · Energy: {fmtNum(hoveredWord.z.energy, 1)}
-            </span>
-          )}
-        </div>
-      )}
+      <div className={styles.tooltipArea}>
+        {hoveredWord ? (
+          <div className={styles.wordTooltip}>
+            <span className={styles.tooltipWord}>"{hoveredWord.w}{hoveredWord.punct || ""}"</span>
+            <span className="mono-sm">{fmtTime(hoveredWord.start)} – {fmtTime(hoveredWord.end)}</span>
+            {hoveredWord.z && (
+              <span className="small" style={{ color: "var(--ink-2)" }}>
+                Pace: {fmtNum(hoveredWord.z.pace, 1)} · Pitch: {fmtNum(hoveredWord.z.pitch, 1)} · Energy: {fmtNum(hoveredWord.z.energy, 1)}
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className={styles.wordTooltipPlaceholder}>Hover over a word block to see details</div>
+        )}
+      </div>
 
       <div className={styles.track}>
         {words.map((word) => {

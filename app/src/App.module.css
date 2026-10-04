@@ -1,18 +1,159 @@
 .appLayout {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   background-color: var(--paper);
 }
 
+.leftRail {
+  width: 72px;
+  background-color: var(--card);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s-5) 0;
+  gap: var(--s-6);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.railIconGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+}
+
+.railIcon {
+  color: var(--muted);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: var(--r-md);
+  transition: background-color var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.railIcon:hover {
+  background-color: var(--paper-2);
+  color: var(--ink);
+}
+
+.railIcon.active {
+  background-color: var(--mint);
+  color: var(--ok);
+}
+
+.dspStatus {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.dspDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--ok);
+}
+
+.mainColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .nav {
-  height: 72px;
+  height: 64px;
   background-color: var(--card);
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--gutter);
+  padding: 0 var(--s-5);
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+.navMetadata {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding-left: var(--s-5);
+  border-left: 1px solid var(--line);
+}
+
+.navBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  background-color: var(--paper-2);
+  color: var(--ink);
+  padding: 4px 8px;
+  border-radius: var(--r-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.navFileInfo {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.uploadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  height: 36px;
+  padding: 0 16px;
+  background-color: var(--action);
+  color: var(--on-ink);
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color var(--d-fast) var(--ease-out);
+}
+
+.uploadBtn:hover {
+  background-color: var(--action-hover);
+}
+
+.exportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  height: 36px;
+  padding: 0 16px;
+  background-color: var(--paper);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color var(--d-fast) var(--ease-out);
+}
+
+.exportBtn:hover {
+  background-color: var(--paper-2);
 }
 
 .logoRow {

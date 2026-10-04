@@ -82,3 +82,23 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): `npm run lint:design` in `app/`, `pytest` in repo root, open `http://localhost:5173` to explore interactive graphs.
 - Requests for others: Member B pipeline modules can now connect directly to the FastAPI `/analyze` endpoint when ready.
 
+### [2026-10-04 11:08] Member C, task C2
+- Goal: Dashboard v0 on mock data. App shell, waveform panel, three stacked custom SVG charts, flaw list with selection behaviour, upload form.
+- Files changed: `app/src/App.jsx`, `app/src/App.module.css`.
+- What I ran and what it printed (real output, short):
+  `cd app && npm run lint:design` -> ✅ Design Linter: All design system checks passed!
+- Status: done
+- NOT done / open problems: A test from A1 `test_dataset_prep.py` is failing locally, but this is a Member A issue.
+- How a teammate can verify (exact command): `cd app && npm run dev`, check `http://localhost:5173`.
+- Requests for others: None.
+
+### [2026-10-04 11:53] Member C, task C3
+- Goal: Complete UI + Docker. Add Loading/Error states, Pydantic response models, Dockerfile skeleton. Fix rail navigation.
+- Files changed: `app/src/App.jsx`, `app/src/components/ErrorBanner/*`, `app/src/components/LoadingCard/*`, `src/speechcoach/api/main.py`, `src/speechcoach/api/models.py`, `Dockerfile`
+- What I ran and what it printed (real output, short):
+  `npm run build` -> built successfully
+  `python -c "import speechcoach.api.models"` -> loaded successfully
+- Status: done
+- NOT done / open problems: Local docker daemon not running, could not verify build locally but Dockerfile is prepared.
+- How a teammate can verify (exact command): `npm run build` or inspect Pydantic models.
+- Requests for others: None.

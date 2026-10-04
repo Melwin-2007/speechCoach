@@ -1,0 +1,49 @@
+.banner {
+  background-color: var(--blush);
+  border: 1px solid var(--bad);
+  border-radius: var(--r-md);
+  padding: var(--s-4) var(--s-5);
+  display: flex;
+  gap: var(--s-4);
+  align-items: flex-start;
+  animation: fade-in var(--d-fast) var(--ease-out);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.iconCol {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contentCol {
+  flex-grow: 1;
+}
+
+.actionCol {
+  flex-shrink: 0;
+}
+
+.retryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--bad);
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color var(--d-fast) var(--ease-out);
+}
+
+.retryBtn:hover {
+  background-color: var(--paper);
+}
