@@ -27,7 +27,11 @@ def word_table(words: list[dict], g: dict) -> list[dict]:
                 last_valid_end = words[j]['end']
                 break
                 
-        pause_before = max(0.0, start - last_valid_end)
+        gap_mask = (t >= last_valid_end) & (t < start)
+        if np.any(gap_mask):
+            pause_before = float(np.sum(g['db_rel'][gap_mask] < -42.0) * 0.01)
+        else:
+            pause_before = 0.0
         
         w_out = w.copy()
         w_out['pause_before'] = pause_before
