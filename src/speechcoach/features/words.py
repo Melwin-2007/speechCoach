@@ -59,6 +59,11 @@ def word_table(words: list[dict], g: dict) -> list[dict]:
         
     return res
 
+def _finite_std(x: np.ndarray) -> float:
+    """Std of the finite values; NaN when fewer than 2 are available."""
+    x = x[np.isfinite(x)]
+    return float(x.std()) if x.size >= 2 else float("nan")
+
 def window_stats(g: dict, words: list[dict], W: int = 6) -> dict[str, np.ndarray]:
     """
     Compute sliding window statistics over W words.
@@ -69,37 +74,44 @@ def window_stats(g: dict, words: list[dict], W: int = 6) -> dict[str, np.ndarray
         W: Window size.
         
     Returns:
-        dict[str, np.ndarray]: Dict of arrays for win_dur, f0_std, db_mean, db_std.
+        dict[str, np.ndarray]: Dict of arrays for win_dur, f0_std, db_mean, db_std, flux.
     """
-    N = len(words)
-    if N < W:
-        return {}
-        
-    win_dur = np.zeros(N - W + 1)
-    f0_std = np.zeros(N - W + 1)
-    db_mean = np.zeros(N - W + 1)
-    db_std = np.zeros(N - W + 1)
-    
-    t = g['t']
-    
-    for i in range(N - W + 1):
-        start = words[i]['start']
-        end = words[i + W - 1]['end']
-        win_dur[i] = end - start
-        
-        mask = (t >= start) & (t <= end)
-        if np.any(mask):
-            f0_std[i] = np.nanstd(g['f0'][mask])
-            db_mean[i] = np.nanmean(g['db'][mask])
-            db_std[i] = np.nanstd(g['db'][mask])
-        else:
-            f0_std[i] = np.nan
-            db_mean[i] = np.nan
-            db_std[i] = np.nan
-            
-    return {
-        'win_dur': win_dur,
-        'f0_std': f0_std,
-        'db_mean': db_mean,
-        'db_std': db_std
-    }
+    HOP = 0.01
+    KEYS = ("win_dur", "f0_std", "db_mean", "db_std", "flux")
+    n = len(words)
+    out = {k: np.full(n, np.nan) for k in KEYS}
+    if n == 0:
+        return out
+
+    n_frames = len(g["t"])
+    half = W // 2
+
+    starts = np.array([w["start"] for w in words], dtype=float)
+    ends = np.array([w["end"] for w in words], dtype=float)
+
+    # Frame index range of every word, clipped to the grid.
+    fs = np.clip(np.round(starts / HOP).astype(int), 0, n_frames)
+    fe = np.maximum(np.clip(np.round(ends / HOP).astype(int), 0, n_frames), fs)
+
+    # Frames that lie INSIDE some word (built once, not per window).
+    inword = np.zeros(n_frames, dtype=bool)
+    for a, b in zip(fs, fe):
+        inword[a:b] = True
+
+    # Prefix sums of word durations: speech time only, pauses never counted.
+    cum = np.concatenate([[0.0], np.cumsum(ends - starts)])
+
+    for i in range(n):
+        lo, hi = max(0, i - half), min(n - 1, i + half)   # centred on word i
+        out["win_dur"][i] = cum[hi + 1] - cum[lo]
+
+        a, b = fs[lo], fe[hi]                              # frames spanned by the window
+        out["f0_std"][i] = _finite_std(g["st"][a:b])       # semitones, NaN-aware
+
+        m = inword[a:b]                                    # ignore pauses between words
+        if m.any():
+            db = g["db_rel"][a:b][m]
+            out["db_mean"][i] = float(db.mean())
+            out["db_std"][i] = float(db.std())
+            out["flux"][i] = float(g["flux"][a:b][m].mean())
+    return out

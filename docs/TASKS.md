@@ -35,7 +35,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A3 [A] Full flaw engine and batch build.** Needs: A2.
   Do: all flaw types and levels per FLAW_SPEC, composites, `build_dataset.py` (skip-existing, `--workers`), `results/gradient_check.png` (measured deviation per level per flaw), run for T4 and T1 first.
   Accept: ~48 files per text generated for T4 and T1; gradient plot rises monotonically per flaw; validation passes.
-- [ ] **B3 [B] Window stats, baseline, signals, calibration.** Needs: B2 and >= 2 ideal recordings of T4 aligned.
+- [x] **B3 [B] Window stats, baseline, signals, calibration.** Needs: B2 and >= 2 ideal recordings of T4 aligned.
   Do: `window_stats`, `build_baseline`, `signals`, `calibrate` + `scripts/calibrate.py` writing `configs/sigma.json`; tests for `signals` (sped-up clip gives negative pace signal with correct magnitude).
   Accept: sigma values printed per signal and look sane (no zeros, no NaN); tests pass.
 - [ ] **C3 [C] UI completion with mock data.** Needs: C2. Prompts: D9b, D5, D7 from `docs/DASHBOARD_PROMPTS.md`.

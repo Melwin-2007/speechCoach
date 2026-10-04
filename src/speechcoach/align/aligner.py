@@ -29,7 +29,7 @@ def align_words(y: np.ndarray, words: list[dict]) -> list[dict]:
     for word in word_norms:
         start_idx = len(tokenized_transcript)
         for char in word:
-            if char in dictionary:
+            if char in dictionary and dictionary[char] != 0:
                 tokenized_transcript.append(dictionary[char])
         
         if "|" in dictionary:

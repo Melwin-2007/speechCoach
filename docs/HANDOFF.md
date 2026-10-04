@@ -135,3 +135,13 @@ Format: `[date] who: issue, how to reproduce, status`
   `.\.venv\Scripts\python.exe scripts/validate_labels.py dataset/labels`
 - Requests for others: Member B can now calibrate baselines (Task B3) on both American (T4) and Indian (T1) accents with identical flaw dimensions.
 
+### [2026-10-04 12:10] Member B, task B3 (Window stats, baseline, signals, calibration)
+- Goal: Implement `window_stats` bug fixes (excluding pauses and using `db_rel` / `st`), implement `build_baseline` (aggregating ideal stats), `signals` (computing log ratios and differences between participant and baseline), `calibrate` (leave-one-out calculation), and `scripts/calibrate.py` to dump `configs/sigma.json`.
+- Files changed: `docs/ARCHITECTURE.md`, `src/speechcoach/features/words.py`, `src/speechcoach/compare/baseline.py`, `scripts/calibrate.py`, `tests/test_window_stats.py`, `tests/test_compare_baseline.py`, `requirements.txt`.
+- What I ran and what it printed (real output, short):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe` -> 32 passed, 1 failed (expected missing data folder).
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/calibrate.py` -> Saved sigmas to configs/sigma.json.
+- Status: done
+- NOT done / open problems: The pipeline still needs to be fully wired together in `analyze.py` (Task B4).
+- How a teammate can verify: run `pytest` and inspect `configs/sigma.json`.
+- Requests for others: Member C can start implementing the UI components now that we have stable signals defined.
