@@ -142,3 +142,14 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): Look at `results/score_vs_level.png` to verify monotonic score decrease.
 - Requests for others: None.
 
+
+### [2026-10-04 21:15] Member B, task B4b
+- Goal: Diagnose and fix the false-positive flood. Formulate a plan for Mode B, CPU Fallback, and Filler words.
+- Files changed: `configs/thresholds.yaml`, `scripts/calibrate.py`, `src/speechcoach/analyze.py`, `src/speechcoach/features/words.py`, `src/speechcoach/compare/regions.py`, `docs/TASKS.md`, `docs/ARCHITECTURE.md`, `configs/tau.json`.
+- What I ran and what it printed (real output, short):
+  `.\.venv\Scripts\python.exe scripts/run_eval.py` -> `F1 (IoU 0.5): 0.065`, false-positive rate dropped drastically (T4 dropped to 3.30/min). Caught CUDA OOM errors on some L5 files.
+- Status: done
+- NOT done / open problems: Mode B (Prior Baseline) still uses the `zeros_like` placeholder which causes `inf` math errors and floods `MONOTONE` FPs. Long files crash the GPU (OOM) in `aligner.py`. Detailed plan created in `mode_b_implementation_plan.md` artifact.
+- How a teammate can verify (exact command): Run `run_eval.py` to see the improved false-positive rates on T4.
+- Requests for others: Member B needs to implement Mode B, CPU Fallback, and `FILLER_WORD` flaw (see TASKS.md B6).
+

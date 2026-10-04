@@ -69,8 +69,8 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A6 [A] Extra humans, final labels, alignment sanity, draft upload.** Needs: A5.
   Do: more human takes incl. held-out speaker for test; final labels and splits; script comparing re-aligned word times vs ground truth on flawed files (median error); draft upload to Hugging Face.
   Accept: numbers in HANDOFF; dataset visible on HF (private is fine for now).
-- [ ] **B6 [B] Fillers, Mode B, test run, speaker-agnostic experiment.** Needs: B5.
-  Do: filled-pause detector; Mode B (pooled prior baseline); single TEST-split run (no tuning after); male-vs-female (or two-voice) comparison figure.
+- [ ] **B6 [B] Fillers, Mode B, CPU Fallback, test run.** Needs: B5.
+  Do: CPU Fallback in `aligner.py` for OOM errors; filled-pause detector (`FILLER_WORD` flaw); Mode B (pooled prior baseline from statistical word/punctuation rules, removing artistic flaws like `PAUSE_MISPLACED`); single TEST-split run (no tuning after).
   Accept: `results/metrics_test.csv`, figures saved, honest numbers in HANDOFF.
 - [ ] **C6 [C] Responsive, motion and accessibility polish.** Needs: C5. Prompts: D12, D13, D14 from `docs/DASHBOARD_PROMPTS.md`.
   Do: responsive pass at 1440/1024/768/390 px (MiniPlayer on phone, scroll-snap flaw cards, radar→bars below 420 px), motion audit against MOTION.md catalogue (all 34 motions), accessibility pass (Lighthouse ≥95, keyboard-only flow, visible focus, aria-labels, contrast, reduced motion), large-file handling.

@@ -85,8 +85,8 @@ Per word per dimension: `p = clip((|z| - z_free) / (z_max - z_free), 0, 1)` (`z_
 
 ## 8. Modes
 - **Mode A (reference):** transcript matches a library text; baseline from that text's ideals.
-- **Mode B (prior):** no matching text; baseline from pooled ideal statistics (global pace band, pause length per punctuation type, pitch-std band, loudness dynamics band); fewer flaw types.
-The result JSON always states which mode ran.
+- **Mode B (prior):** no matching text; baseline dynamically synthesized from global statistics (e.g., character-length duration estimates, punctuation-based pause rules, global flat medians for pitch/energy). Uses wider `tau` thresholds. It evaluates objective mistakes (`PACE_FAST`, `PACE_SLOW`, `MONOTONE`, `PAUSE_EXCESS`, `CLARITY`, `FILLERS`) but ignores artistic flaws (`PAUSE_MISPLACED`, `VOLUME_DROP`) to prevent false positives.
+The result JSON always states which mode ran. If `aligner` causes CUDA OOM on long files in either mode, it automatically triggers a CPU Fallback to ensure completion.
 
 ## 9. Flaw engine principles (Member A)
 1. Analyze each ideal once with WORLD (`harvest`, `cheaptrick`, `d4c`, 16 kHz, 5 ms), cache as `.npz`.
