@@ -100,3 +100,17 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: Docker container needs the fully integrated backend (Task C4) to function end-to-end, but skeleton builds correctly.
 - How a teammate can verify: `make app` and open `http://localhost:5173`. Click the sidebar icons to see placeholder states.
 - Requests for others: None.
+
+### [2026-10-04 12:42] Member C, task C4
+- Goal: Real API integration (Milestone M1), Stitch UI workstation generation, upload end-to-end, result SHA-256 caching, LoadingCard with honest progress bars and cancel, ErrorBanner with full cause mapping, WarningsBanner for meta.warnings.
+- Files changed: `src/speechcoach/api/main.py`, `app/src/api/client.js`, `app/src/components/LoadingCard/LoadingCard.jsx`, `app/src/components/LoadingCard/LoadingCard.module.css`, `app/src/components/ErrorBanner/ErrorBanner.jsx`, `app/src/components/ErrorBanner/ErrorBanner.module.css`, `app/src/components/WarningsBanner/WarningsBanner.jsx`, `app/src/components/WarningsBanner/WarningsBanner.module.css`, `app/src/App.jsx`, `tests/test_api_analyze.py`, `docs/TASKS.md`, `docs/HANDOFF.md`.
+- Stitch Design generated: Screen `SpeechCoach - Diagnostic Workstation` (`3c5c76d0758f448f864bf95d232ed6ad`) in project `5040846462395813214`.
+- What I ran and what it printed (real output, short):
+  `pytest tests/test_api_analyze.py tests/test_health.py tests/test_mock_result.py` -> 12 passed in 1.1s
+  `cd app && npm run lint:design` -> ✅ Design Linter: All design system checks passed!
+  `cd app && npm run build` -> ✓ built in 700ms
+- Status: done
+- NOT done / open problems: Task C5 (landing page hero banner, sample cards, demo deep links).
+- How a teammate can verify (exact command): `pytest tests/test_api_analyze.py` and `npm --prefix app run lint:design`
+- Requests for others: Member B can continue wiring custom DSP feature extraction into `speechcoach.analyze.analyze()`.
+

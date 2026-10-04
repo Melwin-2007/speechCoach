@@ -1,0 +1,526 @@
+{
+  "flaws": [
+    {
+      "band": "major",
+      "end": 16.2,
+      "evidence": {
+        "baseline": 4.1,
+        "participant": 5.9,
+        "unit": "syl/s",
+        "z": -4.8
+      },
+      "explanation": {
+        "deviation": "Rushing 44% faster than standard tempo (z = \u22124.8).",
+        "fix": "Slow down on key transitions and let phrasing breathe.",
+        "observed": "Speaking rate increased to 5.9 syl/s (baseline 4.1 syl/s).",
+        "where": "From 0:08.5 to 0:16.2 on 'by narrow domestic walls'.",
+        "why": "Rushing compresses important syllables and harms listener comprehension."
+      },
+      "first_word": 18,
+      "id": 1,
+      "last_word": 33,
+      "severity": 0.7333,
+      "start": 8.5,
+      "type": "PACE_FAST"
+    },
+    {
+      "band": "major",
+      "end": 22.5,
+      "evidence": {
+        "baseline": 2.9,
+        "participant": 0.8,
+        "unit": "st",
+        "z": -4.6
+      },
+      "explanation": {
+        "deviation": "Pitch standard deviation is 72% narrower than reference (z = \u22124.6).",
+        "fix": "Add melodic inflection to content words and key adjectives.",
+        "observed": "Pitch variation dropped to 0.8 semitones (baseline 2.9 semitones).",
+        "where": "From 0:13.0 to 0:22.5 on 'words come out from the depth of truth'.",
+        "why": "Flat pitch creates a monotone delivery that reduces listener engagement."
+      },
+      "first_word": 28,
+      "id": 2,
+      "last_word": 46,
+      "severity": 0.6889,
+      "start": 13.0,
+      "type": "MONOTONE"
+    },
+    {
+      "band": "moderate",
+      "end": 35.5,
+      "evidence": {
+        "baseline": -13.8,
+        "participant": -22.4,
+        "unit": "dB",
+        "z": -3.5
+      },
+      "explanation": {
+        "deviation": "Volume dipped 8.6 dB below expected dynamics (z = \u22123.5).",
+        "fix": "Maintain breath support through the end of the sentence.",
+        "observed": "Loudness dropped to \u221222.4 dB (baseline \u221213.8 dB).",
+        "where": "From 0:27.0 to 0:35.5 on 'dreary desert sand of dead habit'.",
+        "why": "Unexpected volume drops make final phrases difficult to hear in larger spaces."
+      },
+      "first_word": 55,
+      "id": 3,
+      "last_word": 74,
+      "severity": 0.4444,
+      "start": 27.0,
+      "type": "VOLUME_DROP"
+    },
+    {
+      "band": "moderate",
+      "end": 45.8,
+      "evidence": {
+        "baseline": 0.55,
+        "participant": 0.08,
+        "unit": "s",
+        "z": -3.2
+      },
+      "explanation": {
+        "deviation": "Punctuation pause was 0.47 s shorter than reference (z = \u22123.2).",
+        "fix": "Take a full breath and pause deliberately for at least half a second at major punctuation.",
+        "observed": "Pause duration was 0.08 s (baseline 0.55 s).",
+        "where": "From 0:41.2 to 0:45.8 across the semicolon break.",
+        "why": "Skipping structural pauses prevents listeners from absorbing the previous point."
+      },
+      "first_word": 83,
+      "id": 4,
+      "last_word": 90,
+      "severity": 0.3778,
+      "start": 41.2,
+      "type": "PAUSE_MISSING"
+    },
+    {
+      "band": "minor",
+      "end": 51.5,
+      "evidence": {
+        "baseline": 0.0,
+        "participant": 2.0,
+        "unit": "count",
+        "z": 2.3
+      },
+      "explanation": {
+        "deviation": "Hesitation sounds detected during thought transition (z = +2.3).",
+        "fix": "Replace vocalized fillers with silent pauses when searching for the next phrase.",
+        "observed": "Detected 2 filler vocalizations ('um' / 'uh').",
+        "where": "From 0:49.0 to 0:51.5 before 'let my country awake'.",
+        "why": "Filler sounds distract from your authority and disrupt speaking flow."
+      },
+      "first_word": 96,
+      "id": 5,
+      "last_word": 100,
+      "severity": 0.1778,
+      "start": 49.0,
+      "type": "FILLERS"
+    }
+  ],
+  "meta": {
+    "baseline_id": "T4",
+    "duration_s": 1.0,
+    "mode": "reference",
+    "version": "1.0",
+    "warnings": [
+      "Some words near 0:49.0 had low alignment confidence due to hesitation sounds."
+    ]
+  },
+  "scores": {
+    "dimensions": {
+      "clarity": 52.0,
+      "emphasis": 48.0,
+      "energy": 44.0,
+      "fluency": 39.0,
+      "pacing": 38.0,
+      "pausing": 46.0,
+      "pitch": 35.0
+    },
+    "overall": 42.1
+  },
+  "series": {
+    "baseline": {
+      "energy_db": [
+        -14.0,
+        -13.9375,
+        -13.8751,
+        -13.8127,
+        -13.7504,
+        -13.6883,
+        -13.6264,
+        -13.5647,
+        -13.5033,
+        -13.4422,
+        -13.3815,
+        -13.3211,
+        -13.2612,
+        -13.2017,
+        -13.1428,
+        -13.0843,
+        -13.0265,
+        -12.9692,
+        -12.9126,
+        -12.8567
+      ],
+      "pitch_hi": [
+        1.95,
+        2.0099,
+        2.0696,
+        2.129,
+        2.188,
+        2.2464,
+        2.3043,
+        2.3615,
+        2.4179,
+        2.4734,
+        2.5279,
+        2.5814,
+        2.6337,
+        2.6848,
+        2.7346,
+        2.7829,
+        2.8298,
+        2.8752,
+        2.9189,
+        2.9609
+      ],
+      "pitch_lo": [
+        -0.35,
+        -0.2901,
+        -0.2304,
+        -0.171,
+        -0.112,
+        -0.0536,
+        0.0043,
+        0.0615,
+        0.1179,
+        0.1734,
+        0.2279,
+        0.2814,
+        0.3337,
+        0.3848,
+        0.4346,
+        0.4829,
+        0.5298,
+        0.5752,
+        0.6189,
+        0.6609
+      ],
+      "pitch_st": [
+        0.8,
+        0.8599,
+        0.9196,
+        0.979,
+        1.038,
+        1.0964,
+        1.1543,
+        1.2115,
+        1.2679,
+        1.3234,
+        1.3779,
+        1.4314,
+        1.4837,
+        1.5348,
+        1.5846,
+        1.6329,
+        1.6798,
+        1.7252,
+        1.7689,
+        1.8109
+      ],
+      "rate_sps": [
+        4.1,
+        4.103,
+        4.106,
+        4.109,
+        4.112,
+        4.115,
+        4.118,
+        4.121,
+        4.1239,
+        4.1269,
+        4.1299,
+        4.1329,
+        4.1358,
+        4.1388,
+        4.1417,
+        4.1446,
+        4.1475,
+        4.1504,
+        4.1533,
+        4.1562
+      ]
+    },
+    "participant": {
+      "energy_db": [
+        -13.8114,
+        -13.3644,
+        -14.1633,
+        -13.4689,
+        -13.7441,
+        -13.2283,
+        -13.2451,
+        -13.6983,
+        -13.3411,
+        -12.9137,
+        -13.4626,
+        -13.2437,
+        -12.7339,
+        -12.9315,
+        -13.216,
+        -13.2434,
+        -12.6081,
+        -12.9193,
+        -12.5759,
+        -13.0833
+      ],
+      "pitch_st": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1.8893,
+        1.7008,
+        null,
+        1.8261
+      ],
+      "rate_sps": [
+        3.9214,
+        4.0561,
+        4.2391,
+        4.0135,
+        3.7756,
+        4.2638,
+        3.8148,
+        4.1213,
+        4.1673,
+        3.8949,
+        4.0315,
+        4.2159,
+        4.0654,
+        3.8662,
+        4.3005,
+        4.1952,
+        4.2771,
+        4.102,
+        4.5119,
+        4.1616
+      ]
+    },
+    "t": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9,
+      0.95
+    ]
+  },
+  "words": [
+    {
+      "i": 0,
+      "w": "where",
+      "start": 0.0,
+      "end": 0.08,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 1,
+      "w": "the",
+      "start": 0.08,
+      "end": 0.17,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 2,
+      "w": "mind",
+      "start": 0.17,
+      "end": 0.25,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 3,
+      "w": "is",
+      "start": 0.25,
+      "end": 0.33,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 4,
+      "w": "without",
+      "start": 0.33,
+      "end": 0.42,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 5,
+      "w": "fear",
+      "start": 0.42,
+      "end": 0.5,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 6,
+      "w": "and",
+      "start": 0.5,
+      "end": 0.58,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 7,
+      "w": "the",
+      "start": 0.58,
+      "end": 0.67,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 8,
+      "w": "head",
+      "start": 0.67,
+      "end": 0.75,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 9,
+      "w": "is",
+      "start": 0.75,
+      "end": 0.83,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 10,
+      "w": "held",
+      "start": 0.83,
+      "end": 0.92,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    },
+    {
+      "i": 11,
+      "w": "high",
+      "start": 0.92,
+      "end": 1.0,
+      "punct": "",
+      "conf": 0.95,
+      "z": {
+        "pace": 0.1,
+        "pause": 0.0,
+        "pitch": 0.0,
+        "energy": 0.1,
+        "clarity": 0.0
+      }
+    }
+  ]
+}

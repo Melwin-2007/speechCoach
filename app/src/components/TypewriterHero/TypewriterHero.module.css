@@ -1,0 +1,92 @@
+/* src/components/TypewriterHero/TypewriterHero.module.css */
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--s-8) var(--s-4) var(--s-6);
+}
+
+.heroLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-pitch);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: var(--s-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  display: inline-block;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.heroTitle {
+  font-family: var(--f-display);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--s-4);
+  white-space: pre-wrap;
+}
+
+.charWrapper {
+  position: relative;
+}
+
+.caret {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 100%;
+  width: 3px;
+  margin-left: 1px;
+  background: linear-gradient(to bottom, var(--c-pitch), var(--butter));
+  border-radius: 2px;
+  animation: blink 0.8s step-start infinite;
+  z-index: 2;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.subtitleWrapper {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.subtitleVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heroSubtitle {
+  font-family: var(--f-body);
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 36px;
+  }
+  .heroSubtitle {
+    font-size: 16px;
+  }
+}

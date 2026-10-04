@@ -17,6 +17,7 @@ import {
 import { DIMENSIONS } from "../../lib/colors";
 import { fmtNum, fmtTime, scoreLabel } from "../../lib/format";
 import { useCountUp } from "../../lib/motion";
+import Select from "../Select/Select";
 import styles from "./Styleguide.module.css";
 
 const ICON_MAP = {
@@ -31,6 +32,7 @@ const ICON_MAP = {
 
 export default function Styleguide() {
   const [demoTrigger, setDemoTrigger] = useState(0);
+  const [selectVal, setSelectVal] = useState("auto");
   const countVal = useCountUp(88, { enabled: true, key: demoTrigger });
 
   const surfaces = [
@@ -274,19 +276,15 @@ export default function Styleguide() {
 
       {/* 7. Form Controls */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>7. Inputs & Textareas</h2>
+        <h2 className={styles.sectionTitle}>7. Custom Select & Form Inputs</h2>
         <p className={styles.sectionDesc}>
-          Clean 16px radius inputs with subtle ink focus rings and mint accents.
+          Custom animated Select dropdown with rich hover states, badges, and keyboard navigation.
         </p>
         <div className={styles.card}>
           <div className={styles.grid2}>
             <div className={styles.formGroup}>
-              <label className={styles.label}>Speech Selection</label>
-              <input
-                className={styles.input}
-                defaultValue="Abraham Lincoln — Gettysburg Address"
-                readOnly
-              />
+              <label className={styles.label}>Custom Speech Selector (Select)</label>
+              <Select value={selectVal} onChange={setSelectVal} />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Transcript Input</label>

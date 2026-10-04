@@ -11,6 +11,7 @@ export default defineConfig({
       '/baselines': 'http://localhost:8000',
       '/analyze': 'http://localhost:8000',
       '/demo': 'http://localhost:8000',
+      '/demo-audio': 'http://localhost:8000',
     },
   },
 })
