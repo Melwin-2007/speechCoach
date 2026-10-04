@@ -96,10 +96,28 @@ def main():
     for k, v in sigmas.items():
         print(f"  {k}: {v:.4f}")
         
+    # Calculate tau per signal from the LOO false-positive budget (1%)
+    budget = 0.01
+    taus = {}
+    for sig, values in loo_arrays.items():
+        v = values[np.isfinite(values)]
+        if len(v) == 0:
+            taus[sig] = 2.0
+        else:
+            z_vals = np.abs(v / sigmas[sig])
+            tau = np.percentile(z_vals, 100 * (1 - budget))
+            taus[sig] = max(float(tau), 2.0)
+            
+    print("\nTaus (1% FP budget):")
+    for k, v in taus.items():
+        print(f"  {k}: {v:.4f}")
+        
     os.makedirs('configs', exist_ok=True)
     with open('configs/sigma.json', 'w') as f:
         json.dump(sigmas, f, indent=2)
-    print("Saved to configs/sigma.json")
+    with open('configs/tau.json', 'w') as f:
+        json.dump(taus, f, indent=2)
+    print("Saved to configs/sigma.json and configs/tau.json")
 
 if __name__ == "__main__":
     main()

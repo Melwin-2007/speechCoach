@@ -124,13 +124,35 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
     flaws = []
     flaw_id = 1
     
+    try:
+        with open("configs/tau.json", "r") as f:
+            taus = json.load(f)
+    except Exception:
+        taus = {}
+        
     def add_regions(signal_name: str, sign: int, flaw_type_punct: str, flaw_type_nopunct: str | None = None):
         nonlocal flaw_id
         if signal_name not in z_scores:
             return
         z_arr = z_scores[signal_name]
         event_mode = (signal_name == "pause")
-        regions = find_regions(z_arr, words, sign, cfg, event_mode=event_mode)
+        
+        cfg_sig = cfg.copy()
+        if signal_name in taus:
+            cfg_sig["tau_flag"] = taus[signal_name]
+            cfg_sig["tau_trim"] = max(1.0, taus[signal_name] * 0.75)
+            
+        # Wire NaN z-scores to extreme values so they fire
+        if signal_name == "energy" and sign == -1:
+            z_arr = np.nan_to_num(z_arr, nan=-10.0)
+        elif signal_name == "dynamics" and sign == -1:
+            z_arr = np.nan_to_num(z_arr, nan=-10.0)
+        elif signal_name == "clarity" and sign == -1:
+            z_arr = np.nan_to_num(z_arr, nan=-10.0)
+        elif signal_name == "pitch" and sign == 1:
+            z_arr = np.nan_to_num(z_arr, nan=10.0)
+            
+        regions = find_regions(z_arr, words, sign, cfg_sig, event_mode=event_mode)
         
         for r in regions:
             word_idx = r["first_word"]
