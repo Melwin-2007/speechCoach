@@ -1,14 +1,14 @@
 .banner {
   background-color: var(--blush);
   border: 1px solid var(--bad);
-  border-radius: var(--r-md);
+  border-radius: var(--r-card);
   padding: var(--s-4) var(--s-5);
   display: flex;
   gap: var(--s-4);
   align-items: flex-start;
   animation: fade-in var(--d-fast) var(--ease-out);
   max-width: 800px;
-  margin: 0 auto;
+  margin: var(--s-4) auto;
 }
 
 @keyframes fade-in {
@@ -26,12 +26,16 @@
 }
 
 .actionCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
   flex-shrink: 0;
 }
 
 .retryBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 8px 16px;
   background-color: var(--card);
@@ -41,9 +45,26 @@
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
-  transition: background-color var(--d-fast) var(--ease-out);
 }
 
 .retryBtn:hover {
   background-color: var(--paper);
+}
+
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background-color: transparent;
+  color: var(--ink-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  background-color: var(--paper-2);
 }

@@ -50,7 +50,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [x] **B4 [B] Region detection, typing, `analyze()`, eval v1.** Needs: B3.
   Do: `compare/regions.py`, flaw typing per ARCHITECTURE section 5, `analyze.py` returning a contract-valid dict (explanations may be placeholders), `scripts/run_eval.py --split dev` writing `results/metrics_dev.csv` (precision/recall/F1 at IoU 0.5, boundary error, recall by level).
   Accept: eval runs on dev; first numbers recorded in HANDOFF (even if poor); failure examples listed.
-- [ ] **C4 [C] Real integration.** Needs: B4 (or B's draft of `analyze()`). Prompts: D11, D4 from `docs/DASHBOARD_PROMPTS.md`.
+- [x] **C4 [C] Real integration.** Needs: B4 (or B's draft of `analyze()`). Prompts: D11, D4 from `docs/DASHBOARD_PROMPTS.md`.
   Do: `/analyze` calls real `analyze()`, result caching by hash, upload end-to-end, LoadingCard and ErrorBanner with all error mappings, warnings banner for `meta.warnings`.
   Accept: upload a flawed T4 file in the browser and see real flagged regions; friendly errors for bad inputs; `npm run lint:design` passes. **Milestone M1.**
 

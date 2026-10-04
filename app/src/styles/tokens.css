@@ -73,9 +73,9 @@
   --shadow-pop: 0 8px 30px rgba(18,48,43,.18);
 
   /* Type */
-  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "DM Sans Variable", "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Layout */
   --container: 1240px;

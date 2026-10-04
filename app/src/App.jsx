@@ -27,6 +27,10 @@ import FlawList from "./components/FlawList/FlawList";
 import ExplanationCard from "./components/ExplanationCard/ExplanationCard";
 import LoadingCard from "./components/LoadingCard/LoadingCard";
 import ErrorBanner from "./components/ErrorBanner/ErrorBanner";
+import WarningsBanner from "./components/WarningsBanner/WarningsBanner";
+import Select from "./components/Select/Select";
+import TypewriterHero from "./components/TypewriterHero/TypewriterHero";
+import { getBaselines, getDemo, analyze } from "./api/client";
 import { fmtTime } from "./lib/format";
 import styles from "./App.module.css";
 
@@ -38,13 +42,13 @@ export default function App() {
   const [route, setRoute] = useState(window.location.hash || "#/");
   const [activeTab, setActiveTab] = useState("upload"); // 'upload' | 'sample'
   const [preset, setPreset] = useState("botched");
-  const [activeRailTab, setActiveRailTab] = useState("canvas");
 
   // File & input state
   const [file, setFile] = useState(null);
   const [audioUrl, setAudioUrl] = useState("/demo-audio/botched.wav");
   const [isDragOver, setIsDragOver] = useState(false);
   const [baselineId, setBaselineId] = useState("auto");
+  const [baselinesList, setBaselinesList] = useState([]);
   const [transcript, setTranscript] = useState("");
 
   // Analysis state
@@ -53,8 +57,11 @@ export default function App() {
   const [error, setError] = useState(null);
   const [selectedFlawId, setSelectedFlawId] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
+  const [activeSection, setActiveSection] = useState("home");
+  const [showCTA, setShowCTA] = useState(false);
 
   const fileInputRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -64,17 +71,45 @@ export default function App() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["home", "analyze", "insights", "about"];
+      let current = "home";
+      
+      sections.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 120) {
+            current = id;
+          }
+        }
+      });
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [data]);
+
+  // Fetch available baselines on mount
+  useEffect(() => {
+    getBaselines()
+      .then((list) => setBaselinesList(list))
+      .catch((err) => console.warn("Could not load baselines:", err));
+  }, []);
+
   // Default load botched mock dataset on mount so full graphs are instantly visible
   useEffect(() => {
-    fetch("/mock_result.json")
-      .then((res) => res.json())
+    getDemo("botched")
       .then((json) => {
         setData(json);
         if (json.flaws && json.flaws.length > 0) {
           setSelectedFlawId(json.flaws[0].id);
         }
       })
-      .catch((err) => console.error("Could not load default mock data:", err));
+      .catch((err) => console.error("Could not load initial mock data:", err));
   }, []);
 
   // Cleanup object URLs
@@ -86,18 +121,33 @@ export default function App() {
     };
   }, [audioUrl]);
 
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   const handleFileSelect = (selectedFile) => {
     if (!selectedFile) return;
     const allowed = [".wav", ".mp3", ".m4a", ".flac", ".ogg", ".webm"];
     const ext = selectedFile.name.substring(selectedFile.name.lastIndexOf(".")).toLowerCase();
 
     if (!allowed.includes(ext)) {
-      setError("Please choose a supported audio file (WAV, MP3, M4A, FLAC, OGG, or WEBM).");
+      setError({
+        kind: "audio",
+        message: "Please choose a supported audio file (WAV, MP3, M4A, FLAC, OGG, or WEBM).",
+      });
       return;
     }
 
     if (selectedFile.size > 25 * 1024 * 1024) {
-      setError("Audio file is larger than 25 MB. Please select a smaller file.");
+      setError({
+        kind: "too_large",
+        message: "Audio file is larger than 25 MB. Please select a smaller file.",
+      });
       return;
     }
 
@@ -139,68 +189,65 @@ export default function App() {
     setTranscript(SAMPLE_TRANSCRIPTS.T4);
   };
 
-  const handleAnalyze = () => {
+  const handleCancel = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setLoading(false);
+  };
+
+  const handleAnalyze = async () => {
     setLoading(true);
     setError(null);
 
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     if (activeTab === "sample") {
-      const jsonUrl = `/demo/${preset}.json`;
-      const wavUrl = `/demo-audio/${preset}.wav`;
-      
-      setTimeout(() => {
-        fetch(jsonUrl)
-          .then((res) => {
-            if (!res.ok) throw new Error(`HTTP ${res.status} reading ${jsonUrl}`);
-            return res.json();
-          })
-          .then((json) => {
-            setData(json);
-            setAudioUrl(wavUrl);
-            if (json.flaws && json.flaws.length > 0) {
-              setSelectedFlawId(json.flaws[0].id);
-            } else {
-              setSelectedFlawId(null);
-            }
-            setLoading(false);
-          })
-          .catch((err) => {
-            setError(err.message);
-            setLoading(false);
-          });
-      }, 400);
-      return;
-    }
-
-    // Upload mode
-    const formData = new FormData();
-    formData.append("audio_file", file);
-    formData.append("transcript", transcript);
-    if (baselineId !== "auto") {
-      formData.append("baseline_id", baselineId);
-    }
-
-    fetch("/analyze", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status} from /analyze`);
-        return res.json();
-      })
-      .then((json) => {
+      try {
+        const json = await getDemo(preset);
         setData(json);
-        // The audioUrl is already set to the local object URL
+        setAudioUrl(`/demo-audio/${preset}.wav`);
         if (json.flaws && json.flaws.length > 0) {
           setSelectedFlawId(json.flaws[0].id);
         } else {
           setSelectedFlawId(null);
         }
         setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
+      } catch (err) {
+        setError(err);
         setLoading(false);
+      }
+      return;
+    }
+
+    // Upload mode
+    try {
+      const mode = baselineId === "prior" ? "prior" : baselineId === "auto" ? "auto" : "reference";
+      const result = await analyze({
+        file,
+        transcript,
+        baselineId: baselineId === "auto" || baselineId === "prior" ? undefined : baselineId,
+        mode,
+        signal: controller.signal,
       });
+
+      setData(result);
+      if (result.flaws && result.flaws.length > 0) {
+        setSelectedFlawId(result.flaws[0].id);
+      } else {
+        setSelectedFlawId(null);
+      }
+      setLoading(false);
+    } catch (err) {
+      if (err && err.kind === "timeout") {
+        setError(err);
+      } else {
+        setError(err);
+      }
+      setLoading(false);
+    }
   };
 
   const handleDownloadJson = () => {
@@ -224,115 +271,44 @@ export default function App() {
 
   return (
     <div className={styles.appLayout}>
-      {/* Left Navigation Rail */}
-      <aside className={styles.leftRail}>
-        <div className={styles.logoBars} style={{ marginBottom: "var(--s-4)" }}>
-          <div className={styles.logoBar1}></div>
-          <div className={styles.logoBar2}></div>
-          <div className={styles.logoBar3}></div>
-        </div>
-
-        <div className={styles.railIconGroup}>
-          <button 
-            className={`${styles.railIcon} ${activeRailTab === 'canvas' ? styles.active : ''}`} 
-            title="Canvas"
-            onClick={() => setActiveRailTab('canvas')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            <Waves size={22} strokeWidth={2} />
-          </button>
-          <button 
-            className={`${styles.railIcon} ${activeRailTab === 'metrics' ? styles.active : ''}`} 
-            title="Metrics"
-            onClick={() => setActiveRailTab('metrics')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            <Activity size={22} strokeWidth={2} />
-          </button>
-          <button 
-            className={`${styles.railIcon} ${activeRailTab === 'cadence' ? styles.active : ''}`} 
-            title="Cadence Map"
-            onClick={() => setActiveRailTab('cadence')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            <Gauge size={22} strokeWidth={2} />
-          </button>
-          <button 
-            className={`${styles.railIcon} ${activeRailTab === 'logs' ? styles.active : ''}`} 
-            title="Diagnostic Logs"
-            onClick={() => setActiveRailTab('logs')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            <ShieldAlert size={22} strokeWidth={2} />
-          </button>
-          <button 
-            className={`${styles.railIcon} ${activeRailTab === 'settings' ? styles.active : ''}`} 
-            title="I/O Config"
-            onClick={() => setActiveRailTab('settings')}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            <Settings size={22} strokeWidth={2} />
-          </button>
-        </div>
-
-        <div className={styles.dspStatus} title="DSP Core 2.4 Pro: Active">
-          <Cpu size={20} color="var(--muted)" strokeWidth={2} />
-          <div className={styles.dspDot}></div>
-        </div>
-      </aside>
-
       {/* Main App Column */}
       <div className={styles.mainColumn}>
         {/* Top Navigation Bar */}
         <nav className={styles.nav}>
-          <div className={styles.navLeft}>
+          <a href="#/" className={styles.navBrand}>
+            <img src="/logo.png" alt="SpeechCoach" className={styles.logoImg} />
             <span className={styles.logoText}>SpeechCoach</span>
-            <div className={styles.navMetadata}>
-              <span className={styles.navBadge}>Session Q3-TK04 // CALIBRATED</span>
-              <div className={styles.navFileInfo}>
-                <FileAudio size={16} />
-                <span className="mono-sm">
-                  {file ? `${file.name} [${(file.size / 1024 / 1024).toFixed(1)}MB]` : 'sample_pitch_deck_q3.wav [48kHz · 24-bit · 18.50s]'}
-                </span>
-              </div>
-            </div>
+          </a>
+          <div className={styles.navLinksPill}>
+            <a href="#home" onClick={(e) => scrollToSection(e, "home")} className={activeSection === "home" ? styles.navLinkActive : styles.navLink}>Home</a>
+            <a href="#analyze" onClick={(e) => scrollToSection(e, "analyze")} className={activeSection === "analyze" ? styles.navLinkActive : styles.navLink}>Analyze</a>
+            <a href="#insights" onClick={(e) => scrollToSection(e, "insights")} className={activeSection === "insights" ? styles.navLinkActive : styles.navLink}>Insights</a>
+            <a href="#about" onClick={(e) => scrollToSection(e, "about")} className={activeSection === "about" ? styles.navLinkActive : styles.navLink}>About</a>
           </div>
           <div className={styles.navActions}>
-            <button className={styles.exportBtn} onClick={handleDownloadJson}>
-              <Download size={16} /> Export Telemetry
-            </button>
-            <button className={styles.uploadBtn} onClick={() => fileInputRef.current?.click()}>
-              <Upload size={16} /> Upload Audio
-            </button>
+            {/* Buttons removed as requested */}
           </div>
         </nav>
 
-        {activeRailTab !== "canvas" ? (
-          <main className={styles.mainContent} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-            <div style={{ textAlign: 'center', color: 'var(--muted)' }}>
-              <Settings size={48} style={{ opacity: 0.2, marginBottom: 'var(--s-4)' }} />
-              <h2 className="h2">Under Construction</h2>
-              <p className="body">The {activeRailTab} module is planned for a future update.</p>
-              <button 
-                className={styles.analyzeBtn} 
-                style={{ marginTop: 'var(--s-6)' }}
-                onClick={() => setActiveRailTab('canvas')}
-              >
-                Return to Canvas
-              </button>
-            </div>
-          </main>
-        ) : (
-      <main className={styles.mainContent}>
-        <div className={styles.heroSection}>
-          <h1 className="display-xl">See exactly where your speech goes wrong.</h1>
-          <p className={styles.subtitle}>
-            Upload a recording and its text. We compare your delivery with a strong reference and point to the exact seconds that need work.
-          </p>
-        </div>
+        <main className={styles.mainContent}>
+          <TypewriterHero
+            text="Speak better. Understand your delivery. Improve with precision."
+            subtitle="Upload a recording and its text. We compare your delivery with a strong reference and point to the exact seconds that need work."
+            onComplete={() => setShowCTA(true)}
+          />
 
+        <div style={{
+          opacity: showCTA ? 1 : 0,
+          transform: showCTA ? 'translateY(0)' : 'translateY(15px)',
+          transition: 'opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
+          pointerEvents: showCTA ? 'auto' : 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--s-8)',
+          width: '100%'
+        }}>
         {/* 1. Main Input Card */}
-        <div className={styles.inputCard}>
+        <div id="analyze" className={styles.inputCard}>
           {/* Segmented Tabs */}
           <div className={styles.tabBar}>
             <div className={styles.segmentedTabs}>
@@ -418,18 +394,10 @@ export default function App() {
               <div className={styles.formRow}>
                 <div className={styles.fieldGroup}>
                   <label className={styles.fieldLabel}>Which speech is this?</label>
-                  <select
-                    className={styles.selectInput}
+                  <Select
                     value={baselineId}
-                    onChange={(e) => setBaselineId(e.target.value)}
-                  >
-                    <option value="auto">Auto-detect matching baseline</option>
-                    <option value="T1">T1 — Indian Pep Talk (Indian English)</option>
-                    <option value="T2">T2 — Martin Luther King Jr. "I Have a Dream"</option>
-                    <option value="T3">T3 — Dr. A.P.J. Abdul Kalam "Culture of Excellence"</option>
-                    <option value="T4">T4 — Abraham Lincoln "Gettysburg Address"</option>
-                    <option value="prior">Other speech, no reference (General Norms)</option>
-                  </select>
+                    onChange={(val) => setBaselineId(val)}
+                  />
                   <span className={styles.fieldHelper}>
                     Pick the matching text for the most precise baseline comparison.
                   </span>
@@ -561,20 +529,29 @@ export default function App() {
         {/* Error message */}
         {error && (
           <div style={{ marginBottom: "var(--s-6)" }}>
-            <ErrorBanner error={error} onRetry={handleAnalyze} />
+            <ErrorBanner
+              error={error}
+              onRetry={handleAnalyze}
+              onClear={handleRemoveFile}
+            />
           </div>
         )}
 
         {/* Loading state */}
         {loading && (
           <div style={{ marginTop: "var(--s-8)" }}>
-            <LoadingCard />
+            <LoadingCard onCancel={handleCancel} />
           </div>
         )}
 
         {/* Results Section */}
         {data && !loading && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--s-6)", marginTop: "var(--s-8)" }}>
+          <div id="insights" style={{ display: "flex", flexDirection: "column", gap: "var(--s-6)", marginTop: "var(--s-8)" }}>
+            {/* Warnings Banner if meta.warnings is populated */}
+            {data.meta?.warnings && data.meta.warnings.length > 0 && (
+              <WarningsBanner warnings={data.meta.warnings} />
+            )}
+
             {/* 1. Results Header */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "var(--s-4)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "var(--s-4)" }}>
@@ -601,7 +578,7 @@ export default function App() {
                     {file ? file.name : `${preset.toUpperCase()} Demo Take`}
                   </span>
                   <span style={{ fontSize: "13px", color: "var(--muted)" }}>
-                    Duration: {fmtTime(data.meta.duration_s)} · Reference: {data.meta.baseline_id}
+                    Duration: {fmtTime(data.meta.duration_s)} · Reference: {data.meta.baseline_id || "Auto"}
                   </span>
                 </div>
               </div>
@@ -685,11 +662,11 @@ export default function App() {
             </div>
           </div>
         )}
+        </div>
       </main>
-      )}
 
-      <footer className={styles.footer}>
-        Built for the Multimodal AI Hackathon 2026, Track C · SpeechCoach
+      <footer id="about" className={styles.footer} style={{ color: 'var(--faint)', letterSpacing: '1.5px', fontSize: '12px', textTransform: 'uppercase' }}>
+        CRAFTED WITH INTENTION
       </footer>
       </div>
     </div>

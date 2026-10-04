@@ -1,0 +1,50 @@
+.banner {
+  background-color: var(--butter);
+  border: 1px solid var(--warn);
+  border-radius: var(--r-card);
+  padding: var(--s-3) var(--s-4);
+  margin-bottom: var(--s-4);
+  animation: fade-in var(--d-fast) var(--ease-out);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.titleCol {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.toggleBtn {
+  background: transparent;
+  border: none;
+  color: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--r-pill);
+}
+
+.warningList {
+  margin: var(--s-3) 0 0 0;
+  padding-left: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.warningItem {
+  color: var(--ink-2);
+}

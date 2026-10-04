@@ -141,3 +141,4 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: F1 score remains extremely low (1.1%) despite NaN fixes because MMS_FA alignment jitter on synthetic files causes massive z-score fluctuations. We need to explore wider `window_size` (W=10+) and higher `tau_flag` values to smooth this out, but the immediate B5 requirements (templates, rubric, initial tuning loop, plot) are met. Settings frozen at tau_flag=2.0, tau_trim=1.0.
 - How a teammate can verify (exact command): Look at `results/score_vs_level.png` to verify monotonic score decrease.
 - Requests for others: None.
+

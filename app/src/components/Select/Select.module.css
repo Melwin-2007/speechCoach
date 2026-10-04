@@ -1,0 +1,274 @@
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.triggerBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: 8px 14px;
+  background-color: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  text-align: left;
+  min-height: 48px;
+  transition: border-color var(--d-fast) var(--ease-out), background-color var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out);
+}
+
+.triggerBtn:hover {
+  background-color: var(--paper);
+  border-color: var(--ink);
+}
+
+.triggerBtn:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--mint);
+}
+
+.triggerBtnOpen {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--mint);
+  background-color: var(--paper);
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.triggerIconWrap {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-pill);
+  background-color: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--ink);
+}
+
+.triggerIcon {
+  color: var(--ink);
+}
+
+.triggerTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.triggerTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.triggerSub {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.chevronWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: transform var(--d-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: var(--ink);
+}
+
+/* Floating Popover */
+.popoverMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-2);
+  padding: 6px;
+  animation: pop-in var(--d-fast) var(--ease-out);
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.optionDivider {
+  height: 1px;
+  background-color: var(--line);
+  margin: 4px 6px;
+}
+
+.optionTile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: var(--r-md);
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--d-fast) var(--ease-out), transform var(--d-fast) var(--ease-out);
+}
+
+.optionTile:hover {
+  background-color: var(--paper-2);
+  transform: translateX(3px);
+}
+
+.optionTileHighlighted {
+  background-color: var(--paper-2);
+}
+
+.optionTileSelected {
+  background-color: var(--mint);
+}
+
+.optionTileSelected:hover {
+  background-color: var(--mint-2);
+  transform: translateX(3px);
+}
+
+.optionIconCircle {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  background-color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--ink);
+}
+
+.optionTileSelected .optionIconCircle {
+  background-color: var(--card);
+}
+
+.optionTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.optionTitle {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.optionDesc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.optionMetaGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.badgeMint {
+  background-color: var(--mint-2);
+  color: var(--ink);
+}
+
+.badgeButter {
+  background-color: var(--butter);
+  color: var(--ink);
+}
+
+.badgePaper {
+  background-color: var(--paper-2);
+  color: var(--muted);
+}
+
+.indicatorWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.checkCircle {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--r-pill);
+  background-color: var(--ok);
+  color: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hoverArrow {
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity var(--d-fast) var(--ease-out), transform var(--d-fast) var(--ease-out);
+}
+
+.optionTile:hover .hoverArrow {
+  opacity: 1;
+  transform: translateX(2px);
+}

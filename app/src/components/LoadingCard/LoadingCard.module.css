@@ -3,11 +3,19 @@
   border-radius: var(--r-card);
   box-shadow: var(--shadow-1);
   padding: var(--s-6);
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 640px;
+  margin: var(--s-6) auto;
   display: flex;
   flex-direction: column;
   gap: var(--s-6);
+  border: 1px solid var(--line);
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
 }
 
 .spinnerRow {
@@ -19,7 +27,7 @@
 
 .spinIcon {
   animation: spin 1s linear infinite;
-  color: var(--action);
+  color: var(--ok);
 }
 
 @keyframes spin {
@@ -27,16 +35,23 @@
   to { transform: rotate(360deg); }
 }
 
+.timerBadge {
+  background-color: var(--paper-2);
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+}
+
 .honestBars {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
+  gap: var(--s-3);
 }
 
 .barWrap {
   display: flex;
   flex-direction: column;
-  gap: var(--s-2);
+  gap: var(--s-1);
 }
 
 .labelRow {
@@ -55,12 +70,31 @@
 
 .barFill {
   height: 100%;
-  background-color: var(--mint);
+  background-color: var(--mint-2);
   border-radius: var(--r-pill);
-  animation: load-bar ease-in-out forwards;
 }
 
-@keyframes load-bar {
-  from { width: 0%; }
-  to { width: 100%; }
+.footerRow {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--line);
+}
+
+.cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  background-color: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background-color: var(--paper-2);
 }
