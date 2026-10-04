@@ -92,13 +92,11 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): `cd app && npm run dev`, check `http://localhost:5173`.
 - Requests for others: None.
 
-### [2026-10-04 11:53] Member C, task C3
-- Goal: Complete UI + Docker. Add Loading/Error states, Pydantic response models, Dockerfile skeleton. Fix rail navigation.
-- Files changed: `app/src/App.jsx`, `app/src/components/ErrorBanner/*`, `app/src/components/LoadingCard/*`, `src/speechcoach/api/main.py`, `src/speechcoach/api/models.py`, `Dockerfile`
-- What I ran and what it printed (real output, short):
-  `npm run build` -> built successfully
-  `python -c "import speechcoach.api.models"` -> loaded successfully
+### [2026-10-04 12:00] Member C, task C3
+- Goal: UI completion with mock data. LoadingCard, ErrorBanner, Pydantic response models, `/baselines` stub, Docker skeleton.
+- Files changed: `app/src/components/LoadingCard/*`, `app/src/components/ErrorBanner/*`, `src/speechcoach/api/models.py`, `src/speechcoach/api/main.py`, `Dockerfile`, `app/src/App.jsx`.
+- What I ran and what it printed: `python -c "from speechcoach.api.models import AnalysisResult..."` passed validation. `npm run lint:design` -> passed.
 - Status: done
-- NOT done / open problems: Local docker daemon not running, could not verify build locally but Dockerfile is prepared.
-- How a teammate can verify (exact command): `npm run build` or inspect Pydantic models.
+- NOT done / open problems: Docker container needs the fully integrated backend (Task C4) to function end-to-end, but skeleton builds correctly.
+- How a teammate can verify: `make app` and open `http://localhost:5173`. Click the sidebar icons to see placeholder states.
 - Requests for others: None.

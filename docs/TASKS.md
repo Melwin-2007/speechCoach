@@ -37,7 +37,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **B3 [B] Window stats, baseline, signals, calibration.** Needs: B2 and >= 2 ideal recordings of T4 aligned.
   Do: `window_stats`, `build_baseline`, `signals`, `calibrate` + `scripts/calibrate.py` writing `configs/sigma.json`; tests for `signals` (sped-up clip gives negative pace signal with correct magnitude).
   Accept: sigma values printed per signal and look sane (no zeros, no NaN); tests pass.
-- [x] **C3 [C] UI completion with mock data.** Needs: C2. Prompts: D9b, D5, D7 from `docs/DASHBOARD_PROMPTS.md`.
+- [ ] **C3 [C] UI completion with mock data.** Needs: C2. Prompts: D9b, D5, D7 from `docs/DASHBOARD_PROMPTS.md`.
   Do: ExplanationCard with "Show the math" (MathDisclosure, grid-rows accordion), ScoreCard (SVG ring with count-up, 7 dimension chips), RadarCard (SVG radar with polygon draw-in, list fallback below 420 px), WordRibbon (severity ramp colours, aligned with waveform), TranscriptPanel (click to seek, playback highlight via rAF), ResultsHeader, loading and error states (LoadingCard with honest bars, ErrorBanner with mapping table), pydantic response models, `/baselines` stub, Docker skeleton that builds.
   Accept: all UI parts render from mock JSON; `docker build` succeeds; `npm run lint:design` passes.
 - [ ] **ALL: record ideal T1 and T3**; A and one teammate start human flawed takes (cards A-G) for T4.
