@@ -69,8 +69,9 @@ def main():
             for s_name, s_vals in sig.items():
                 loo_signals[s_name].extend(s_vals.tolist())
 
-    for s_name in loo_signals:
-        loo_signals[s_name] = np.array(loo_signals[s_name])
+    loo_arrays: dict[str, np.ndarray] = {
+        s_name: np.array(vals) for s_name, vals in loo_signals.items()
+    }
 
     floors = {
         'pace': 0.05,
@@ -81,7 +82,8 @@ def main():
         'clarity': 0.05
     }
 
-    sigmas = calibrate(loo_signals, floors)
+    sigmas = calibrate(loo_arrays, floors)
+
     print("\nCalibration complete. Sigmas:")
     for k, v in sigmas.items():
         print(f"  {k}: {v:.4f}")
