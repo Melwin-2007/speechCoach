@@ -44,7 +44,7 @@ ideal wav ─► WORLD analysis (f0, sp, ap) cached ─► "time program" (pace/
 F0 extraction: Praat autocorrelation via parselmouth, two passes. Pass 1: floor 75, ceiling 600 Hz. Pass 2: `floor = max(60, 0.75*Q1)`, `ceiling = min(800, 1.5*Q3)` of pass-1 voiced F0, `very_accurate=True`. Hop 0.01 s.
 
 ## 3. Window statistics (W = 6 words, stride 1, centered on each word)
-Per word `i`, window = words `i-3 .. i+3` (clipped). Computed: `win_dur` (sum of word durations, pauses excluded), `f0_std` (std of `st`, NaN-aware), `db_mean`, `db_std` (over frames inside words), `flux` (mean spectral flux inside words).
+Per word `i`, half-width is W // 2 = 3. The window is words `i-3 .. i+3` (which is 7 words total, clipped at the ends). Computed: `win_dur` (sum of word durations, pauses excluded), `f0_std` (std of `st`, NaN-aware), `db_mean`, `db_std` (over frames inside words), `flux` (mean spectral flux inside words).
 
 ## 4. Baseline, signals, calibration
 Baseline for a text B = per-word aggregate over its ideal recordings: geometric mean for `win_dur, f0_std, db_std, flux`; arithmetic mean for `db_mean, pause_before`.

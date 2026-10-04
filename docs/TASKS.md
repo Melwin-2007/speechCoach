@@ -19,9 +19,10 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **ALL: record ideal T4 (Gitanjali 35)**, 3 takes each, Day 1 evening (see guide for recording protocol).
 
 ## Day 2: Features and first flaw
-- [ ] **A2 [A] WORLD analysis, time-program renderer, first flaw.** Needs: A1.
+- [x] **A2 [A] WORLD analysis, time-program renderer, first flaw.** Needs: A1.
   Do: `dataset/world_engine.py` with `analyze_world`, `render`, anchors-based time map, `inject` for PACE_FAST L1-L5 on T4 using `configs/flaws.yaml`; `resynth_control`; `scripts/validate_labels.py`; build `dataset/sample/` (1 ideal + 1 flawed + label + transcript).
   Accept: 5 PACE_FAST files + control for T4 with labels passing `validate_labels.py`; A listened to L1, L3, L5; word times in labels consistent with the time map.
+
 - [x] **B2 [B] Frame features, word table, syllables.** Needs: B1.
   Do: `features/frame.py`, `features/words.py` (`word_table`), syllable counter (cmudict + fallback), `scripts/plot_features.py` (figure: pitch, energy, pauses over time), tests with a 150 Hz sine (F0 ~150 +/- 2 Hz), a known-gap signal (pause length error < 20 ms), two synthetic speakers with different base pitch giving equal normalized `st`.
   Accept: `make test` passes; figure produced for one real file and shown to the team.
@@ -34,7 +35,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A3 [A] Full flaw engine and batch build.** Needs: A2.
   Do: all flaw types and levels per FLAW_SPEC, composites, `build_dataset.py` (skip-existing, `--workers`), `results/gradient_check.png` (measured deviation per level per flaw), run for T4 and T1 first.
   Accept: ~48 files per text generated for T4 and T1; gradient plot rises monotonically per flaw; validation passes.
-- [ ] **B3 [B] Window stats, baseline, signals, calibration.** Needs: B2 and >= 2 ideal recordings of T4 aligned.
+- [x] **B3 [B] Window stats, baseline, signals, calibration.** Needs: B2 and >= 2 ideal recordings of T4 aligned.
   Do: `window_stats`, `build_baseline`, `signals`, `calibrate` + `scripts/calibrate.py` writing `configs/sigma.json`; tests for `signals` (sped-up clip gives negative pace signal with correct magnitude).
   Accept: sigma values printed per signal and look sane (no zeros, no NaN); tests pass.
 - [ ] **C3 [C] UI completion with mock data.** Needs: C2. Prompts: D9b, D5, D7 from `docs/DASHBOARD_PROMPTS.md`.
@@ -46,7 +47,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A4 [A] Full synthetic build, metadata, splits, human labels.** Needs: A3.
   Do: build all 6 texts; `metadata.csv`; dev/test split fields; `scripts/audacity_to_labels.py` (Audacity label txt to label JSON); QC log (listening notes).
   Accept: `validate_labels.py` passes on everything; counts per text/flaw/level in HANDOFF.
-- [ ] **B4 [B] Region detection, typing, `analyze()`, eval v1.** Needs: B3.
+- [x] **B4 [B] Region detection, typing, `analyze()`, eval v1.** Needs: B3.
   Do: `compare/regions.py`, flaw typing per ARCHITECTURE section 5, `analyze.py` returning a contract-valid dict (explanations may be placeholders), `scripts/run_eval.py --split dev` writing `results/metrics_dev.csv` (precision/recall/F1 at IoU 0.5, boundary error, recall by level).
   Accept: eval runs on dev; first numbers recorded in HANDOFF (even if poor); failure examples listed.
 - [x] **C4 [C] Real integration.** Needs: B4 (or B's draft of `analyze()`). Prompts: D11, D4 from `docs/DASHBOARD_PROMPTS.md`.
@@ -57,7 +58,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A5 [A] QC fixes, human set, listener test.** Needs: A4.
   Do: fix issues found in QC; at least 8 labeled human recordings (mix of flaw cards, incl. 2 "almost perfect"); Google Form listener-test material (5 versions of 3 clips); script to compute rank correlation from responses; dataset card draft.
   Accept: human labels validated; listener form sent.
-- [ ] **B5 [B] Tuning, explanations, scoring.** Needs: B4.
+- [x] **B5 [B] Tuning, explanations, scoring.** Needs: B4.
   Do: tune `tau_flag`, `tau_trim`, window size on DEV only; explanation templates for every flaw type (5 fields, real numbers); `scoring/rubric.py` per ARCHITECTURE section 7; score-vs-level plot.
   Accept: every detected flaw has all 5 explanation fields; score correlation with severity reported (dev); settings frozen in config with a note in HANDOFF.
 - [ ] **C5 [C] Landing page and demo mode.** Needs: C4. Prompts: D2, D3, D10, Q4 from `docs/DASHBOARD_PROMPTS.md`.

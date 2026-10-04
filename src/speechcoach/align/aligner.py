@@ -2,6 +2,19 @@ import numpy as np
 import torch
 import torchaudio
 
+_MODEL = None
+_DICT = None
+_DEVICE = None
+
+def _get_model():
+    global _MODEL, _DICT, _DEVICE
+    if _MODEL is None:
+        _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        bundle = torchaudio.pipelines.MMS_FA
+        _MODEL = bundle.get_model().to(_DEVICE)
+        _DICT = bundle.get_dict()
+    return _MODEL, _DICT, _DEVICE
+
 def align_words(y: np.ndarray, words: list[dict]) -> list[dict]:
     """
     Run forced alignment using torchaudio MMS_FA model.
@@ -16,11 +29,7 @@ def align_words(y: np.ndarray, words: list[dict]) -> list[dict]:
             - end: float (end time in seconds)
             - conf: float (confidence score)
     """
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
-    bundle = torchaudio.pipelines.MMS_FA
-    model = bundle.get_model().to(device)
-    dictionary = bundle.get_dict()
+    model, dictionary, device = _get_model()
     
     word_norms = [w["norm"] for w in words]
     tokenized_transcript = []
@@ -29,7 +38,7 @@ def align_words(y: np.ndarray, words: list[dict]) -> list[dict]:
     for word in word_norms:
         start_idx = len(tokenized_transcript)
         for char in word:
-            if char in dictionary:
+            if char in dictionary and dictionary[char] != 0:
                 tokenized_transcript.append(dictionary[char])
         
         if "|" in dictionary:
@@ -79,5 +88,9 @@ def align_words(y: np.ndarray, words: list[dict]) -> list[dict]:
             "end": round(end_time, 3),
             "conf": round(conf, 3)
         })
+        
+    del waveform, emission, targets, alignments, scores, token_spans
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
         
     return out_words

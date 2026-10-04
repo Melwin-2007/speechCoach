@@ -1,0 +1,13 @@
+seed: 42
+sr: 16000
+hop_length_s: 0.01
+frame_period_ms: 5.0
+target_lufs: -23.0
+f0_floor: 60.0
+f0_ceil: 600.0
+silence_threshold_db: -42.0
+edge_silence_s: 0.5
+tau_flag: 4.0
+tau_trim: 1.5
+min_region_words: 5
+min_region_s: 2.0
