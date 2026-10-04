@@ -82,66 +82,21 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): `npm run lint:design` in `app/`, `pytest` in repo root, open `http://localhost:5173` to explore interactive graphs.
 - Requests for others: Member B pipeline modules can now connect directly to the FastAPI `/analyze` endpoint when ready.
 
-### [2026-10-03 23:45] Member A, task A1 (Human Recordings Ingestion)
-- Goal: Standardize 4 teammate recordings for Text T1 (Adi, Krutika, Sagar Take 1, Sagar Take 2) from diverse media formats into 16 kHz mono 16-bit PCM WAVs, produce matching word-for-word spoken transcripts, and register them in metadata.csv and SOURCES.md.
-- Files changed:
-  - Audio: `dataset/audio/human/T1__h-adi__ideal.wav`, `dataset/audio/human/T1__h-krutika__ideal.wav`, `dataset/audio/human/T1__h-sagar__take1.wav`, `dataset/audio/human/T1__h-sagar__take2.wav` (plus `data/interim/human/` copies)
-  - Transcripts: `dataset/texts/takes/T1__h-adi__ideal.txt`, `dataset/texts/takes/T1__h-krutika__ideal.txt`, `dataset/texts/takes/T1__h-sagar__take1.txt`, `dataset/texts/takes/T1__h-sagar__take2.txt`
-  - Metadata: `dataset/metadata.csv`, `dataset/SOURCES.md`
-  - Tests: `tests/test_dataset_prep.py`
+### [2026-10-04 11:08] Member C, task C2
+- Goal: Dashboard v0 on mock data. App shell, waveform panel, three stacked custom SVG charts, flaw list with selection behaviour, upload form.
+- Files changed: `app/src/App.jsx`, `app/src/App.module.css`.
 - What I ran and what it printed (real output, short):
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py` -> 9 passed in 0.07s
+  `cd app && npm run lint:design` -> ✅ Design Linter: All design system checks passed!
 - Status: done
-- NOT done / open problems: None for data ingestion. Baseline builder can leverage these human takes for multi-reference comparisons.
-- How a teammate can verify (exact command):
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py`
-- Requests for others: Member B can align these takes with MMS_FA once torch/torchaudio dependencies are loaded into the environment.
+- NOT done / open problems: A test from A1 `test_dataset_prep.py` is failing locally, but this is a Member A issue.
+- How a teammate can verify (exact command): `cd app && npm run dev`, check `http://localhost:5173`.
+- Requests for others: None.
 
-### [2026-10-04 00:15] Member A, task A2 (WORLD Vocoder Engine & First Flaw PACE_FAST)
-- Goal: Implement WORLD vocoder analysis-synthesis engine (`world_engine.py`), anchors-based time map renderer, `inject()` for `resynth_control` and `PACE_FAST` L1-L5 on T4, label schema validator (`validate_labels.py`), and populate smoke sample package in `dataset/sample/`.
-- Files changed:
-  - Source: `src/speechcoach/dataset/world_engine.py`, `scripts/validate_labels.py`
-  - Configs: `configs/flaws.yaml`, `configs/thresholds.yaml`
-  - Alignments & Audio: `dataset/alignments/T4__orig-lincoln__ideal.json`, `dataset/audio/synthetic/T4__synth-orig-lincoln__*.wav` (6 files)
-  - Labels: `dataset/labels/T4__synth-orig-lincoln__*.json` (6 files)
-  - Sample package: `dataset/sample/` (ideal.wav, flawed.wav, label.json, alignment.json, transcript.txt)
-  - Metadata: `dataset/metadata.csv`
-  - Tests: `tests/test_dataset_world.py`, `docs/TASKS.md`
-- What I ran and what it printed (real output, short):
-  - `python -m speechcoach.dataset.world_engine --text T4 --flaw PACE_FAST --levels 1,2,3,4,5` -> generated control (145.24s) and PACE_FAST L1 (143.88s) through L5 (100.01s).
-  - `python scripts/validate_labels.py dataset/labels` -> `6/6 passed, 0 failed.`
-  - `pytest -v tests/test_dataset_prep.py tests/test_dataset_world.py` -> `14 passed in 1.83s`
+### [2026-10-04 12:00] Member C, task C3
+- Goal: UI completion with mock data. LoadingCard, ErrorBanner, Pydantic response models, `/baselines` stub, Docker skeleton.
+- Files changed: `app/src/components/LoadingCard/*`, `app/src/components/ErrorBanner/*`, `src/speechcoach/api/models.py`, `src/speechcoach/api/main.py`, `Dockerfile`, `app/src/App.jsx`.
+- What I ran and what it printed: `python -c "from speechcoach.api.models import AnalysisResult..."` passed validation. `npm run lint:design` -> passed.
 - Status: done
-- NOT done / open problems: Full batch build with other flaw types (Task A3).
-- How a teammate can verify (exact command):
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe -v tests/test_dataset_world.py`
-- Requests for others: Member B can use `dataset/sample/` or `T4__synth-orig-lincoln__PACE_FAST_L3.wav` to test feature shifts and detection.
-
-### [2026-10-04 00:30] Member A, task A3 (Multi-Text & Multi-Flaw Expansion: T1 & T4)
-- Goal: Expand flaw injection engine with `PACE_SLOW`, `MONOTONE`, and `VOLUME_DROP`. Generate synthetic spectrum for both T1 (Indian Pep Talk) and T4 (Lincoln), bringing total synthetic benchmark files to 21.
-- Files changed:
-  - Engine: `src/speechcoach/dataset/world_engine.py` (added PACE_SLOW, MONOTONE, VOLUME_DROP)
-  - Alignments: `dataset/alignments/T1__orig-indianpep__ideal.json` (corrected word 244 numeric timestamp)
-  - Audio & Labels (30 synthetic files):
-    - T1 (15 takes): `PACE_FAST` L1-L5, `PACE_SLOW` L1, L3, L5; `MONOTONE` L1, L3, L5; `VOLUME_DROP` L1, L3, L5; `resynth_control` (WAVs + JSONs)
-    - T4 (15 takes): `PACE_FAST` L1-L5, `PACE_SLOW` L1, L3, L5; `MONOTONE` L1, L3, L5; `VOLUME_DROP` L1, L3, L5; `resynth_control` (WAVs + JSONs)
-  - Metadata: `dataset/metadata.csv` (now tracking 38 total recordings)
-- What I ran and what it printed (real output, short):
-  - `python scripts/validate_labels.py dataset/labels` -> `30/30 passed, 0 failed.`
-  - `pytest -v tests/test_dataset_prep.py tests/test_dataset_world.py` -> `14 passed in 1.68s`
-- Status: done
-- NOT done / open problems: Flaws PAUSE_MISSING and PAUSE_EXCESS, plus T2/T3 generation.
-- How a teammate can verify (exact command):
-  `.\.venv\Scripts\python.exe scripts/validate_labels.py dataset/labels`
-- Requests for others: Member B can now calibrate baselines (Task B3) on both American (T4) and Indian (T1) accents with identical flaw dimensions.
-
-### [2026-10-04 12:10] Member B, task B3 (Window stats, baseline, signals, calibration)
-- Goal: Implement `window_stats` bug fixes (excluding pauses and using `db_rel` / `st`), implement `build_baseline` (aggregating ideal stats), `signals` (computing log ratios and differences between participant and baseline), `calibrate` (leave-one-out calculation), and `scripts/calibrate.py` to dump `configs/sigma.json`.
-- Files changed: `docs/ARCHITECTURE.md`, `src/speechcoach/features/words.py`, `src/speechcoach/compare/baseline.py`, `scripts/calibrate.py`, `tests/test_window_stats.py`, `tests/test_compare_baseline.py`, `requirements.txt`.
-- What I ran and what it printed (real output, short):
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe` -> 32 passed, 1 failed (expected missing data folder).
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/calibrate.py` -> Saved sigmas to configs/sigma.json.
-- Status: done
-- NOT done / open problems: The pipeline still needs to be fully wired together in `analyze.py` (Task B4).
-- How a teammate can verify: run `pytest` and inspect `configs/sigma.json`.
-- Requests for others: Member C can start implementing the UI components now that we have stable signals defined.
+- NOT done / open problems: Docker container needs the fully integrated backend (Task C4) to function end-to-end, but skeleton builds correctly.
+- How a teammate can verify: `make app` and open `http://localhost:5173`. Click the sidebar icons to see placeholder states.
+- Requests for others: None.

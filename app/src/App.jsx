@@ -9,6 +9,12 @@ import {
   ArrowLeft,
   Download,
   X,
+  Waves,
+  Activity,
+  Gauge,
+  ShieldAlert,
+  Settings,
+  Cpu,
 } from "lucide-react";
 import Styleguide from "./components/Styleguide/Styleguide";
 import ScoreCard from "./components/ScoreCard/ScoreCard";
@@ -19,6 +25,8 @@ import ChartStack from "./components/Charts/ChartStack";
 import TranscriptPanel from "./components/TranscriptPanel/TranscriptPanel";
 import FlawList from "./components/FlawList/FlawList";
 import ExplanationCard from "./components/ExplanationCard/ExplanationCard";
+import LoadingCard from "./components/LoadingCard/LoadingCard";
+import ErrorBanner from "./components/ErrorBanner/ErrorBanner";
 import { fmtTime } from "./lib/format";
 import styles from "./App.module.css";
 
@@ -30,6 +38,7 @@ export default function App() {
   const [route, setRoute] = useState(window.location.hash || "#/");
   const [activeTab, setActiveTab] = useState("upload"); // 'upload' | 'sample'
   const [preset, setPreset] = useState("botched");
+  const [activeRailTab, setActiveRailTab] = useState("canvas");
 
   // File & input state
   const [file, setFile] = useState(null);
@@ -134,35 +143,64 @@ export default function App() {
     setLoading(true);
     setError(null);
 
-    let jsonUrl = "/mock_result.json";
-    let wavUrl = "/demo-audio/botched.wav";
-
     if (activeTab === "sample") {
-      jsonUrl = `/demo/${preset}.json`;
-      wavUrl = `/demo-audio/${preset}.wav`;
+      const jsonUrl = `/demo/${preset}.json`;
+      const wavUrl = `/demo-audio/${preset}.wav`;
+      
+      setTimeout(() => {
+        fetch(jsonUrl)
+          .then((res) => {
+            if (!res.ok) throw new Error(`HTTP ${res.status} reading ${jsonUrl}`);
+            return res.json();
+          })
+          .then((json) => {
+            setData(json);
+            setAudioUrl(wavUrl);
+            if (json.flaws && json.flaws.length > 0) {
+              setSelectedFlawId(json.flaws[0].id);
+            } else {
+              setSelectedFlawId(null);
+            }
+            setLoading(false);
+          })
+          .catch((err) => {
+            setError(err.message);
+            setLoading(false);
+          });
+      }, 400);
+      return;
     }
 
-    setTimeout(() => {
-      fetch(jsonUrl)
-        .then((res) => {
-          if (!res.ok) throw new Error(`HTTP ${res.status} reading ${jsonUrl}`);
-          return res.json();
-        })
-        .then((json) => {
-          setData(json);
-          setAudioUrl(wavUrl);
-          if (json.flaws && json.flaws.length > 0) {
-            setSelectedFlawId(json.flaws[0].id);
-          } else {
-            setSelectedFlawId(null);
-          }
-          setLoading(false);
-        })
-        .catch((err) => {
-          setError(err.message);
-          setLoading(false);
-        });
-    }, 400);
+    // Upload mode
+    const formData = new FormData();
+    formData.append("audio_file", file);
+    formData.append("transcript", transcript);
+    if (baselineId !== "auto") {
+      formData.append("baseline_id", baselineId);
+    }
+
+    fetch("/analyze", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status} from /analyze`);
+        return res.json();
+      })
+      .then((json) => {
+        setData(json);
+        // The audioUrl is already set to the local object URL
+        if (json.flaws && json.flaws.length > 0) {
+          setSelectedFlawId(json.flaws[0].id);
+        } else {
+          setSelectedFlawId(null);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   };
 
   const handleDownloadJson = () => {
@@ -186,22 +224,105 @@ export default function App() {
 
   return (
     <div className={styles.appLayout}>
-      <nav className={styles.nav}>
-        <div className={styles.logoRow}>
-          <div className={styles.logoBars}>
-            <div className={styles.logoBar1}></div>
-            <div className={styles.logoBar2}></div>
-            <div className={styles.logoBar3}></div>
-          </div>
-          <span className={styles.logoText}>SpeechCoach</span>
+      {/* Left Navigation Rail */}
+      <aside className={styles.leftRail}>
+        <div className={styles.logoBars} style={{ marginBottom: "var(--s-4)" }}>
+          <div className={styles.logoBar1}></div>
+          <div className={styles.logoBar2}></div>
+          <div className={styles.logoBar3}></div>
         </div>
-        <div className={styles.navLinks}>
-          <a href="#/styleguide" className={styles.styleguideBtn}>
-            <BookOpen size={16} /> Design System & Styleguide
-          </a>
-        </div>
-      </nav>
 
+        <div className={styles.railIconGroup}>
+          <button 
+            className={`${styles.railIcon} ${activeRailTab === 'canvas' ? styles.active : ''}`} 
+            title="Canvas"
+            onClick={() => setActiveRailTab('canvas')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <Waves size={22} strokeWidth={2} />
+          </button>
+          <button 
+            className={`${styles.railIcon} ${activeRailTab === 'metrics' ? styles.active : ''}`} 
+            title="Metrics"
+            onClick={() => setActiveRailTab('metrics')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <Activity size={22} strokeWidth={2} />
+          </button>
+          <button 
+            className={`${styles.railIcon} ${activeRailTab === 'cadence' ? styles.active : ''}`} 
+            title="Cadence Map"
+            onClick={() => setActiveRailTab('cadence')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <Gauge size={22} strokeWidth={2} />
+          </button>
+          <button 
+            className={`${styles.railIcon} ${activeRailTab === 'logs' ? styles.active : ''}`} 
+            title="Diagnostic Logs"
+            onClick={() => setActiveRailTab('logs')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <ShieldAlert size={22} strokeWidth={2} />
+          </button>
+          <button 
+            className={`${styles.railIcon} ${activeRailTab === 'settings' ? styles.active : ''}`} 
+            title="I/O Config"
+            onClick={() => setActiveRailTab('settings')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <Settings size={22} strokeWidth={2} />
+          </button>
+        </div>
+
+        <div className={styles.dspStatus} title="DSP Core 2.4 Pro: Active">
+          <Cpu size={20} color="var(--muted)" strokeWidth={2} />
+          <div className={styles.dspDot}></div>
+        </div>
+      </aside>
+
+      {/* Main App Column */}
+      <div className={styles.mainColumn}>
+        {/* Top Navigation Bar */}
+        <nav className={styles.nav}>
+          <div className={styles.navLeft}>
+            <span className={styles.logoText}>SpeechCoach</span>
+            <div className={styles.navMetadata}>
+              <span className={styles.navBadge}>Session Q3-TK04 // CALIBRATED</span>
+              <div className={styles.navFileInfo}>
+                <FileAudio size={16} />
+                <span className="mono-sm">
+                  {file ? `${file.name} [${(file.size / 1024 / 1024).toFixed(1)}MB]` : 'sample_pitch_deck_q3.wav [48kHz · 24-bit · 18.50s]'}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className={styles.navActions}>
+            <button className={styles.exportBtn} onClick={handleDownloadJson}>
+              <Download size={16} /> Export Telemetry
+            </button>
+            <button className={styles.uploadBtn} onClick={() => fileInputRef.current?.click()}>
+              <Upload size={16} /> Upload Audio
+            </button>
+          </div>
+        </nav>
+
+        {activeRailTab !== "canvas" ? (
+          <main className={styles.mainContent} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+            <div style={{ textAlign: 'center', color: 'var(--muted)' }}>
+              <Settings size={48} style={{ opacity: 0.2, marginBottom: 'var(--s-4)' }} />
+              <h2 className="h2">Under Construction</h2>
+              <p className="body">The {activeRailTab} module is planned for a future update.</p>
+              <button 
+                className={styles.analyzeBtn} 
+                style={{ marginTop: 'var(--s-6)' }}
+                onClick={() => setActiveRailTab('canvas')}
+              >
+                Return to Canvas
+              </button>
+            </div>
+          </main>
+        ) : (
       <main className={styles.mainContent}>
         <div className={styles.heroSection}>
           <h1 className="display-xl">See exactly where your speech goes wrong.</h1>
@@ -439,8 +560,15 @@ export default function App() {
 
         {/* Error message */}
         {error && (
-          <div style={{ backgroundColor: "var(--blush)", padding: "var(--s-4)", borderRadius: "var(--r-md)", color: "var(--bad)", maxWidth: "880px", margin: "0 auto var(--s-6)" }}>
-            <AlertTriangle size={18} style={{ verticalAlign: "middle", marginRight: "8px" }} /> {error}
+          <div style={{ marginBottom: "var(--s-6)" }}>
+            <ErrorBanner error={error} onRetry={handleAnalyze} />
+          </div>
+        )}
+
+        {/* Loading state */}
+        {loading && (
+          <div style={{ marginTop: "var(--s-8)" }}>
+            <LoadingCard />
           </div>
         )}
 
@@ -558,10 +686,12 @@ export default function App() {
           </div>
         )}
       </main>
+      )}
 
       <footer className={styles.footer}>
         Built for the Multimodal AI Hackathon 2026, Track C · SpeechCoach
       </footer>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,66 @@
+.loadingContainer {
+  background-color: var(--card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  padding: var(--s-6);
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+}
+
+.spinnerRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  color: var(--ink);
+}
+
+.spinIcon {
+  animation: spin 1s linear infinite;
+  color: var(--action);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.honestBars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.barWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.barBg {
+  width: 100%;
+  height: 8px;
+  background-color: var(--paper-2);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background-color: var(--mint);
+  border-radius: var(--r-pill);
+  animation: load-bar ease-in-out forwards;
+}
+
+@keyframes load-bar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
