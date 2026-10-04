@@ -17,7 +17,7 @@ from speechcoach.explain.templates import explain
 from speechcoach.scoring.rubric import score
 
 @lru_cache(maxsize=16)
-def load_baseline(baseline_id: str, exclude_speaker: str = None) -> dict:
+def load_baseline(baseline_id: str, exclude_speaker: str | None = None) -> dict:
     """Loads and computes the baseline statistics for a given text ID."""
     ideals = []
     meta_path = Path("dataset/metadata.csv")
@@ -54,7 +54,7 @@ def load_baseline(baseline_id: str, exclude_speaker: str = None) -> dict:
         
     return build_baseline(ideals)
 
-def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = None, mode: str = "auto", exclude_speaker: str = None) -> dict:
+def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = None, mode: str = "auto", exclude_speaker: str | None = None) -> dict:
     """
     Main analysis pipeline.
     """
