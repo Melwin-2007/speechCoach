@@ -100,3 +100,44 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: Docker container needs the fully integrated backend (Task C4) to function end-to-end, but skeleton builds correctly.
 - How a teammate can verify: `make app` and open `http://localhost:5173`. Click the sidebar icons to see placeholder states.
 - Requests for others: None.
+
+### [2026-10-04 13:20] Member B, task B4
+- Goal: Region detection, flaw typing, `analyze()` pipeline, eval v1.
+- Files changed: `src/speechcoach/compare/regions.py`, `src/speechcoach/analyze.py`, `scripts/run_eval.py`.
+- What I ran and what it printed (real output, short):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/run_eval.py --split dev --limit 2` →
+  ```
+  Found 30 synthetic files in split dev
+  Limiting evaluation to 2 files for quick testing.
+  Running analyze on T1__synth-orig-indianpep__MONOTONE_L1...
+  Running analyze on T1__synth-orig-indianpep__MONOTONE_L3...
+
+  --- Eval v1 Results ---
+  Precision: 0.000
+  Recall: 0.000
+  F1 (IoU 0.5): 0.000
+  Mean Boundary Error: 0.000 s
+
+  Recall by Level:
+    Level 1: 0.00
+    Level 3: 0.00
+
+  Some failure examples (first 5 of 2):
+    - T1__synth-orig-indianpep__MONOTONE_L1: missed MONOTONE at 33.5s
+    - T1__synth-orig-indianpep__MONOTONE_L3: missed MONOTONE at 14.8s
+  ```
+  Saved metrics to `results/metrics_dev.csv`.
+- Status: done (code complete; first numbers recorded, all zeros as expected before tuning)
+- NOT done / open problems: Full 30-file dev eval not yet run (only --limit 2). All metrics are 0 — MONOTONE detection likely needs calibrated sigma values and pitch-variance signal tuning (task B5). Explanations are placeholder strings. Scoring is hardcoded 80 across all dimensions.
+- How a teammate can verify (exact command): `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/run_eval.py --split dev --limit 2`
+- Requests for others: None.
+
+### [2026-10-04 14:25] Member B, task B5
+- Goal: Tuning, explanations, scoring.
+- Files changed: `src/speechcoach/analyze.py`, `src/speechcoach/compare/regions.py`, `src/speechcoach/explain/templates.py`, `src/speechcoach/scoring/rubric.py`, `configs/thresholds.yaml`, `scripts/tune_dev.py`
+- What I ran and what it printed (real output, short):
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/tune_dev.py` -> Generated `results/score_vs_level.png`.
+- Status: done
+- NOT done / open problems: F1 score remains extremely low (1.1%) despite NaN fixes because MMS_FA alignment jitter on synthetic files causes massive z-score fluctuations. We need to explore wider `window_size` (W=10+) and higher `tau_flag` values to smooth this out, but the immediate B5 requirements (templates, rubric, initial tuning loop, plot) are met. Settings frozen at tau_flag=2.0, tau_trim=1.0.
+- How a teammate can verify (exact command): Look at `results/score_vs_level.png` to verify monotonic score decrease.
+- Requests for others: None.

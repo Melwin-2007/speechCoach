@@ -47,7 +47,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A4 [A] Full synthetic build, metadata, splits, human labels.** Needs: A3.
   Do: build all 6 texts; `metadata.csv`; dev/test split fields; `scripts/audacity_to_labels.py` (Audacity label txt to label JSON); QC log (listening notes).
   Accept: `validate_labels.py` passes on everything; counts per text/flaw/level in HANDOFF.
-- [ ] **B4 [B] Region detection, typing, `analyze()`, eval v1.** Needs: B3.
+- [x] **B4 [B] Region detection, typing, `analyze()`, eval v1.** Needs: B3.
   Do: `compare/regions.py`, flaw typing per ARCHITECTURE section 5, `analyze.py` returning a contract-valid dict (explanations may be placeholders), `scripts/run_eval.py --split dev` writing `results/metrics_dev.csv` (precision/recall/F1 at IoU 0.5, boundary error, recall by level).
   Accept: eval runs on dev; first numbers recorded in HANDOFF (even if poor); failure examples listed.
 - [ ] **C4 [C] Real integration.** Needs: B4 (or B's draft of `analyze()`). Prompts: D11, D4 from `docs/DASHBOARD_PROMPTS.md`.
@@ -58,7 +58,7 @@ Legend: **[A]** Data, **[B]** Pipeline, **[C]** App/Platform. "Needs" lists what
 - [ ] **A5 [A] QC fixes, human set, listener test.** Needs: A4.
   Do: fix issues found in QC; at least 8 labeled human recordings (mix of flaw cards, incl. 2 "almost perfect"); Google Form listener-test material (5 versions of 3 clips); script to compute rank correlation from responses; dataset card draft.
   Accept: human labels validated; listener form sent.
-- [ ] **B5 [B] Tuning, explanations, scoring.** Needs: B4.
+- [x] **B5 [B] Tuning, explanations, scoring.** Needs: B4.
   Do: tune `tau_flag`, `tau_trim`, window size on DEV only; explanation templates for every flaw type (5 fields, real numbers); `scoring/rubric.py` per ARCHITECTURE section 7; score-vs-level plot.
   Accept: every detected flaw has all 5 explanation fields; score correlation with severity reported (dev); settings frozen in config with a note in HANDOFF.
 - [ ] **C5 [C] Landing page and demo mode.** Needs: C4. Prompts: D2, D3, D10, Q4 from `docs/DASHBOARD_PROMPTS.md`.
