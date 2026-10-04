@@ -21,37 +21,59 @@ Full source provenance and licensing are documented in [`dataset/SOURCES.md`](SO
 
 ---
 
-## 2. Audio Access & Setup
+## 2. Audio Access & Dataset Layout
 
-The canonical WAV audio files are committed directly to branch `a/A1-texts-sources` in `dataset/audio/ideal/`.
+All audio files in the SpeechCoach dataset are standardized to **16 kHz, mono, 16-bit PCM WAV**:
 
-### Cloning or Pulling the Audio
-```bash
-# Fetch and checkout the Member A data branch
-git fetch origin
-git checkout a/A1-texts-sources
-git pull origin a/A1-texts-sources
+### Directory Structure
 ```
-
-All 4 WAV files will be downloaded to `dataset/audio/ideal/` (~23.3 MB total).
+dataset/
+├── audio/
+│   ├── ideal/         # Canonical reference audio (T1-T4, ~23.3 MB)
+│   ├── human/         # Teammate speech recordings (Adi, Krutika, Sagar)
+│   └── synthetic/     # Controlled WORLD flaw audio (PACE_FAST, PACE_SLOW, MONOTONE, VOLUME_DROP)
+├── alignments/        # Forced alignment JSONs (torchaudio MMS_FA word timestamps)
+├── labels/            # Ground-truth flaw annotations and word maps (CONTRACTS §3)
+├── sample/            # Smoke test package (ideal.wav, flawed.wav, label, alignment, transcript)
+├── texts/
+│   ├── T1.txt..T4.txt # Canonical texts
+│   └── takes/         # Spoken transcripts for teammate recordings
+└── metadata.csv       # Master file manifest (CONTRACTS §4)
+```
 
 ---
 
-## 3. How to Load and Inspect Audio in Python
+## 3. Human Teammate Recordings ($T_1$)
+Spoken takes by the team members for multi-speaker evaluation:
+- [`dataset/audio/human/T1__h-adi__ideal.wav`](audio/human/T1__h-adi__ideal.wav) (77.3s, Adi)
+- [`dataset/audio/human/T1__h-krutika__ideal.wav`](audio/human/T1__h-krutika__ideal.wav) (75.9s, Krutika)
+- [`dataset/audio/human/T1__h-sagar__take1.wav`](audio/human/T1__h-sagar__take1.wav) (68.5s, Sagar Take 1)
+- [`dataset/audio/human/T1__h-sagar__take2.wav`](audio/human/T1__h-sagar__take2.wav) (60.3s, Sagar Take 2)
 
-All files are standardized to **16 kHz, mono, 16-bit PCM WAV**:
+---
+
+## 4. Synthetic Benchmark Spectrum ($T_1$ & $T_4$)
+30 calibrated synthetic flaw audio files generated via WORLD vocoder (`pyworld.harvest` + `cheaptrick` + `d4c`) in `dataset/audio/synthetic/`:
+- **Resynth Controls:** `T1__synth-orig-indianpep__resynth_control.wav`, `T4__synth-orig-lincoln__resynth_control.wav`
+- **Pace Variations:** `PACE_FAST` (L1–L5), `PACE_SLOW` (L1, L3, L5)
+- **Pitch Variations:** `MONOTONE` (L1, L3, L5)
+- **Energy Variations:** `VOLUME_DROP` (L1, L3, L5)
+
+---
+
+## 5. How to Load and Inspect Audio in Python
 
 ```python
 import soundfile as sf
+import json
 
-# Load audio samples
+# 1. Load audio samples
 data, sr = sf.read("dataset/audio/ideal/T1__orig-indianpep__ideal.wav")
 print(f"Sample rate: {sr} Hz, Duration: {len(data) / sr:.2f} seconds")
 
-# Load matching transcript
-with open("dataset/texts/T1.txt", "r", encoding="utf-8") as f:
-    text = f.read()
-print(f"Transcript character length: {len(text)}")
+# 2. Load ground-truth label
+with open("dataset/labels/T1__synth-orig-indianpep__PACE_FAST_L3.json", "r", encoding="utf-8") as f:
+    label = json.load(f)
+print(f"Flaws: {label['flaws']}")
 ```
 
-For complete instructions and torchaudio / alignment code snippets, see [`dataset/audio/ideal/README.md`](audio/ideal/README.md).

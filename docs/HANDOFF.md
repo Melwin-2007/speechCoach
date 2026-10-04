@@ -7,7 +7,7 @@ AI assistants forget everything between chats. **This file is their memory.** Re
 - Day: 1
 - Last green tag: none
 - Milestones: M1 (upload shows real flaw regions): [ ]   M2 (demo mode + explanations): [ ]   Freeze (Day 6): [ ]
-- Counts: ideal recordings: 4 | synthetic files: 0 | human flawed: 0
+- Counts: ideal recordings: 4 | synthetic files: 30 | human takes: 4
 - Latest dev metrics (F1@IoU0.5 / Spearman score-vs-level): n/a
 - Biggest risk right now: n/a
 

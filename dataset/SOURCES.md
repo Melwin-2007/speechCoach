@@ -26,3 +26,15 @@ All processed files conform strictly to [CONTRACTS.md §0](file:///c:/Users/Adit
 - **Bit Depth:** 16-bit PCM
 - **Edge Silence:** Trimmed to $\le 1.0\text{ s}$
 - **Target Normalization:** -23 LUFS
+
+## Human Teammate Recordings ($T_1$)
+
+The following human recordings provide multi-speaker benchmark references and human takes for Text $T_1$, spoken by team members:
+
+| File ID | Speaker | Role / Take | Spoken Scope | Audio Path | Transcript Path | Duration | Word Count | License |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| **T1__h-adi__ideal** | Adi (`h-adi`) | Ideal human reference | Sentences 1–19 | `dataset/audio/human/T1__h-adi__ideal.wav` | `dataset/texts/takes/T1__h-adi__ideal.txt` | 77.3s | 167 words | CC0 / Team SpeechCoach |
+| **T1__h-krutika__ideal** | Krutika (`h-krutika`) | Ideal human reference | Sentences 1–19 | `dataset/audio/human/T1__h-krutika__ideal.wav` | `dataset/texts/takes/T1__h-krutika__ideal.txt` | 75.9s | 164 words | CC0 / Team SpeechCoach |
+| **T1__h-sagar__take1** | Sagar (`h-sagar`) | Take 1 | Sentences 1–14 | `dataset/audio/human/T1__h-sagar__take1.wav` | `dataset/texts/takes/T1__h-sagar__take1.txt` | 68.5s | 115 words | CC0 / Team SpeechCoach |
+| **T1__h-sagar__take2** | Sagar (`h-sagar`) | Take 2 | Sentences 1–17 | `dataset/audio/human/T1__h-sagar__take2.wav` | `dataset/texts/takes/T1__h-sagar__take2.txt` | 60.3s | 132 words | CC0 / Team SpeechCoach |
+
