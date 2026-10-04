@@ -64,7 +64,7 @@ def _finite_std(x: np.ndarray) -> float:
     x = x[np.isfinite(x)]
     return float(x.std()) if x.size >= 2 else float("nan")
 
-def window_stats(g: dict, words: list[dict], W: int = 6) -> dict[str, np.ndarray]:
+def window_stats(g: dict, words: list[dict], W: int = 12) -> dict[str, np.ndarray]:
     """
     Compute sliding window statistics over W words.
     

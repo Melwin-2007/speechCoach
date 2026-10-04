@@ -99,8 +99,8 @@ def main():
     best_params = (2.0, 1.5)
     
     # Tuning grid
-    tau_flags = [1.5, 2.0, 2.5]
-    tau_trims = [1.0, 1.5, 2.0]
+    tau_flags = [3.0, 4.0, 5.0, 6.0]
+    tau_trims = [1.5, 2.0, 3.0]
     
     for tf in tau_flags:
         for tt in tau_trims:
