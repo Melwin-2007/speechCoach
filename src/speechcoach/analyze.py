@@ -17,7 +17,7 @@ from speechcoach.explain.templates import explain
 from speechcoach.scoring.rubric import score
 
 @lru_cache(maxsize=16)
-def load_baseline(baseline_id: str) -> dict:
+def load_baseline(baseline_id: str, exclude_speaker: str = None) -> dict:
     """Loads and computes the baseline statistics for a given text ID."""
     ideals = []
     meta_path = Path("dataset/metadata.csv")
@@ -28,6 +28,8 @@ def load_baseline(baseline_id: str) -> dict:
         reader = csv.DictReader(f)
         for row in reader:
             if row['text_id'] == baseline_id and row.get('severity_level', '0') == 'null':
+                if exclude_speaker and row['speaker'] == exclude_speaker:
+                    continue
                 audio_path = row['audio_path']
                 align_path = f"dataset/alignments/{row['file_id']}.json"
                 
@@ -52,7 +54,7 @@ def load_baseline(baseline_id: str) -> dict:
         
     return build_baseline(ideals)
 
-def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = None, mode: str = "auto") -> dict:
+def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = None, mode: str = "auto", exclude_speaker: str = None) -> dict:
     """
     Main analysis pipeline.
     """
@@ -92,7 +94,7 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
         actual_mode = mode
         
     if actual_mode == "reference" and baseline_id:
-        B = load_baseline(baseline_id)
+        B = load_baseline(baseline_id, exclude_speaker=exclude_speaker)
         if not B:
             warnings_list.append(f"No ideals found for baseline {baseline_id}, falling back to empty baseline.")
             B = {k: np.zeros_like(v) for k, v in P.items()}
@@ -104,6 +106,10 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
     raw_signals = signals(P, B)
     z_scores = {k: raw_signals[k] / sigmas.get(k, 1.0) for k in raw_signals}
     
+    if "pause" in z_scores:
+        mask = np.abs(raw_signals["pause"]) < cfg.get("min_pause_diff_s", 0.15)
+        z_scores["pause"][mask] = 0.0
+        
     # Fill word-level z-scores
     for i, w in enumerate(words):
         w["z"] = {
@@ -137,8 +143,17 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
             # Calculate evidence
             start_idx = r["first_word"]
             end_idx = r["last_word"]
-            obs_val = float(np.mean(P[signal_name][start_idx:end_idx+1]))
-            base_val = float(np.mean(B[signal_name][start_idx:end_idx+1]))
+            p_map = {
+                "pace": "win_dur",
+                "pause": "pause_before",
+                "pitch": "f0_std",
+                "energy": "db_mean",
+                "dynamics": "db_std",
+                "clarity": "flux"
+            }
+            p_key = p_map.get(signal_name, signal_name)
+            obs_val = float(np.mean(P[p_key][start_idx:end_idx+1]))
+            base_val = float(np.mean(B[p_key][start_idx:end_idx+1]))
             
             unit_map = {
                 "pace": " log-ratio",

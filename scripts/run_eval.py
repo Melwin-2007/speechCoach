@@ -3,6 +3,7 @@ import sys
 import json
 import argparse
 import csv
+import numpy as np
 from pathlib import Path
 from collections import defaultdict
 
@@ -10,17 +11,35 @@ from collections import defaultdict
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from speechcoach.analyze import analyze
-
-def compute_iou(start1, end1, start2, end2):
-    intersection = max(0, min(end1, end2) - max(start1, start2))
-    union = max(end1, end2) - min(start1, start2)
-    return intersection / union if union > 0 else 0
+from speechcoach.evaluate import match
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", type=str, default="dev", help="Data split to evaluate on")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of files for quick testing")
     args = parser.parse_args()
+    
+    meta_path = Path("dataset/metadata.csv")
+    if not meta_path.exists():
+        print("No metadata found.")
+        return
+        
+    reader_rows = []
+    ideals_by_text = defaultdict(list)
+    with open(meta_path, "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            reader_rows.append(row)
+            if row.get('severity_level', '0') == 'null':
+                ideals_by_text[row["text_id"]].append(row)
+                
+    print("Texts with fewer than 2 other ideals (for LOO):")
+    for text_id, ideals in ideals_by_text.items():
+        speakers = set(row["speaker"] for row in ideals)
+        for spk in speakers:
+            other_ideals = [row for row in ideals if row["speaker"] != spk]
+            if len(other_ideals) < 2:
+                print(f"  {text_id} when excluding {spk}: has {len(other_ideals)} other ideals.")
     
     labels_dir = Path("dataset/labels")
     if not labels_dir.exists():
@@ -31,10 +50,10 @@ def main():
     for p in sorted(labels_dir.glob("*.json")):
         with open(p, "r", encoding="utf-8") as f:
             data = json.load(f)
-        if data.get("split") == args.split and data.get("source") == "synthetic":
+        if data.get("split") == args.split:
             eval_files.append((p, data))
             
-    print(f"Found {len(eval_files)} synthetic files in split {args.split}")
+    print(f"\nFound {len(eval_files)} files in split {args.split}")
     
     if args.limit:
         eval_files = eval_files[:args.limit]
@@ -44,110 +63,141 @@ def main():
         return
 
     # Metrics
-    tp = 0
-    fp = 0
-    fn = 0
-    boundary_errors = []
-    recall_by_level = defaultdict(lambda: {"tp": 0, "fn": 0})
+    total_tp = 0
+    total_fp = 0
+    total_fn = 0
+    start_errors = []
+    end_errors = []
     
-    failures = []
-    os.makedirs("results", exist_ok=True)
+    tp_type = defaultdict(int)
+    fp_type = defaultdict(int)
+    fn_type = defaultdict(int)
+    
+    false_regions_per_min = {}
+    word_durs = []
     
     for label_path, label_data in eval_files:
         file_id = label_data["file_id"]
         text_id = label_data["text_id"]
         
-        audio_path = None
-        with open("dataset/metadata.csv", "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                if row["file_id"] == file_id:
-                    audio_path = row["audio_path"]
-                    break
-                    
-        if not audio_path or not os.path.exists(audio_path):
+        row = next((r for r in reader_rows if r["file_id"] == file_id), None)
+        if not row:
+            continue
+            
+        audio_path = row["audio_path"]
+        variant = row["variant"]
+        speaker = row["speaker"]
+        source = row["source"]
+        
+        if not os.path.exists(audio_path):
             print(f"Audio not found for {file_id}, skipping")
             continue
             
         transcript_path = Path(f"dataset/texts/{text_id}.txt")
         if not transcript_path.exists():
-            print(f"Transcript not found for {text_id}, skipping")
             continue
             
         with open(transcript_path, "r", encoding="utf-8") as f:
             transcript = f.read()
             
-        print(f"Running analyze on {file_id}...")
         try:
-            res = analyze(audio_path, transcript, baseline_id=text_id, mode="reference")
+            res = analyze(audio_path, transcript, baseline_id=text_id, mode="reference", exclude_speaker=speaker)
         except Exception as e:
             print(f"Error analyzing {file_id}: {e}")
             continue
             
         pred_flaws = res.get("flaws", [])
         true_flaws = label_data.get("flaws", [])
-        level = label_data.get("severity_level", 0)
         
-        matched_preds = set()
-        for t in true_flaws:
-            t_start, t_end, t_type = t["start_s"], t["end_s"], t["type"]
-            best_iou = 0
-            best_pred_idx = -1
-            best_pred = None
-            
-            for i, p in enumerate(pred_flaws):
-                if i in matched_preds:
-                    continue
-                if p["type"] != t_type:
-                    continue
-                    
-                iou = compute_iou(t_start, t_end, p["start"], p["end"])
-                if iou > best_iou:
-                    best_iou = iou
-                    best_pred_idx = i
-                    best_pred = p
-                    
-            if best_iou >= 0.5:
-                tp += 1
-                matched_preds.add(best_pred_idx)
-                recall_by_level[level]["tp"] += 1
-                boundary_errors.append(abs(t_start - best_pred["start"]) + abs(t_end - best_pred["end"]))
-            else:
-                fn += 1
-                recall_by_level[level]["fn"] += 1
-                failures.append(f"{file_id}: missed {t_type} at {t_start:.1f}s")
+        duration_s = res["meta"]["duration_s"]
+        
+        for w in res.get("words", []):
+            dur = w["end"] - w["start"]
+            if dur > 0:
+                word_durs.append(dur)
                 
-        fp += len(pred_flaws) - len(matched_preds)
-        
-    precision = tp / (tp + fp) if tp + fp > 0 else 0.0
-    recall = tp / (tp + fn) if tp + fn > 0 else 0.0
-    f1 = 2 * precision * recall / (precision + recall) if precision + recall > 0 else 0.0
-    mean_boundary_err = sum(boundary_errors) / len(boundary_errors) if boundary_errors else 0.0
-    
+        if variant == "ideal" or variant == "resynth_control":
+            frpm = (len(pred_flaws) / duration_s) * 60
+            false_regions_per_min[file_id] = frpm
+            
+        if source == "synthetic" and variant != "resynth_control":
+            tp, fp, fn, matches, matched_preds = match(true_flaws, pred_flaws)
+            total_tp += tp
+            total_fp += fp
+            total_fn += fn
+            
+            for p_idx, p in enumerate(pred_flaws):
+                if p_idx in matched_preds:
+                    tp_type[p["type"]] += 1
+                else:
+                    fp_type[p["type"]] += 1
+                    
+            for t_idx, t in enumerate(true_flaws):
+                is_matched = any(mt == t_idx for mt, mp in matches)
+                if not is_matched:
+                    fn_type[t["type"]] += 1
+                    
+            for t_idx, p_idx in matches:
+                t = true_flaws[t_idx]
+                p = pred_flaws[p_idx]
+                t_start, t_end = t.get("start_s", t.get("start", 0)), t.get("end_s", t.get("end", 0))
+                start_errors.append(abs(t_start - p["start"]))
+                end_errors.append(abs(t_end - p["end"]))
+                
+            for t in true_flaws:
+                t_start, t_end = t.get("start_s", t.get("start", 0)), t.get("end_s", t.get("end", 0))
+                overlaps = 0
+                union_intervals = []
+                for p in pred_flaws:
+                    if p["type"] == t["type"]:
+                        inter_s = max(t_start, p["start"])
+                        inter_e = min(t_end, p["end"])
+                        if inter_e > inter_s:
+                            overlaps += 1
+                            union_intervals.append([inter_s, inter_e])
+                
+                union_intervals.sort()
+                merged = []
+                for interval in union_intervals:
+                    if not merged or merged[-1][1] < interval[0]:
+                        merged.append(interval)
+                    else:
+                        merged[-1][1] = max(merged[-1][1], interval[1])
+                        
+                covered_time = sum(e - s for s, e in merged)
+                t_dur = t_end - t_start
+                frac = covered_time / t_dur if t_dur > 0 else 0.0
+                print(f"[{file_id}] True {t['type']} ({t_start:.1f}-{t_end:.1f}): overlaps={overlaps}, covered={frac:.2f}")
+
     print("\n--- Eval v1 Results ---")
+    print(f"TP: {total_tp}, FP: {total_fp}, FN: {total_fn}")
+    precision = total_tp / (total_tp + total_fp) if total_tp + total_fp > 0 else 0.0
+    recall = total_tp / (total_tp + total_fn) if total_tp + total_fn > 0 else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall > 0 else 0.0
     print(f"Precision: {precision:.3f}")
     print(f"Recall: {recall:.3f}")
     print(f"F1 (IoU 0.5): {f1:.3f}")
-    print(f"Mean Boundary Error: {mean_boundary_err:.3f} s")
     
-    print("\nRecall by Level:")
-    for lvl in sorted(recall_by_level.keys()):
-        stats = recall_by_level[lvl]
-        lvl_rec = stats["tp"] / (stats["tp"] + stats["fn"]) if (stats["tp"] + stats["fn"]) > 0 else 0.0
-        print(f"  Level {lvl}: {lvl_rec:.2f}")
+    mean_start_err = sum(start_errors) / len(start_errors) if start_errors else 0.0
+    mean_end_err = sum(end_errors) / len(end_errors) if end_errors else 0.0
+    print(f"Mean Start Error (matched): {mean_start_err:.3f} s")
+    print(f"Mean End Error (matched): {mean_end_err:.3f} s")
+    
+    print("\nPrecision and Recall per flaw type:")
+    all_types = set(list(tp_type.keys()) + list(fp_type.keys()) + list(fn_type.keys()))
+    for t in sorted(list(all_types)):
+        tp, fp, fn = tp_type[t], fp_type[t], fn_type[t]
+        pr = tp / (tp + fp) if tp + fp > 0 else 0
+        re = tp / (tp + fn) if tp + fn > 0 else 0
+        print(f"  {t}: P={pr:.2f}, R={re:.2f} (TP={tp}, FP={fp}, FN={fn})")
         
-    if failures:
-        print(f"\nSome failure examples (first 5 of {len(failures)}):")
-        for f in failures[:5]:
-            print("  - " + f)
-            
-    csv_path = f"results/metrics_{args.split}.csv"
-    with open(csv_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["split", "precision", "recall", "f1", "mean_boundary_error_s"])
-        writer.writerow([args.split, f"{precision:.4f}", f"{recall:.4f}", f"{f1:.4f}", f"{mean_boundary_err:.4f}"])
+    print("\nFalse regions per minute on ideal and resynth_control:")
+    for fid, frpm in false_regions_per_min.items():
+        print(f"  {fid}: {frpm:.2f} / min")
         
-    print(f"\nSaved metrics to {csv_path}")
+    if word_durs:
+        perc = np.percentile(word_durs, [0, 5, 50])
+        print(f"\nWord-duration percentiles (min, 5th, 50th): {perc}")
 
 if __name__ == "__main__":
     main()

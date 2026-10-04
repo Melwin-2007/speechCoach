@@ -66,7 +66,15 @@ def main():
             other_stats = [v for k, v in items.items() if k != file_id]
             B = build_baseline(other_stats)
             sig = signals(stats, B)
+            
+            n = min(len(stats["pause_before"]), len(B["pause_before"]))
+            p_pause = stats["pause_before"][:n]
+            b_pause = B["pause_before"][:n]
+            pause_mask = (p_pause > 0.05) | (b_pause > 0.05)
+
             for s_name, s_vals in sig.items():
+                if s_name == "pause":
+                    s_vals = s_vals[pause_mask]
                 loo_signals[s_name].extend(s_vals.tolist())
 
     loo_arrays: dict[str, np.ndarray] = {
