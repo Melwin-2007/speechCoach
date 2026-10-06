@@ -1,5 +1,7 @@
 # DASHBOARD_PROMPTS.md: Prompts for building the dashboard (Member C)
 
+> **Updated 2026-10-06.** Progress: D0a, D0, D1, D6, D8, D9a, D9b, D5, D7, D4 (loading/error parts) were delivered in tasks C1-C3 on mock data; D11 (task C4) must be verified with a real upload. Plan-driven additions (apply only after CONTRACTS v1.1 is approved): mode label chip ("Reference mode" / "No-reference mode"), confidence and deviation % on flaw cards, an `unseen` demo, honest processing stages. See section 6 at the end of this file.
+
 This is the prompt library for the **front end** of SpeechCoach. It works with three design files in `docs/design/`: `DESIGN_SYSTEM.md` (look), `MOTION.md` (animation), `COMPONENTS.md` (layouts and specs). The prompts here are short on purpose; the detail lives in those files, so the AI must read them.
 
 Backend prompts (repo scaffold, API, Docker) are in `docs/PROMPTS.md`; this file covers `app/` and the parts of `src/speechcoach/api/` that serve it.
@@ -51,6 +53,8 @@ The original plan names Plotly and the wavesurfer Regions plugin. For a polished
 | 7 | C7 package and deploy | **D16**, **D17**, **Q1** | Live Space, screenshots, design audit table |
 | 8 | C8 bug fixes, doc | **R-prompts** as needed, **Q2**, **Q3** | Fixes from audits; doc page 1 |
 | 9 | C9 video | **V1** | Demo recording and edit |
+
+Re-baseline (2026-10-06, Day 4): rows 1-3 are done on mock data. Today: verify C4/D11 with a real upload and log it. Then D2, D3, D10, Q4 (C5), then D18-D20 once v1.1 is approved. Freeze is Day 6 (2026-10-08): if time is short, drop the bonus prompts and D21 first.
 
 ### 0.6 The UI loop (every task)
 ```
@@ -371,7 +375,7 @@ Acceptance: Print preview looks like a tidy one- or two-page report.
 Task B3: Record tab. Before writing code, ask Member B whether load_audio can decode webm/opus (needs ffmpeg in Docker); if not, stop. Add a third tab "Record" in InputCard using MediaRecorder: permission prompt with a friendly explanation, a round record button with an elapsed timer and a level meter of rounded bars, stop, replay, discard, use recording. Treat the result like an uploaded file (same validation).
 Acceptance: record, review and analyze a 15-second clip on desktop Chrome and on a phone. Handle denied permission gracefully.
 ```
-(A/B playback of baseline and participant needs baseline audio from the API, which is a contract change; skip unless all three members agree.)
+(A/B playback of baseline and participant needs baseline audio from the API, which is a contract change; skip unless all four members agree.)
 
 ---
 
@@ -463,5 +467,33 @@ Do this yourself, no AI needed.
 
 ### V1: Demo recording script (Day 9)
 ```
-Write a 4-minute screen-recording script for the dashboard demo (we are Member C recording the video segment). Use only the real UI states: landing page, uploading a botched recording with its transcript, the loading card, results summary (score ring, radar), clicking a flaw (waveform region, explanation card, "Show the math"), the charts with the crosshair, the word ribbon and transcript, then the almost-perfect sample (what is and isn't caught), then a real human recording. For each step give: what to click, what to say (plain spoken English, no buzzwords, 20-35 words), and how long it takes. Use only facts visible on screen or in docs/design and results/*; mark anything unverified as [TODO]. End with a 20-second closing line pointing to the repo and the dataset.
+Write a 4-minute screen-recording script for the dashboard demo (Member C records the dashboard segment and narrations). Use only the real UI states: landing page, uploading a botched recording with its transcript, the loading card, results summary (score ring, radar), clicking a flaw (waveform region, explanation card, "Show the math"), the charts with the crosshair, the word ribbon and transcript, then the almost-perfect sample (what is and isn't caught), then a real human recording. For each step give: what to click, what to say (plain spoken English, no buzzwords, 20-35 words), and how long it takes. Use only facts visible on screen or in docs/design and results/*; mark anything unverified as [TODO]. End with a 20-second closing line pointing to the repo and the dataset.
+```
+
+---
+## 6. Plan-driven additions (2026-10-06; need CONTRACTS v1.1 approved first)
+
+### D18: Mode label and no-reference explanation (task C5)
+```
+Task D18: Show which mode ran. Sections: COMPONENTS.md sections 4, 9 (results header); CONTRACTS.md section 6 (`meta.mode`, `meta.mode_label`).
+In the InputCard Select, keep Auto-detect / each baseline / Other speech. In ResultsHeader show a small pill with `meta.mode_label`. When `meta.mode === "prior"` also show one plain sentence under the score: "No-reference mode: we compared your delivery with typical good speakers, not with a reading of this exact text, so we only report objective problems." Use the design tokens, no new colours, no icons-in-squares.
+If `mode_label` is missing (old API), derive the label from `meta.mode` in lib/format.js. No analysis math in JS.
+Acceptance: botched/almost/ideal show "Reference mode"; the `unseen` demo shows "No-reference mode" plus the sentence; works at 390px; lint:design passes.
+```
+
+### D19: Confidence and deviation on flaw cards (task C5)
+```
+Task D19: Extend FlawList, ExplanationCard and MathDisclosure with the plan's fields. Each flaw shows type, time range, severity pill, and, when present, confidence (as "Confidence 88%", rounded) and deviation (`evidence.deviation_pct`, e.g. "+43.9% vs reference"). In "Show the math" add rows for observed, baseline, deviation %, z and (if present) confidence. If `confidence` is null or absent, show nothing (no placeholder). Clicking a flaw still jumps the audio to its start (already built in D9a).
+Acceptance: mock flaws with and without confidence both render cleanly; no layout shift; keyboard and screen reader labels include the confidence.
+```
+
+### D20: `unseen` demo preset (tasks C5, D10)
+```
+Task D20: Add an `unseen` preset to scripts/make_mock_result.py (mode "prior", mode_label "No-reference mode", 2 flaws such as PACE_FAST and PAUSE_EXCESS, one warning that the baseline is pooled, emphasis score null). Generate app/public/demo/unseen.json and demo-audio/unseen.wav. Add a fourth sample card ("A new text") only if it fits the design (SampleCards currently has three). Update deep links to accept sample=unseen.
+Acceptance: deterministic output (two runs identical); validator passes; the UI shows the null emphasis dimension as an em dash (already specified in D5).
+```
+
+### D21: Processing stages (task C4/D4, only if the API reports them)
+```
+Task D21: If the API can stream or poll real stages, show them in LoadingCard in order: checking transcript, aligning words, measuring voice, comparing with the baseline, writing explanations. If the API cannot report stages, keep the current honest generic copy. Never show fake percentages. Coordinate with Member B before assuming any endpoint.
 ```

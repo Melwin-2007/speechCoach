@@ -4,20 +4,37 @@ AI assistants forget everything between chats. **This file is their memory.** Re
 
 ---
 ## 1. Current state (humans update this at the evening sync)
-- Day: 1
+- Day: 4 (2026-10-06; Day 1 = 2026-10-03). Submission deadline: [TODO: put the real date here]. Freeze target: Day 6 (2026-10-08).
 - Last green tag: none
-- Milestones: M1 (upload shows real flaw regions): [ ]   M2 (demo mode + explanations): [ ]   Freeze (Day 6): [ ]
-- Counts: ideal recordings: 4 | synthetic files: 30 | human takes: 4
-- Latest dev metrics (F1@IoU0.5 / Spearman score-vs-level): n/a
-- Biggest risk right now: n/a
+- Milestones: M1 (upload shows real flaw regions): [ ] (C4 needs a logged real-upload check)   M2 (demo mode + explanations): [ ]   Freeze (Day 6): [ ]
+- Counts: ideal recordings: 4 (the T1-T4 originals) | synthetic files: 30 | human takes: 4 [verify: no session entry explains these 4]
+- Latest dev metrics (F1@IoU0.5 / Spearman score-vs-level): F1 0.065 (B4b, 2026-10-04, full dev eval); Spearman not yet reported; oracle-alignment F1 not yet measured.
+- Biggest risk right now: (1) detection quality (F1 0.065); (2) human recordings have not started and are the long pole; (3) two days to the planned freeze; (4) licence status of T1-T4 audio before the repo or dataset goes public.
+- Team: 3 members (A Data, B Pipeline, C App).
 
 ## 2. Requests between members
 Format: `[date] FROM -> TO: request. Status: open/done`
 - [2026-10-03] A -> B: 4 ideal recordings prepared (T1 Indian Pep, T2 MLK, T3 Kalam, T4 Lincoln) in `data/interim/` and `dataset/audio/ideal/`. Status: done
+- [2026-10-06] DOCS-SYNC -> B: do B5b first (oracle-alignment vs real-alignment eval, window size, FPR on ideal files), then B5c features, then B6. Mode B and CPU Fallback stay in B6. Use enum `FILLERS`. Status: open
+- [2026-10-06] DOCS-SYNC -> A: finish A3 including FLAT_ENERGY, STRESS_MISSING (full gradient), STRESS_EXAGGERATED (levels 1,3,5), then A4. Add `family`, `speaker`, `speaker_split`, `redistributable` to labels/metadata once v1.1 is approved. Do the licence audit for T1-T4 before the repo is public. Status: open
+- [2026-10-06] DOCS-SYNC -> C: verify C4 with a real upload and write the HANDOFF entry (M1). After v1.1 approval: show `meta.mode_label`, `confidence`, `evidence.deviation_pct`, add the `unseen` demo preset. Status: open
+- [2026-10-06] DOCS-SYNC -> A: start D1 (write T5-T8, roster, recording sheet, consent template) and D2 (pilot). Status: open
+- [2026-10-06] DOCS-SYNC -> ALL: read the v1.1 proposal in section 3 and tick your approval. Status: open
 
 ## 3. Contract change requests
 Format: `[date] who: exact proposed diff to docs/CONTRACTS.md. Approvals: A[ ] B[ ] C[ ]`
 - (none yet)
+- [2026-10-06] DOCS-SYNC (CONTRACTS v1.1 proposal, additive only). Approvals: A[ ] B[ ] C[ ]
+  Proposed diff to `docs/CONTRACTS.md` (see the file, tagged `[v1.1]`):
+  1. `text_id` T1..T8; text split gets a third value `stress` (T7, T8).
+  2. Speaker ids h1..h12; new `speaker_split` (train h1-h8 and orig-*, val h9-h10, test h11-h12); evaluation sets DEV / TEST-TEXT / TEST-SPEAKER / STRESS defined.
+  3. New enum value `STRESS_EXAGGERATED`; new enum "flaw families" (pacing, pausing, pitch, volume, clarity, emphasis); canonical name `FILLERS`.
+  4. Label JSON: required `family` per flaw, `speaker`, `speaker_split`. `metadata.csv`: new columns `flaw_families`, `speaker_split`, `redistributable`.
+  5. `frame_features`: optional extra keys `cent`, `band_ratio`, `dmfcc`.
+  6. AnalysisResult: optional `meta.mode_label`, `flaws[].family`, `flaws[].confidence` (nullable), `flaws[].evidence.deviation_pct`; `scores.dimensions.emphasis` may be null.
+  7. `/demo/{name}` accepts `unseen` (no-reference example).
+  8. Change protocol requires all three members for this change; commit message `contracts: v1.1 plan alignment (approved by A,B,C)`.
+  Impact: A updates label/metadata writers; B emits the new optional fields; C extends pydantic models (optional fields) and the mock generator; nothing breaks if a field is ignored.
 
 ## 4. Decisions log
 Format: `[date] decision: reason`
@@ -26,10 +43,19 @@ Format: `[date] decision: reason`
 - Focused the primary corpus on the 4 user-provided speeches: T1 (Indian Pep Talk), T2 (Martin Luther King Jr.), T3 (Dr. A.P.J. Abdul Kalam), T4 (Abraham Lincoln), providing a 2-2 accent balance (Indian vs American).
 - [2026-10-03] decision: Committed ideal audio files (T1-T4 WAVs, ~23.3 MB) directly to branch a/A1-texts-sources per explicit user instruction so all team members have immediate access to canonical audio.
 - [2026-10-03] decision: Adopted the `app/ui_kit/` design system. Copied to `docs/design/` (DESIGN_SYSTEM.md, COMPONENTS.md, MOTION.md, reference PNGs) and `docs/DASHBOARD_PROMPTS.md`. Frontend tech changed: Plotly.js → custom SVG charts (d3-scale/d3-shape/d3-array), wavesurfer Regions plugin → our own region overlay layer, added CSS Modules + lucide-react + design linter. Updated AGENTS.md (section 3, 5), MEMBER_C_APP.md (guardrail 5-6), TASKS.md (all C tasks now reference design prompts D0a–D17). Reason: polished non-generic look (rounded shapes, custom animation, warm palette, no default blue, smaller bundle).
+- [2026-10-06] DOCS-SYNC: Aligned the doc set with the Track C A-to-Z build plan. Adopted: 3-member team, 8 texts (T1-T4 public speeches + T5-T8 original team texts), six flaw families with emphasis promoted to core, speaker-based split plus text split plus a stress split, stress-test matrix (`docs/STRESS_TESTS.md`), recording protocol (`docs/RECORDING_PROTOCOL.md`), 2-3 s overlapping windows (our W=6 words, about 2-3 s), optional learned window scorer (hybrid), confidence + deviation % in the output, no-reference mode wording, report-time severity mapping to the plan's 0-4 scale. Kept: L1-L5 files, WORLD synthetic gradient, z-score/MAD calibration, deterministic template explanations, 10-day schedule, design system. Reason for keeping: completed work and exact time-map ground truth; the plan states these choices are recommendations, not challenge requirements.
+- [2026-10-06] DOCS-SYNC: Not adopted from the plan (and why): 96 GOOD recordings as a hard target (T1-T4 are 2-4 minute speeches; core target is T5-T8 x available speakers plus teammates on T1-T4), WAV 48 kHz as a requirement (the pipeline resamples to 16 kHz; keep the best original), XGBoost as the main model (kept optional, B6f; rules are what produce the explanations), 20-day schedule (the repo runs on 10 days; stretch only if the real deadline allows).
 
 ## 5. Known issues
 Format: `[date] who: issue, how to reproduce, status`
 - (none yet)
+- [2026-10-06] DOCS-SYNC: `docs/TASKS.md` shows C4 as `[~]`: it was ticked but no session entry exists and the C3 entry says live integration was not done. Re-verify and log.
+- [2026-10-06] DOCS-SYNC: Entry B4b names the detector `FILLER_WORD`; the contract enum is `FILLERS`. Use `FILLERS` everywhere. (Old entry left untouched, append-only rule.)
+- [2026-10-06] DOCS-SYNC: TASKS (before this update) still said T4 = Gitanjali 35 while the 2026-10-03 decision made T4 = Lincoln. TASKS now follows the decision.
+- [2026-10-06] DOCS-SYNC: `tests/test_dataset_prep.py` fails locally per the C2 entry (reported as Member A's). A to reproduce, fix or explain; `make check` cannot be green until then.
+- [2026-10-06] DOCS-SYNC: Dev F1@IoU0.5 = 0.065 is far below a usable level. Hypothesis from the B5 and B4b entries: alignment jitter on synthetic files plus small window. Not proven; B5b measures it.
+- [2026-10-06] DOCS-SYNC: Licence risk. T1-T4 audio (~23 MB) was committed on branch `a/A1-texts-sources`. Check `dataset/SOURCES.md` licences. At least some famous speeches (for example MLK's 1963 speech, held by the King estate) are probably not freely redistributable. Before making the repo or the Hugging Face dataset public: set `redistributable = no` where unclear, keep that audio out, publish a download script plus transcripts and labels instead. Owner: A, decision with the team.
+- [2026-10-06] DOCS-SYNC: A3 status unclear. 30 synthetic files exist but there is no A2/A3 session entry and no `results/gradient_check.png` is mentioned. A to log what exists.
 
 ## 6. Session log (newest at the bottom)
 
@@ -153,3 +179,12 @@ Format: `[date] who: issue, how to reproduce, status`
 - How a teammate can verify (exact command): Run `run_eval.py` to see the improved false-positive rates on T4.
 - Requests for others: Member B needs to implement Mode B, CPU Fallback, and `FILLER_WORD` flaw (see TASKS.md B6).
 
+
+### [2026-10-06] Team (docs sync), task DOC1
+- Goal: Update the whole `docs/` set (roles, ARCHITECTURE, CONTRACTS, FLAW_SPEC, TASKS, PROMPTS, DASHBOARD_PROMPTS, SIMPLE_EXPLANATIONS, PROJECT_BRIEF, this file) to match the Track C A-to-Z build plan, keeping completed work.
+- Files changed: `docs/PROJECT_BRIEF.md`, `docs/ARCHITECTURE.md`, `docs/CONTRACTS.md` (v1.1 proposal, pending approval), `docs/FLAW_SPEC.md`, `docs/TASKS.md`, `docs/HANDOFF.md`, `docs/PROMPTS.md`, `docs/DASHBOARD_PROMPTS.md`, `docs/SIMPLE_EXPLANATIONS.md`, `docs/roles/MEMBER_{A,B,C}_*.md`; new: `docs/RECORDING_PROTOCOL.md`, `docs/STRESS_TESTS.md`, `docs/CHANGES.md`.
+- What I ran and what it printed: nothing in the repo. Documents only; no code, tests or scripts were run. Task ticks were set from the evidence in this file only.
+- Status: done (documents); contract v1.1 NOT yet approved.
+- NOT done / open problems: `AGENTS.md` was not in the zip, so its edits are listed in `docs/CHANGES.md` for a human to apply. All numbers marked `[TODO]` or `(proposed)` need real values from the team.
+- How a teammate can verify: read `docs/CHANGES.md`, then compare TASKS against this log; run `git diff --stat` on the docs commit.
+- Requests for others: see section 2 (dated 2026-10-06).

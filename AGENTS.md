@@ -17,9 +17,10 @@ Details: `docs/PROJECT_BRIEF.md`, `docs/ARCHITECTURE.md`.
 ## 2. Read before you act (every session, in this order)
 1. `docs/CONTRACTS.md` (interfaces, DO NOT break)
 2. Your role file: `docs/roles/MEMBER_<X>.md`
-3. The task the user names in `docs/TASKS.md`
+3. The task the user names in `docs/TASKS.md` (check the TASKS status board)
 4. The latest entries of `docs/HANDOFF.md`
-5. If you are Member C: also read `docs/design/DESIGN_SYSTEM.md`, `docs/design/MOTION.md`, `docs/design/COMPONENTS.md`, and the matching prompt in `docs/DASHBOARD_PROMPTS.md`
+5. Read `docs/STRESS_TESTS.md` and `docs/RECORDING_PROTOCOL.md` where relevant.
+6. If you are Member C: also read `docs/design/DESIGN_SYSTEM.md`, `docs/design/MOTION.md`, `docs/design/COMPONENTS.md`, and the matching prompt in `docs/DASHBOARD_PROMPTS.md`
 
 If any of these is missing or contradicts the user's message, stop and ask.
 
@@ -47,8 +48,8 @@ make app-prod # build + serve on port 7860 (production)
 ## 5. Ownership: only edit your own area
 | Area | Owner | Paths |
 |---|---|---|
-| Data | Member A | `src/speechcoach/dataset/`, `dataset/`, `data/`, `configs/flaws.yaml`, `scripts/prepare_audio.py`, `scripts/validate_labels.py`, `scripts/audacity_to_labels.py`, `scripts/upload_dataset.sh`, `scripts/download_dataset.sh`, `tests/test_dataset*.py` |
-| Pipeline | Member B | `src/speechcoach/{audio,align,features,compare,explain,scoring}/`, `src/speechcoach/analyze.py`, `configs/thresholds.yaml`, `configs/rubric.yaml`, `configs/sigma.json`, `scripts/{calibrate,run_eval,make_plots,plot_features}.py`, `results/`, `notebooks/`, tests for these modules |
+| Data | Member A | `src/speechcoach/dataset/`, `dataset/`, `data/`, `configs/flaws.yaml`, `scripts/prepare_audio.py`, `scripts/validate_labels.py`, `scripts/audacity_to_labels.py`, `scripts/upload_dataset.sh`, `scripts/download_dataset.sh`, `tests/test_dataset*.py`, `dataset/QC_LOG.md`, `dataset/texts/T5-T8.txt`, `docs/{dataset,methodology,scoring,demo}.md`, `docs/technical_document/`, `docs/RECORDING_PROTOCOL.md`, `scripts/make_stress_variants.py`, `dataset/metadata.csv` |
+| Pipeline | Member B | `src/speechcoach/{audio,align,features,compare,explain,scoring}/`, `src/speechcoach/models/`, `src/speechcoach/analyze.py`, `configs/thresholds.yaml`, `configs/rubric.yaml`, `configs/sigma.json`, `scripts/{calibrate,run_eval,make_plots,plot_features}.py`, `scripts/stress_test.py`, `scripts/train_window_model.py`, `results/`, `notebooks/`, tests for these modules |
 | App/Platform | Member C | `src/speechcoach/api/`, `app/`, `docs/design/`, `docs/DASHBOARD_PROMPTS.md`, `scripts/make_mock_result.py`, `Dockerfile`, `Makefile`, `requirements*.txt`, `.gitignore`, `.github/`, `README.md`, `scripts/smoke.sh`, `tests/test_api*.py` |
 | Shared (ask first) | everyone | `AGENTS.md`, `docs/CONTRACTS.md`, `docs/ARCHITECTURE.md`, `docs/FLAW_SPEC.md` |
 | Append-only | everyone | `docs/HANDOFF.md`; in `docs/TASKS.md` only tick your own task |
@@ -68,6 +69,8 @@ If you need a change in someone else's area: do NOT edit it. Write a request in 
 10. **Never run destructive commands:** `rm -rf` on `data/` or `dataset/`, `git reset --hard`, `git push --force`, `git clean -fd`, `git checkout .`. Ask first.
 11. **Task too big?** If it touches more than ~3 files or needs more than ~1.5 hours, split it and do only the first part.
 12. **Stuck after 2 failed attempts? Stop.** Report: what you tried, the exact error, and your top 3 hypotheses. Do not thrash or rewrite everything.
+13. **Splits are by speaker and text**: no clip of one speaker in two speaker splits.
+14. **Canonical enum FILLERS**: use `FILLERS` for filler word flaws.
 
 ## 7. Work loop (every task)
 1. **PLAN:** restate the task in your own words; list files to create/edit; list tests; list risks. Then WAIT for the human to say "go".

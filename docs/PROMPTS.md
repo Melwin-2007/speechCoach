@@ -17,7 +17,7 @@ Read these files fully before anything else, in this order:
 3. <my role file>
 4. The task <TASK_ID> in docs/TASKS.md
 5. The last 3 entries of docs/HANDOFF.md
-Also skim docs/ARCHITECTURE.md and docs/FLAW_SPEC.md if relevant to the task.
+Also skim docs/ARCHITECTURE.md, docs/FLAW_SPEC.md, docs/STRESS_TESTS.md and docs/RECORDING_PROTOCOL.md if relevant to the task. Check docs/TASKS.md status board first: a task marked [~] is unverified.
 
 Task: <TASK_ID> <one-line description>.
 Extra instructions: <anything specific, or "none">.
@@ -136,4 +136,44 @@ Task <ID>. Work ONLY in app/ (and src/speechcoach/api/ if the task says so). Use
 ## P16. Generating synthetic test audio fixtures (any member)
 ```
 Create a helper in tests/fixtures.py that generates (a) a sine wave of given frequency and duration, (b) a "speech-like" signal made of voiced bursts separated by silences of known lengths, (c) a time-stretched version of (b) by a known factor. Deterministic (fixed seed), 16 kHz mono float32, no files written to disk. Add tests proving the helper itself is correct.
+```
+
+---
+## Prompts added from the Track C build plan (2026-10-06)
+
+## P17. Oracle-vs-real alignment diagnosis (Member B, task B5b)
+```
+Task B5b. Our dev F1@IoU0.5 is 0.065 and I do not know why. Do NOT change thresholds yet.
+1. Run the dev evaluation twice: (a) with word times taken from the label files (oracle), (b) with the real aligner. Same configs, same files. Print precision, recall, F1, mean start/end error, recall by level and by flaw family for both.
+2. For 10 missed flaws of level 4-5, print the words, their z-scores per signal and the label region, so we can see whether the signal is weak or the region is lost in merging.
+3. Report the false-positive rate on ideal files (regions per minute, share of files with any region).
+4. Then propose at most 3 changes (window size, tau per family, region trimming), each with the single number it should improve. Tune on DEV only; test sets stay untouched.
+Show real output, not summaries. If oracle F1 is also low, the problem is the detector, not the aligner: say so.
+```
+
+## P18. Dataset QC audit (Member A, task D4)
+```
+You are checking dataset quality. Read docs/RECORDING_PROTOCOL.md section 7, docs/FLAW_SPEC.md section 5 and dataset/metadata.csv.
+List every file where: the file is missing, duration is out of range, sample rate or channels are wrong, the label JSON does not match the file_id, a flaw region is outside the file, words are not monotonic, the speaker appears in two speaker splits, or a text appears in a wrong text split.
+Then give a table per text and per flaw family: files, levels present, missing levels. Output a fix list for Member A. Do not change any file.
+```
+
+## P19. Stress-test report (Member B, task B6/B7)
+```
+Run the stress matrix in docs/STRESS_TESTS.md. For each row S1-S13 write the command, the data used, the real numbers, and PASS/FAIL against the expectation in the table. Use only test sets as the matrix says (TEST sets run once). Save results/stress_*.csv and the plots listed in section 2. For every FAIL write one honest sentence on the likely cause. Do not tune anything after this run.
+```
+
+## P20. Learned window scorer (Member B, task B6f, optional)
+```
+Task B6f. Read docs/ARCHITECTURE.md section 11. Build scripts/train_window_model.py and src/speechcoach/models/: one small tree-based classifier per flaw family on z-signal features only (no raw pitch or loudness). Split by SPEAKER (train, val, test per docs/CONTRACTS.md 0.1), never by clip. Fixed random_state. Choose the threshold on validation speakers. Print rules-only vs hybrid precision/recall/F1 on validation. If hybrid does not win, leave it off and say so. Explanations must still come from measured values, not from the model.
+```
+
+## P21. Recording-session checklist (Member A, tasks D2/D3)
+```
+I am coordinating a recording session. Using docs/RECORDING_PROTOCOL.md, produce a one-page checklist for this session: speaker <hN>, texts <list>, flawed cards <letters or none>. Include: setup checks, the take protocol, the exact file names (file_id format from docs/CONTRACTS.md 0.1), the row to add to the recording sheet for each take, and the backup step. Keep it printable. Do not invent steps that are not in the protocol.
+```
+
+## P22. Listener test analysis (Member A script and form; task D5)
+```
+Write scripts/listener_test.py. Input: a CSV of listener ratings (columns: listener, clip, version, rating 1-5). Output: Spearman correlation between the rating and our severity level (per clip and overall), the number of listeners, and a plot. Use only numpy/pandas/scipy; deterministic; test it with a small made-up CSV in tests/.
 ```

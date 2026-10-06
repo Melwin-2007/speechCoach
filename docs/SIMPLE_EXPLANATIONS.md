@@ -46,6 +46,21 @@ We record "perfect" versions of a speech, then compare YOUR version against them
 - **Member A** creates the data: ideal recordings + deliberately bad recordings with exact timestamps of where the flaws are.
 - **Member B** builds the analyzer: the code that listens to audio and detects problems.
 - **Member C** builds the website and packaging: upload your speech, see the results.
+- **Member A** also keeps the data honest and the story clear: organizes the human recordings, listens to samples to check the labels, runs the listener test, and writes the technical document and video script.
+
+### The six families of mistakes
+The challenge plan groups speech problems into six families. Each of our flaw types belongs to one:
+| Family | What goes wrong | Our flaw types |
+|---|---|---|
+| Pacing | too fast or too slow | PACE_FAST, PACE_SLOW |
+| Pausing | missing, too long, or misplaced pauses (and "uh" fillers) | PAUSE_MISSING, PAUSE_EXCESS, PAUSE_MISPLACED, FILLERS |
+| Pitch / monotony | flat or wobbly voice | MONOTONE, PITCH_ERRATIC |
+| Volume dynamics | too quiet, or no loudness variation | VOLUME_DROP, FLAT_ENERGY |
+| Articulation / clarity | mumbling | CLARITY |
+| Emphasis | key words not stressed, or wrong words over-stressed | STRESS_MISSING, STRESS_EXAGGERATED |
+
+### Hybrid idea: the number explains, the model decides
+The measured difference from a good reading (the z-score) gives the *reason* in plain numbers. An optional small learned model can add a *confidence* that a stretch really is a flaw. The explanation text always comes from the measured numbers, never from the model.
 
 ---
 
@@ -307,7 +322,7 @@ It's like taking a LEGO house apart, swapping some bricks, and rebuilding it.
 Three reasons:
 1. **Exact timestamps for free.** When we speed up words 24-41 by 1.35×, we KNOW exactly where the flaw is because we put it there. No human annotation needed.
 2. **Controlled gradient.** We can make L1 (barely noticeable) through L5 (extremely bad) versions with precise parameter control.
-3. **Scale.** We need ~290 files. Recording and labeling that many by hand would take weeks.
+3. **Scale.** We need about 470 files (about 59 per text across 8 texts). Recording and labeling that many by hand would take weeks.
 
 We ALSO record real human flaws to prove the system works on natural speech, not just synthetic tricks.
 
@@ -341,11 +356,19 @@ This lets us know exactly where each word ends up in the new file.
 ### Composites
 Some real speech problems come in combos: someone who rushes AND goes monotone, or someone who mumbles AND has no dynamics. Composites are synthetic files with 2–3 flaw types layered together.
 
-### Dev split vs Test split
-- **Dev (T1, T2, T4, T5):** Used for development and tuning. You run it many times, adjust thresholds, and improve.
-- **Test (T3, T6):** Used ONCE at the end. You never tune on this data. It proves your system generalizes to new texts it hasn't been optimized for.
+### Splits: by text AND by speaker
+- **Dev texts (T1, T2, T4, T5):** used for development and tuning. You run it many times, adjust thresholds, and improve.
+- **Test texts (T3, T6):** used ONCE at the end. You never tune on them.
+- **Stress texts (T7, T8):** never part of the reference library, so the system must switch to No-reference mode. They test "a speech we have never seen".
+- **Speakers:** h1-h8 (and the historical originals) are training voices, h9-h10 are validation voices (used to choose thresholds), h11-h12 are test voices (used once). We never put clips of the same person in both training and test, because the system could then "recognize the voice" instead of finding the flaw.
 
 If you tune on the test set, you're cheating — your numbers look good but won't hold up on truly new data.
+
+### Severity: our 5 levels vs the plan's 4
+Our files use L1-L5. In the technical document we also report the plan's 0-4 scale: L0 = 0 good, L1 and L2 = 1 subtle, L3 = 2 noticeable, L4 = 3 strong, L5 = 4 extreme.
+
+### Recording real people (Member A)
+Synthetic flaws give exact timestamps, but real people prove the system works on natural speech. A teammate or volunteer reads a text in a quiet room with the phone about 15-20 cm away, with 5 seconds of silence before and 2 after (see `RECORDING_PROTOCOL.md`). Original files are never edited or deleted. Everyone who is recorded agrees that their voice can be published.
 
 ---
 
@@ -403,7 +426,7 @@ Praat is a phonetics software that's been used by linguists for decades. It's ex
 ## 7. The Workflow System
 
 ### Why all these rules?
-When three people use AI coding assistants simultaneously:
+When four people use AI coding assistants simultaneously:
 - Each AI might invent different JSON formats → nothing fits together
 - An AI might "helpfully" rewrite files that were working → breaks other people's code
 - An AI might make tests pass by cheating → bugs hide until demo day
@@ -412,7 +435,7 @@ When three people use AI coding assistants simultaneously:
 The rules prevent all of this.
 
 ### Frozen contracts
-The interfaces between Member A, B, and C are **locked**. The JSON format, function signatures, file names, and enum values cannot change without all 3 members agreeing. This is the #1 most important rule. If A's code outputs a JSON that B's code expects, and someone changes the format, everything breaks.
+The interfaces between Member A, B and C are **locked**. The JSON format, function signatures, file names, and enum values cannot change without all 3 members agreeing. (Proposed additions in v1.1 are tagged in `CONTRACTS.md` until everyone approves.) This is the #1 most important rule. If A's code outputs a JSON that B's code expects, and someone changes the format, everything breaks.
 
 ### Ownership
 Each member can only edit files in their designated folders. If you need a change in someone else's area, you write a request in HANDOFF.md. This prevents conflicting edits and makes it clear who's responsible for what.
@@ -453,11 +476,14 @@ Our explanations (the "why" and "fix" fields) are generated by filling templates
 | **Baseline** | The "expected" values — what a good speaker sounds like, averaged from multiple ideal recordings |
 | **Calibration** | Measuring how much good speakers naturally differ from each other, to know what counts as a real flaw |
 | **CMVN** | Cepstral Mean and Variance Normalization — making MFCCs speaker-independent by subtracting each speaker's average |
+| **Confidence** | Optional number (0-1) saying how sure the system is that a region is a real flaw (from the learned scorer). Empty when only rules are used |
+| **Family (flaw family)** | One of six groups of mistakes: pacing, pausing, pitch, volume, clarity, emphasis |
+| **Held-out speaker** | A voice never used for training or tuning (h11, h12), so the test shows the system works on new people |
 | **Composite flaw** | A synthetic file with 2–3 flaw types combined (e.g., fast AND monotone) |
 | **Contrastive** | Comparing two things side by side — here, "good" vs "bad" versions of the same speech |
 | **dB (decibel)** | A logarithmic unit of loudness. +10 dB sounds about twice as loud |
 | **Deterministic** | Same input always produces exactly the same output. No randomness |
-| **Dev split** | Data used for development and tuning (T1, T2, T4, T5) |
+| **Dev split** | Data used for development and tuning (T1, T2, T4, T5, speakers in train/val) |
 | **F0 (fundamental frequency)** | The pitch of the voice in Hz. Higher F0 = higher-pitched voice |
 | **F1 score** | A combined measure of precision and recall. F1 = 1 means perfect detection |
 | **Feature freeze** | The deadline after which no new features are added (end of Day 6) |
@@ -477,7 +503,8 @@ Our explanations (the "why" and "fix" fields) are generated by filling templates
 | **MAD** | Median Absolute Deviation — a robust measure of spread that isn't fooled by outliers |
 | **MFCC** | Mel-Frequency Cepstral Coefficients — a compact "fingerprint" of a sound's character at each moment. Captures vowel quality, consonant type, etc. |
 | **Mode A (reference)** | Analysis mode when we have ideal recordings of the same text as the participant |
-| **Mode B (prior)** | Analysis mode when we DON'T have matching ideal recordings — uses general statistics about what good speech sounds like |
+| **Mode B (prior)** | Analysis mode when we DON'T have matching ideal recordings — uses general statistics about what good speech sounds like. The dashboard calls it "No-reference mode" |
+| **Oracle alignment** | Using the true word times from the label file instead of the aligner's guess. Comparing results with and without it shows how much error comes from alignment and how much from the detector |
 | **Monotone** | Speaking with very little pitch variation. Sounds robotic or boring |
 | **NaN** | "Not a Number" — used when pitch can't be measured (silence, unvoiced consonants like "s", "f") |
 | **Normalization** | Adjusting values so different speakers can be compared fairly |
@@ -493,12 +520,13 @@ Our explanations (the "why" and "fix" fields) are generated by filling templates
 | **Spectral flux** | How much the sound's frequency content changes from one frame to the next. High flux = crisp articulation. Low flux = mumbling |
 | **Spearman correlation** | A measure of whether two rankings agree. We use it to check if our scores decrease as severity increases |
 | **Temporal grounding** | Pinpointing WHEN in the audio a flaw occurs (start time, end time) |
-| **Test split** | Data used once at the end for final evaluation (T3, T6). Never tune on this |
+| **Test split** | Data used once at the end for final evaluation (texts T3, T6 and test speakers h11-h12). Never tune on this |
 | **Threshold** | A cutoff value. If z > threshold → flag as a flaw. Stored in `configs/thresholds.yaml` |
 | **Unvoiced** | Speech sounds made without vocal cord vibration (like "s", "f", "t", "k"). These have no pitch |
 | **Voiced** | Speech sounds made with vocal cord vibration (all vowels, and consonants like "m", "n", "z"). These have pitch |
 | **Vocoder** | Software that can decompose sound into components and resynthesize it. WORLD is our vocoder |
-| **Window** | A sliding group of 6 consecutive words used to compute local statistics |
+| **Window** | A sliding group of consecutive words (6 plus the centre, about 2-3 seconds of speech) used to compute local statistics; neighbouring windows overlap almost completely |
+| **Stress (emphasis)** | Making key words stand out with a bit more pitch movement, loudness and length |
 | **z-score** | How many sigmas away from the baseline. z=3 means "3× more different than good speakers normally are" |
 
 ---

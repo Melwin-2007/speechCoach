@@ -9,6 +9,7 @@ Audio + transcript
    ├─ audio.load_audio ............ 16 kHz mono, loudness -23 LUFS
    ├─ align.parse_transcript ...... words with raw / norm / punct
    ├─ align.align_words ........... start, end, conf per word (torchaudio MMS_FA)
+   ├─ transcript validation ....... low-conf words / big gaps -> meta.warnings (no ASR dependency; see 1.1)
    │
    ├─ features.frame_features ..... 10 ms grid: f0, st, db, db_rel, flux, mfcc, hnr
    ├─ features.word_table ......... per-word stats + pause_before
@@ -18,6 +19,7 @@ Audio + transcript
    ├─ compare.signals ............. deviation signals (natural units)
    ├─ z = signal / sigma .......... sigma from leave-one-out calibration
    ├─ compare.find_regions ........ flaw regions (word-level, trimmed)
+   ├─ [optional] learned window scorer ... per-family probability -> confidence (see 11)
    │
    ├─ explain.explain ............. 5-part deterministic explanation
    ├─ scoring.score ............... 7 dimension scores + overall
@@ -25,6 +27,17 @@ Audio + transcript
                                          │
                       api (FastAPI) ─────┘───► dashboard (React)
 ```
+
+### 1.1 Mapping to the Track C plan's pipeline
+| Plan step | Our implementation |
+|---|---|
+| ASR / transcript validation | Transcript is user-supplied. Validation = forced-alignment confidence: words with `conf` below `thresholds.yaml: min_conf`, or a mean confidence drop, produce `meta.warnings` ("transcript may not match audio"). A real ASR pass is NOT required (non-goal). |
+| 2-3 s sliding windows with overlap | `window_stats` uses W=6 words, stride 1, centered (7 words, about 2-3 s of speech at 2.5-3 words/s), so neighbouring windows overlap by 6 of 7 words. Same config in calibration and inference. |
+| Speaker normalization | Section 2 (semitones, dB re P95, CMVN). Plan formula `z=(x-mu_spk)/sigma_spk` is the alternative; ours is per-recording because a judge uploads one file. |
+| Flaw-specific detectors | One signal per flaw family (section 4/5) plus the optional learned scorer (section 11). |
+| Temporal smoothing and region merging | `max_gap_words` bridging + trimming (section 5). |
+| Severity + confidence | Severity from mean |z| (section 5); confidence from section 11 (v1.1). |
+| Causal explanation, dashboard overlay | Sections 6 and CONTRACTS 6. |
 
 Dataset side (Member A) runs separately:
 ```
@@ -61,6 +74,21 @@ clarity   = log(P.flux / B.flux)            # <0 less articulation movement
 **Calibration (leave-one-out):** for each ideal recording, compute its signals against the baseline built from the OTHER ideals of the same text. Pool all values per signal across all texts. `sigma = max(1.4826 * MAD(values), sigma_floor[signal])`. Saved to `configs/sigma.json`. Then `z = signal / sigma`.
 Meaning: z = 3 means "3x more different from baseline than two good speakers normally are from each other".
 
+### 4.1 Flaw families (plan terms) and our signals
+| Family (plan) | Flaw types | Signal | Dimension |
+|---|---|---|---|
+| Pacing | PACE_FAST, PACE_SLOW | pace | pacing |
+| Pausing | PAUSE_MISSING, PAUSE_EXCESS, PAUSE_MISPLACED, (FILLERS counted in fluency) | pause, filled-pause detector | pausing, fluency |
+| Monotony / pitch variation | MONOTONE, PITCH_ERRATIC | pitch | pitch |
+| Volume dynamics | VOLUME_DROP, FLAT_ENERGY | energy, dynamics | energy |
+| Articulation / clarity | CLARITY | clarity | clarity |
+| Emphasis / stress | STRESS_MISSING, STRESS_EXAGGERATED | emphasis (4.2) | emphasis |
+
+A large deviation is evidence ONLY for the family it is causally tied to (e.g. a pace deviation is never reported as MONOTONE). Composite files test that causes stay separated.
+
+### 4.2 Emphasis signal [v1.1 PROPOSED, implement after B5b]
+Per word: `stress_i = mean(zr(st_peak_i), zr(db_peak_i), zr(dur_i))`, where `zr` is the within-recording z-score of the word's pitch peak (semitones), loudness peak (dB re P95) and duration. Baseline stress per word = mean over ideals. Key words of a text = words whose baseline stress is in the top 15%. `emphasis = P.stress - B.stress`. Negative on key words = STRESS_MISSING; positive on non-key words = STRESS_EXAGGERATED. Thresholds in `thresholds.yaml`. Until implemented, the emphasis dimension score is reported as null with a warning, not as a fake number.
+
 ## 5. Flaw regions
 Per signal and sign (+/-): flag word if `sign*z > tau_flag`; bridge gaps of `max_gap_words`; group consecutive flagged words; trim ends where `sign*z < tau_trim`; keep if `>= min_region_words` words AND `>= min_region_s` seconds (pause and filler events are exempt: single events allowed). All thresholds in `configs/thresholds.yaml`.
 `severity = clip((mean|z| - 1.5) / 4.5, 0, 1)`. Bands: minor `|z|>=2`, moderate `>=3`, major `>=4.5`.
@@ -86,7 +114,7 @@ Per word per dimension: `p = clip((|z| - z_free) / (z_max - z_free), 0, 1)` (`z_
 ## 8. Modes
 - **Mode A (reference):** transcript matches a library text; baseline from that text's ideals.
 - **Mode B (prior):** no matching text; baseline dynamically synthesized from global statistics (e.g., character-length duration estimates, punctuation-based pause rules, global flat medians for pitch/energy). Uses wider `tau` thresholds. It evaluates objective mistakes (`PACE_FAST`, `PACE_SLOW`, `MONOTONE`, `PAUSE_EXCESS`, `CLARITY`, `FILLERS`) but ignores artistic flaws (`PAUSE_MISPLACED`, `VOLUME_DROP`) to prevent false positives.
-The result JSON always states which mode ran. If `aligner` causes CUDA OOM on long files in either mode, it automatically triggers a CPU Fallback to ensure completion.
+The dashboard calls Mode B "No-reference mode" and states in plain words that the baseline is pooled, not text-specific. If alignment confidence is low in Mode B, report fewer flaw types and say so in `meta.warnings`. The result JSON always states which mode ran. If `aligner` causes CUDA OOM on long files in either mode, it automatically triggers a CPU Fallback to ensure completion.
 
 ## 9. Flaw engine principles (Member A)
 1. Analyze each ideal once with WORLD (`harvest`, `cheaptrick`, `d4c`, 16 kHz, 5 ms), cache as `.npz`.
@@ -97,7 +125,19 @@ The result JSON always states which mode ran. If `aligner` causes CUDA OOM on lo
 6. Seed per file = `seed + stable_hash(file_id)`. Never normalize loudness after injecting VOLUME_DROP.
 
 ## 10. Quality gates (what "working" means)
+Evaluation sets (fixed in CONTRACTS 0.1): DEV = dev texts x train/val speakers (tuning allowed); TEST-TEXT = T3, T6; TEST-SPEAKER = speakers h11, h12 on dev texts; STRESS = T7, T8 (unseen text, forced Mode B), composites, noise, loudness changes. TEST sets are run ONCE after freeze of thresholds.
 - Region detection on synthetic dev set: F1 at IoU>=0.5 high for L3-L5, honestly lower for L1-L2.
 - Score decreases monotonically with severity level (Spearman correlation reported).
 - Running the pipeline twice gives byte-identical JSON.
+- False-positive rate on ideal (GOOD) files, including unseen speakers: reported as flagged regions per minute and share of ideal files with any region at all. Target (adjust with the team): <= 1 region/min.
+- Detection with ORACLE word times (label times instead of the aligner) is reported next to detection with real alignment, so alignment error and detector error are separated.
+- Severity vs measured deviation plot per flaw (`results/gradient_check.png`) and flaw-type confusion matrix; ROC/PR per family only if the learned scorer exists.
 - Alignment on flawed files matches the ground-truth time map within tens of milliseconds (median).
+
+## 11. Optional learned layer (hybrid, [v1.1 PROPOSED], task B6f)
+Purpose: the z-score rules decide with fixed thresholds; a small model can learn which windows really are flawed and give a `confidence`. It never replaces the explanation: reasons and numbers always come from the measured signals (section 6).
+- Input per word window: the z-signals (pace, pause, pitch, energy, dynamics, clarity, emphasis), their window means, neighbours at +-1 word, and mode flag. NO raw absolute pitch or loudness.
+- Model: one light tree-based classifier per family (XGBoost or sklearn `GradientBoostingClassifier`; sklearn is acceptable if XGBoost is awkward on CPU), fixed `random_state`, labels from `labels/*.json` (word inside a flaw region of that family, severity as optional regression target).
+- Training data: synthetic + human files of TRAIN speakers on DEV texts only. Splits grouped by speaker (never random clips). Validation speakers (h9, h10) choose thresholds. Test speakers/texts are touched once.
+- Use: `confidence = p_family` for each merged region; a region is kept if rule evidence passes AND `p >= p_min` (from `thresholds.yaml`), or if rule evidence is very strong (|z| >= tau_override). Report the rules-only and hybrid F1 side by side; keep whichever is better on validation and say so honestly.
+- Fallback: if the model file is missing, `analyze()` runs rules-only and sets `confidence = null`. Output stays deterministic (fixed seed, saved model).

@@ -3,6 +3,8 @@
 ## Mission
 Own the **dashboard** (15% of the score), the **API**, and **reproducibility and code quality** (10%): repo scaffolding, Makefile, Docker, deployment, README, smoke tests, and final assembly of the technical document and video.
 
+**Status (2026-10-06, Day 4):** C1, C2, C3 done on mock data (design system, charts, waveform, flaw list, explanation card, score/radar, loading/error, pydantic models, Docker skeleton). C4 (real integration, milestone M1) is ticked in TASKS but has no HANDOFF entry: verify it with a real upload before building on it. Next: C5 (landing + demo mode), plus the v1.1 UI additions below once the contract change is approved.
+
 ## You own (edit freely)
 `src/speechcoach/api/`, `app/`, `docs/design/`, `docs/DASHBOARD_PROMPTS.md`, `scripts/make_mock_result.py`, `Dockerfile`, `Makefile`, `requirements*.txt`, `.gitignore`, `.github/`, `README.md`, `scripts/smoke.sh`, `tests/test_api*.py`.
 
@@ -21,6 +23,7 @@ Own the **dashboard** (15% of the score), the **API**, and **reproducibility and
 - From the design system: `docs/design/` (DESIGN_SYSTEM.md, MOTION.md, COMPONENTS.md, reference PNGs) and `docs/DASHBOARD_PROMPTS.md` — the complete visual spec and prompt library for building the frontend.
 - From B: `analyze()` (CONTRACTS section 5/6). Until it lands (target end of Day 4), the API returns `app/public/mock_result.json`.
 - From A: `dataset/sample/` and 3 demo clips (Day 5).
+- To D: screenshots and a running URL for the documentation and video; the README skeleton that D fills with the `docs/*.md` links.
 - To everyone: a repo that installs and passes `make check` on any teammate's machine, a Docker image, a live URL, README.
 
 ## Technical guardrails
@@ -39,6 +42,11 @@ Own the **dashboard** (15% of the score), the **API**, and **reproducibility and
    8. bonus (only before Day 6 freeze, only if everything above is done): severity filter, A/B playback, PDF/JSON export.
 6. Styling: CSS Modules + design tokens from `docs/design/DESIGN_SYSTEM.md` section 4.4. One colour per flaw dimension with a legend; icons from lucide-react only; units on every axis; plain-English labels ("Pitch variation", not "f0_std"); works at phone width. No blue/purple (hue 190–320°), no gradients, no square corners (min radius 8 px).
 7. Dockerfile: multi-stage (build frontend, then Python runtime with CUDA support), torch 2.5.1+cu124 GPU, bake the MMS_FA model into the image, FastAPI serves the built frontend, port 7860 (Hugging Face Spaces).
+   Plan-driven UI requirements (the challenge scores clarity of the time-series and explanations):
+   - Mode indicator on the input card and the results header: show `meta.mode_label` ("Reference mode" / "No-reference mode"); for No-reference mode add one plain sentence that the baseline is pooled from many good speakers, not from this text.
+   - Processing screen lists the real stages in order (checking transcript, aligning words, measuring voice, comparing with baseline, writing explanations) only if the API can report them; otherwise keep honest generic copy. Never fake percentages.
+   - Flaw card/explanation shows flaw type, time range, severity, **confidence when present**, observed value, baseline value, deviation (`evidence.deviation_pct` and z) and the five-field explanation; clicking a flaw jumps the audio to that region (already in D9a).
+   - Timeline overlay: participant line, baseline band, highlighted regions on one time axis (already in D8).
 8. `make check` = pytest + `scripts/smoke.sh` (runs `analyze()` on `dataset/sample/` and validates the JSON against the pydantic models). Keep it under ~2 minutes.
 9. Dependencies: you are the only one who edits `requirements.txt`. Pin exact versions. After things work run `pip freeze > requirements.lock.txt`.
 10. README must contain: what it is, 1-command run (Docker and local), dataset link, folder map, how to reproduce evaluation, troubleshooting, credits/licenses.
