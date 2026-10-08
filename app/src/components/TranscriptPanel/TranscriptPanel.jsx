@@ -2,19 +2,6 @@ import React from "react";
 import { wordBand, fmtTime } from "../../lib/format";
 import styles from "./TranscriptPanel.module.css";
 
-const BAND_BG_COLORS = {
-  fine: "transparent",
-  minor: "var(--butter)",
-  moderate: "var(--tangerine)",
-  major: "var(--blush)",
-};
-
-const BAND_TEXT_COLORS = {
-  fine: "var(--ink)",
-  minor: "var(--ink)",
-  moderate: "var(--ink)",
-  major: "var(--bad)",
-};
 
 export default function TranscriptPanel({
   words = [],
@@ -24,45 +11,65 @@ export default function TranscriptPanel({
 }) {
   if (!words || words.length === 0) return null;
 
+  // Group words into phrases by breaking after punctuation.
+  const phrases = [];
+  let currentPhrase = [];
+  
+  words.forEach((word) => {
+    currentPhrase.push(word);
+    // Break phrase on punctuation to create "lyric lines"
+    if (word.punct && word.punct.match(/[.,?!;:]/)) {
+      phrases.push(currentPhrase);
+      currentPhrase = [];
+    }
+  });
+  if (currentPhrase.length > 0) phrases.push(currentPhrase);
+
   return (
     <div className={styles.transcriptCard}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Spoken Transcript Alignment</h2>
+        <h2 className={styles.title}>Spoken Transcript</h2>
         <span className={styles.subtitle}>
-          Tokens are shaded by acoustic deviation. Click any word to listen to its pronunciation.
+          Click a word to hear its delivery. Flaws are underlined.
         </span>
       </div>
 
-      <div className={styles.wordFlow}>
-        {words.map((word) => {
-          const band = wordBand(word.z);
-          const isCurrentlyPlaying =
-            currentTime >= word.start && currentTime <= word.end;
-          const isInsideSelectedFlaw =
-            selectedFlaw &&
-            word.i >= selectedFlaw.first_word &&
-            word.i <= selectedFlaw.last_word;
+      <div className={styles.lyricsContainer}>
+        {phrases.map((phrase, pIdx) => (
+          <div key={pIdx} className={styles.phrase}>
+            {phrase.map((word) => {
+              const band = wordBand(word.z);
+              const isCurrentlyPlaying =
+                currentTime >= word.start && currentTime <= word.end;
+              const isInsideSelectedFlaw =
+                selectedFlaw &&
+                word.i >= selectedFlaw.first_word &&
+                word.i <= selectedFlaw.last_word;
 
-          return (
-            <span
-              key={word.i}
-              className={`
-                ${styles.wordSpan}
-                ${isCurrentlyPlaying ? styles.wordPlaying : ""}
-                ${isInsideSelectedFlaw ? styles.wordInsideFlaw : ""}
-              `}
-              style={{
-                backgroundColor: BAND_BG_COLORS[band],
-                color: BAND_TEXT_COLORS[band],
-              }}
-              onClick={() => onWordClick && onWordClick(word)}
-              title={`${word.w}: ${fmtTime(word.start)} – ${fmtTime(word.end)} (${band})`}
-            >
-              {word.w}
-              {word.punct || " "}
-            </span>
-          );
-        })}
+              let flawClass = "";
+              if (band === "minor") flawClass = styles.flawMinor;
+              else if (band === "moderate") flawClass = styles.flawModerate;
+              else if (band === "major") flawClass = styles.flawMajor;
+
+              return (
+                <span
+                  key={word.i}
+                  className={`
+                    ${styles.wordSpan}
+                    ${isCurrentlyPlaying ? styles.wordPlaying : ""}
+                    ${isInsideSelectedFlaw ? styles.wordInsideFlaw : ""}
+                    ${flawClass}
+                  `}
+                  onClick={() => onWordClick && onWordClick(word)}
+                  title={`${word.w}: ${fmtTime(word.start)} – ${fmtTime(word.end)} (${band})`}
+                >
+                  {word.w}
+                  {word.punct || ""}
+                </span>
+              );
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -3,17 +3,10 @@ import { wordBand, fmtTime, fmtNum } from "../../lib/format";
 import styles from "./WordRibbon.module.css";
 
 const BAND_COLORS = {
-  fine: "var(--ok)",
-  minor: "var(--butter)",
-  moderate: "var(--tangerine)",
-  major: "var(--bad)",
-};
-
-const BAND_BG_COLORS = {
-  fine: "var(--mint)",
-  minor: "var(--butter)",
-  moderate: "var(--tangerine)",
-  major: "var(--blush)",
+  fine: "var(--sev-0)",
+  minor: "var(--sev-1)",
+  moderate: "var(--sev-2)",
+  major: "var(--sev-4)",
 };
 
 export default function WordRibbon({
@@ -29,19 +22,19 @@ export default function WordRibbon({
   return (
     <div className={styles.ribbonContainer}>
       <div className={styles.headerRow}>
-        <span className={styles.label}>Word Alignment & Acoustic Alignment Ribbon</span>
+        <span className={styles.label}>Acoustic Deviation Pulse</span>
         <div className={styles.legend}>
           <span className={styles.legendItem}>
-            <span className={styles.swatch} style={{ backgroundColor: "var(--mint)" }} /> Fine (|z| &lt; 2)
+            <span className={styles.swatch} style={{ backgroundColor: "var(--sev-0)" }} /> Fine
           </span>
           <span className={styles.legendItem}>
-            <span className={styles.swatch} style={{ backgroundColor: "var(--butter)" }} /> Minor (z ≥ 2)
+            <span className={styles.swatch} style={{ backgroundColor: "var(--sev-1)" }} /> Minor
           </span>
           <span className={styles.legendItem}>
-            <span className={styles.swatch} style={{ backgroundColor: "var(--tangerine)" }} /> Moderate (z ≥ 3)
+            <span className={styles.swatch} style={{ backgroundColor: "var(--sev-2)" }} /> Moderate
           </span>
           <span className={styles.legendItem}>
-            <span className={styles.swatch} style={{ backgroundColor: "var(--blush)", border: "1px solid var(--bad)" }} /> Major (z ≥ 4.5)
+            <span className={styles.swatch} style={{ backgroundColor: "var(--sev-4)" }} /> Major
           </span>
         </div>
       </div>
@@ -52,43 +45,55 @@ export default function WordRibbon({
             <span className={styles.tooltipWord}>"{hoveredWord.w}{hoveredWord.punct || ""}"</span>
             <span className="mono-sm">{fmtTime(hoveredWord.start)} – {fmtTime(hoveredWord.end)}</span>
             {hoveredWord.z && (
-              <span className="small" style={{ color: "var(--ink-2)" }}>
+              <span className="small" style={{ color: "var(--muted)", fontWeight: 500 }}>
                 Pace: {fmtNum(hoveredWord.z.pace, 1)} · Pitch: {fmtNum(hoveredWord.z.pitch, 1)} · Energy: {fmtNum(hoveredWord.z.energy, 1)}
               </span>
             )}
           </div>
         ) : (
-          <div className={styles.wordTooltipPlaceholder}>Hover over a word block to see details</div>
+          <div className={styles.wordTooltipPlaceholder}>Hover over a pulse block to see acoustic metrics</div>
         )}
       </div>
 
-      <div className={styles.track}>
-        {words.map((word) => {
-          const band = wordBand(word.z);
-          const leftPct = Math.max(0, (word.start / duration) * 100);
-          const widthPct = Math.max(0.3, ((word.end - word.start) / duration) * 100);
-          const isInsideSelectedFlaw =
-            selectedFlaw &&
-            word.i >= selectedFlaw.first_word &&
-            word.i <= selectedFlaw.last_word;
+      <div className={styles.trackWrapper}>
+        <div className={styles.track}>
+          {words.map((word) => {
+            const band = wordBand(word.z);
+            const leftPct = Math.max(0, (word.start / duration) * 100);
+            
+            // Ensure minimum visual width so tiny words aren't invisible
+            const rawWidth = ((word.end - word.start) / duration) * 100;
+            const widthPct = Math.max(0.2, rawWidth); 
+            
+            const isInsideSelectedFlaw =
+              selectedFlaw &&
+              word.i >= selectedFlaw.first_word &&
+              word.i <= selectedFlaw.last_word;
 
-          return (
-            <div
-              key={word.i}
-              className={`${styles.wordBlock} ${isInsideSelectedFlaw ? styles.wordInsideFlaw : ""}`}
-              style={{
-                left: `${leftPct}%`,
-                width: `${widthPct}%`,
-                backgroundColor: BAND_BG_COLORS[band] || "var(--mint)",
-                borderColor: BAND_COLORS[band] || "var(--ok)",
-              }}
-              onMouseEnter={() => setHoveredWord(word)}
-              onMouseLeave={() => setHoveredWord(null)}
-              onClick={() => onSelectWord && onSelectWord(word)}
-              title={`${word.w}: ${fmtTime(word.start)} – ${fmtTime(word.end)} (${band})`}
-            />
-          );
-        })}
+            // Height indicates severity
+            let heightPct = "24%";
+            if (band === "minor") heightPct = "45%";
+            else if (band === "moderate") heightPct = "75%";
+            else if (band === "major") heightPct = "100%";
+
+            return (
+              <div
+                key={word.i}
+                className={`${styles.wordBlock} ${isInsideSelectedFlaw ? styles.wordInsideFlaw : ""}`}
+                style={{
+                  left: `${leftPct}%`,
+                  width: `${widthPct}%`,
+                  height: heightPct,
+                  backgroundColor: BAND_COLORS[band] || "var(--sev-0)",
+                }}
+                onMouseEnter={() => setHoveredWord(word)}
+                onMouseLeave={() => setHoveredWord(null)}
+                onClick={() => onSelectWord && onSelectWord(word)}
+                title={`${word.w}: ${fmtTime(word.start)} – ${fmtTime(word.end)} (${band})`}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
