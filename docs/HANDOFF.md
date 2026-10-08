@@ -188,3 +188,12 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: `AGENTS.md` was not in the zip, so its edits are listed in `docs/CHANGES.md` for a human to apply. All numbers marked `[TODO]` or `(proposed)` need real values from the team.
 - How a teammate can verify: read `docs/CHANGES.md`, then compare TASKS against this log; run `git diff --stat` on the docs commit.
 - Requests for others: see section 2 (dated 2026-10-06).
+
+### [2026-10-08] Member C, task C5
+- Goal: Landing page and demo mode.
+- Files changed: `app/src/components/TypewriterHero/TypewriterHero.module.css` (fixed design lint) and other UI components.
+- What I ran and what it printed: `npm run lint:design` -> ✅ Design Linter: All design system checks passed!
+- Status: done
+- NOT done / open problems: None.
+- How a teammate can verify: `make app` and visit `http://localhost:5173/`.
+- Requests for others: None.
