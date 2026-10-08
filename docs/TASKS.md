@@ -118,7 +118,7 @@ These tasks are new. Day numbers are targets; tasks marked M are on the critical
 - [x] **B5 [B] Tuning, explanations, scoring.** Needs: B4.
   Do: tune `tau_flag`, `tau_trim`, window size on DEV only; explanation templates for every flaw type (5 fields, real numbers); `scoring/rubric.py` per ARCHITECTURE section 7; score-vs-level plot.
   Accept: every detected flaw has all 5 explanation fields; score correlation with severity reported (dev); settings frozen in config with a note in HANDOFF.
-- [ ] **C5 [C] Landing page and demo mode.** Needs: C4. Prompts: D2, D3, D10, Q4 from `docs/DASHBOARD_PROMPTS.md`.
+- [x] **C5 [C] Landing page and demo mode.** Needs: C4. Prompts: D2, D3, D10, Q4 from `docs/DASHBOARD_PROMPTS.md`.
   Do: Landing hero and InputCard (segmented tabs, drop zone, custom Select, validation), HeroBanner (animated waveform bars, floating chips, caption), SampleCards (3 demo entry points), "How it works" section, Footer, demo mode end-to-end (`/demo/{name}` + `/demo-audio/{name}.wav`), deep links (`#/results?sample=botched`).
   Accept: demo buttons work without any upload; stranger test (Q4) passes; landing page matches the Maestra/Clideo reference family. **Milestone M2.**
 

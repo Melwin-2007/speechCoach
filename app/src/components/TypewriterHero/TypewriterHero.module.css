@@ -47,8 +47,8 @@
   left: 100%;
   width: 3px;
   margin-left: 1px;
-  background: linear-gradient(to bottom, var(--c-pitch), var(--butter));
-  border-radius: 2px;
+  background: var(--c-pitch);
+  border-radius: 8px;
   animation: blink 0.8s step-start infinite;
   z-index: 2;
 }
