@@ -104,17 +104,15 @@ def main():
     # Track the flaws we generate
     flaws_data = []
     
-    # Map Text IDs to flaw types for deterministic generation
-    flaw_map = {
-        "T01": ("PACE_FAST", apply_pace_fast),
-        "T02": ("PACE_SLOW", apply_pace_slow),
-        "T03": ("PAUSE_EXCESS", apply_pause_excess),
-        "T04": ("MONOTONE", apply_monotone),
-        "T05": ("VOLUME_DROP", apply_volume_drop),
-        "T06": ("CLARITY", apply_clarity),
-        "T07": ("PACE_FAST", apply_pace_fast),
-        "T08": ("MONOTONE", apply_monotone)
-    }
+    # All available flaws
+    all_flaws = [
+        ("PACE_FAST", apply_pace_fast),
+        ("PACE_SLOW", apply_pace_slow),
+        ("PAUSE_EXCESS", apply_pause_excess),
+        ("MONOTONE", apply_monotone),
+        ("VOLUME_DROP", apply_volume_drop),
+        ("CLARITY", apply_clarity)
+    ]
     
     with open(recordings_csv_path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
@@ -132,37 +130,45 @@ def main():
         if not audio_path.exists():
             continue
             
-        if text_id not in flaw_map:
-            continue
-            
-        flaw_type, flaw_func = flaw_map[text_id]
-        
-        print(f"Applying {flaw_type} to {file_id}...")
         y, sr = librosa.load(audio_path, sr=16000, mono=True)
+        max_time = len(y) / sr
         
-        start_t = 10.0 if flaw_type == "PAUSE_EXCESS" else 5.0
-        y_new, flaw_start, flaw_end = flaw_func(y, sr, start_t, 15.0)
+        for flaw_type, flaw_func in all_flaws:
+            print(f"Applying {flaw_type} to {file_id}...")
             
-        # Create output directory for this speaker
-        out_speaker_dir = raw_flawed_dir / speaker_id
-        out_speaker_dir.mkdir(exist_ok=True)
-        
-        # Generate new file ID and save
-        new_file_id = file_id.replace("_GOOD", f"_{flaw_type}")
-        out_path = out_speaker_dir / f"{new_file_id}.wav"
-        
-        sf.write(out_path, y_new, sr)
-        
-        # Log the flaw
-        flaws_data.append({
-            "file_id": new_file_id,
-            "speaker_id": speaker_id,
-            "text_id": text_id,
-            "flaw_type": flaw_type,
-            "start_time": round(flaw_start, 3),
-            "end_time": round(flaw_end, 3),
-            "severity": np.random.randint(2, 5) # Random severity 2, 3, or 4
-        })
+            # Randomize timestamps: start anywhere from 2s up to max_time - 8s
+            if max_time > 10.0:
+                start_t = float(np.random.uniform(2.0, max_time - 8.0))
+            else:
+                start_t = 1.0
+                
+            end_t = start_t + float(np.random.uniform(4.0, 8.0)) # Flaw lasts 4-8 seconds
+            
+            if flaw_type == "PAUSE_EXCESS":
+                y_new, flaw_start, flaw_end = flaw_func(y, sr, start_t, end_t)
+            else:
+                y_new, flaw_start, flaw_end = flaw_func(y, sr, start_t, end_t)
+            
+            # Create output directory for this speaker
+            out_speaker_dir = raw_flawed_dir / speaker_id
+            out_speaker_dir.mkdir(exist_ok=True)
+            
+            # Generate new file ID and save
+            new_file_id = file_id.replace("_GOOD", f"_{flaw_type}")
+            out_path = out_speaker_dir / f"{new_file_id}.wav"
+            
+            sf.write(out_path, y_new, sr)
+            
+            # Log the flaw
+            flaws_data.append({
+                "file_id": new_file_id,
+                "speaker_id": speaker_id,
+                "text_id": text_id,
+                "flaw_type": flaw_type,
+                "start_time": round(flaw_start, 3),
+                "end_time": round(flaw_end, 3),
+                "severity": np.random.randint(2, 5) # Random severity 2, 3, or 4
+            })
         
     # Write to flaws.csv
     file_exists = flaws_csv_path.exists()
