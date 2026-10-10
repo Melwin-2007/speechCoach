@@ -39,7 +39,7 @@ def main():
         variant = row["variant"]
         file_id = row["file_id"]
         text_id = row["text_id"]
-        audio_path = row["audio_path"]
+        audio_path = f"dataset/raw/{row.get('quality', 'GOOD').lower()}/{row['speaker_id']}/{row['file_id']}.wav"
         speaker = row["speaker"]
         level = row.get("severity_level", "0")
         

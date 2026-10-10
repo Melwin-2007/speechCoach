@@ -21,7 +21,7 @@ def main():
     with open('dataset/metadata/recordings.csv', 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if row['severity_level'] == 'null':
+            if row.get('quality', 'GOOD') == 'GOOD':
                 ideals[row['text_id']].append(row)
 
     ideal_stats = defaultdict(dict)
@@ -30,8 +30,9 @@ def main():
         print(f"Processing {text_id}...")
         for row in records:
             file_id = row['file_id']
-            audio_path = row['audio_path']
-            align_path = f"dataset/alignments/{file_id}.json"
+            speaker_id = row['speaker_id']
+            audio_path = f"dataset/raw/good/{speaker_id}/{file_id}.wav"
+            align_path = f"dataset/alignments/good/{file_id}.json"
             
             if not os.path.exists(align_path):
                 print(f"Skipping {file_id}: No alignment found.")

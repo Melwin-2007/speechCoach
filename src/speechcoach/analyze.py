@@ -27,11 +27,11 @@ def load_baseline(baseline_id: str, exclude_speaker: str | None = None) -> dict:
     with open(meta_path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if row['text_id'] == baseline_id and row.get('severity_level', '0') == 'null':
-                if exclude_speaker and row['speaker'] == exclude_speaker:
+            if row['text_id'] == baseline_id and row.get('quality', 'GOOD') == 'GOOD':
+                if exclude_speaker and row['speaker_id'] == exclude_speaker:
                     continue
-                audio_path = row['audio_path']
-                align_path = f"dataset/alignments/{row['file_id']}.json"
+                audio_path = f"dataset/raw/good/{row['speaker_id']}/{row['file_id']}.wav"
+                align_path = f"dataset/alignments/good/{row['file_id']}.json"
                 
                 if not os.path.exists(audio_path) or not os.path.exists(align_path):
                     continue

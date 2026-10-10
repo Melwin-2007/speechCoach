@@ -223,3 +223,9 @@ Format: `[date] who: issue, how to reproduce, status`
 - **Status**: Completed ingestion of S01-S04 audio, generated transcripts T01-T08, defined 8-speaker split, and ran Torchaudio forced alignment.
 - **How to verify**: Check dataset/alignments/good for JSON word-level timestamps.
 - **Next**: Needs Day 5 audio recording (S05-S08).
+
+## 2026-10-10 (Member B) - Pipeline Refactor & Task B10
+- **Files changed**: src/speechcoach/analyze.py, scripts/*.py, dataset/metadata/recordings.csv, configs/*.json, docs/TASKS.md
+- **Status**: Fixed the dataset loading logic (pandas issue) to support the new nested directory structure. Successfully ran calibration on the 24 new audio files to generate fresh sigma and tau values for pitch and energy.
+- **How to verify**: Review configs/sigma.json and run the eval scripts.
+- **Next**: Needs synthetic flawed audio from Member A to verify the pitch/energy detectors.

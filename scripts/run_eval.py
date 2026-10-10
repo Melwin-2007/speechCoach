@@ -84,7 +84,7 @@ def main():
         if not row:
             continue
             
-        audio_path = row["audio_path"]
+        audio_path = f"dataset/raw/{row.get('quality', 'GOOD').lower()}/{row['speaker_id']}/{row['file_id']}.wav"
         variant = row["variant"]
         speaker = row["speaker"]
         source = row["source"]

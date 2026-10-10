@@ -59,7 +59,7 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 
 ### Day 10
 - [ ] **A:** Create and label monotony/volume samples.
-- [ ] **B:** Implement pitch and energy feature detectors.
+- [x] **B:** Implement pitch and energy feature detectors.
 - [ ] **C:** Connect results JSON to UI.
 
 ### Day 11

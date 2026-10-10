@@ -58,7 +58,7 @@ def main():
             reader = csv.DictReader(f)
             for row in reader:
                 if row["file_id"] == file_id:
-                    audio_path = row["audio_path"]
+                    audio_path = f"dataset/raw/{row.get('quality', 'GOOD').lower()}/{row['speaker_id']}/{row['file_id']}.wav"
                     break
                     
         if not audio_path: continue
