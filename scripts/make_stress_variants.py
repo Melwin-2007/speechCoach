@@ -33,7 +33,9 @@ def apply_pace_slow(y, sr, start_s, end_s):
     new_end_s = start_s + (len(stretched) / sr)
     return y_new, start_s, new_end_s
 
-def apply_pause_excess(y, sr, insert_s):
+def apply_pause_excess(y, sr, start_s, end_s):
+    # Use start_s as the insertion point, ignore end_s
+    insert_s = start_s
     # Insert 2.5 seconds of silence
     insert_idx = int(insert_s * sr)
     silence = np.zeros(int(2.5 * sr), dtype=y.dtype)
@@ -55,16 +57,16 @@ def apply_monotone(y, sr, start_s, end_s):
     segment = y[start_idx:end_idx].astype(np.float64)
     
     # Extract pyworld features
-    f0, t = pw.dio(segment, sr)
-    f0 = pw.stonemask(segment, f0, t, sr)
-    sp = pw.cheaptrick(segment, f0, t, sr)
-    ap = pw.d4c(segment, f0, t, sr)
+    f0, t = pw.dio(segment, sr)  # type: ignore
+    f0 = pw.stonemask(segment, f0, t, sr)  # type: ignore
+    sp = pw.cheaptrick(segment, f0, t, sr)  # type: ignore
+    ap = pw.d4c(segment, f0, t, sr)  # type: ignore
     
     # Flatten F0 to its non-zero mean
     f0_mean = np.mean(f0[f0 > 0]) if np.any(f0 > 0) else 150.0
     f0[f0 > 0] = f0_mean
     
-    synthesized = pw.synthesize(f0, sp, ap, sr).astype(np.float32)
+    synthesized = pw.synthesize(f0, sp, ap, sr).astype(np.float32)  # type: ignore
     
     if len(synthesized) > len(segment):
         synthesized = synthesized[:len(segment)]
@@ -106,7 +108,7 @@ def main():
     flaw_map = {
         "T01": ("PACE_FAST", apply_pace_fast),
         "T02": ("PACE_SLOW", apply_pace_slow),
-        "T03": ("PAUSE_EXCESS", lambda y, sr: apply_pause_excess(y, sr, 10.0)),
+        "T03": ("PAUSE_EXCESS", apply_pause_excess),
         "T04": ("MONOTONE", apply_monotone),
         "T05": ("VOLUME_DROP", apply_volume_drop),
         "T06": ("CLARITY", apply_clarity),
@@ -138,11 +140,8 @@ def main():
         print(f"Applying {flaw_type} to {file_id}...")
         y, sr = librosa.load(audio_path, sr=16000, mono=True)
         
-        # Apply the flaw (defaults: from 5.0s to 15.0s unless it's a pause excess which takes 10.0s)
-        if flaw_type == "PAUSE_EXCESS":
-            y_new, flaw_start, flaw_end = flaw_func(y, sr)
-        else:
-            y_new, flaw_start, flaw_end = flaw_func(y, sr, 5.0, 15.0)
+        start_t = 10.0 if flaw_type == "PAUSE_EXCESS" else 5.0
+        y_new, flaw_start, flaw_end = flaw_func(y, sr, start_t, 15.0)
             
         # Create output directory for this speaker
         out_speaker_dir = raw_flawed_dir / speaker_id
