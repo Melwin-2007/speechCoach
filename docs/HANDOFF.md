@@ -235,3 +235,5 @@ Format: `[date] who: issue, how to reproduce, status`
 - **Status**: Built standalone scikit-learn anomaly detectors for Pace, Pause, and Pitch using IsolationForests. Trained and verified them on the GOOD recordings.
 - **How to verify**: Run scripts/train_pitch.py, train_pace.py, train_pause.py.
 - **Next**: Volume/Energy model or generate flawed datasets.
+
+- Built EnergyModel (Volume Drop/Flat Energy) with LUFS/RMS features.
