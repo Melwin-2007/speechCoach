@@ -58,12 +58,12 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 - [x] **C:** Define agreed JSON response schema with B.
 
 ### Day 10
-- [ ] **A:** Create and label monotony/volume samples.
+- [x] **A:** Create and label monotony/volume samples.
 - [x] **B:** Implement pitch and energy feature detectors.
 - [ ] **C:** Connect results JSON to UI.
 
 ### Day 11
-- [ ] **A:** Create and label clarity/emphasis samples.
+- [x] **A:** Create and label clarity/emphasis samples.
 - [ ] **B:** Implement remaining detector prototypes.
 - [ ] **C:** Display flaw type, severity, timestamps and confidence.
 
