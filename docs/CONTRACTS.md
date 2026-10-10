@@ -14,9 +14,9 @@ Change protocol is in section 9.
 
 ### 0.1 IDs and names
 - `text_id`: `T01` ... `T08` [v1.1: was T01..T06]. T01-T04 = prepared public speeches; T05-T08 = original team-written texts (100-130 words). Text split: **dev** T01, T02, T04, T05; **test** T03, T06; **stress** T07, T08 [v1.1] (unseen-text set: kept OUT of the baseline library so the analyzer must use Mode B; also used for no-reference tests).
-- `speaker_split` [v1.1]: by speaker, never by clip. `train` = S01-S08 and every `orig-*`; `val` = S09, S10; `test` = S11, S12. A `synth-<base>` speaker inherits the base speaker's split. Speakers not yet recruited simply stay unused; the rule is fixed now so nobody tunes on a test voice later.
+- `speaker_split` [v1.1]: by speaker, never by clip. `train` = S01-S05 and every `orig-*`; `val` = S06; `test` = S07, S08. A `synth-<base>` speaker inherits the base speaker's split. Speakers not yet recruited simply stay unused; the rule is fixed now so nobody tunes on a test voice later.
 - Evaluation sets [v1.1]: DEV = text split dev AND speaker_split in (train, val); TEST-TEXT = text split test; TEST-SPEAKER = speaker_split test on dev texts; STRESS = text split stress plus composites/noise/loudness variants. Tuning only on DEV; thresholds picked on `val` speakers; TEST sets run once.
-- Speaker ids: `S01` ... `S12` (teammates first, then volunteers), `orig-<name>` (historical original, e.g. `orig-jfk`), `synth-<base_speaker>` (synthetic derived from that base).
+- Speaker ids: `S01` ... `S08` (teammates first, then volunteers), `orig-<name>` (historical original, e.g. `orig-jfk`), `synth-<base_speaker>` (synthetic derived from that base).
 - `file_id = {speaker}_{text_id}_{quality}`. Quality:
   - `GOOD`: ideal recordings
   - `FLAWED`: synthetic or human flawed takes

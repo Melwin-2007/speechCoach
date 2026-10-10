@@ -5,7 +5,7 @@ __pycache__/
 
 # Data (large files, not committed)
 data/
-# dataset/audio/  # Tracked per user instruction so team has immediate access
+dataset/raw/
 *.npz
 
 # Frontend build artifacts

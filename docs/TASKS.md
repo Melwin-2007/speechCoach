@@ -7,7 +7,7 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 ---
 ## Status board (2026-10-10)
 - **Current Phase:** We have completed the structural rewrite and engine foundations. Audio collection (Member A) is the long pole.
-- **Biggest risks:** (1) human recordings not started (96 takes needed); (2) pandas logic in pipeline needs update after structural rewrite; (3) detection quality.
+- **Biggest risks:** (1) human recordings not started (64 takes needed); (2) pandas logic in pipeline needs update after structural rewrite; (3) detection quality.
 
 ---
 ## 20-day checklist
@@ -18,17 +18,17 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 - [x] **C:** Choose frontend/backend stack; create wireframes and Git repo.
 
 ### Day 2
-- [ ] **A:** Record 1 speaker's 8 GOOD texts as a pilot.
+- [x] **A:** Record 1 speaker's 8 GOOD texts as a pilot.
 - [x] **B:** Build audio loading and file-quality checks.
 - [x] **C:** Create app skeleton and audio/transcript upload screen.
 
 ### Day 3
-- [ ] **A:** Review pilot quality; fix recording instructions.
+- [x] **A:** Review pilot quality; fix recording instructions.
 - [x] **B:** Implement resampling, mono conversion and duration checks.
 - [x] **C:** Build results-page layout using mock data.
 
 ### Day 4
-- [ ] **A:** Record GOOD samples for speakers S01–S04.
+- [x] **A:** Record GOOD samples for speakers S01–S04.
 - [x] **B:** Prototype feature extraction on pilot recordings.
 - [x] **C:** Create timeline and flaw-card components.
 
@@ -38,12 +38,12 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 - [~] **C:** Build backend upload endpoint and processing status.
 
 ### Day 6
-- [ ] **A:** Record GOOD samples for S09–S12.
+- [ ] **A:** Review recordings and prepare metadata.
 - [x] **B:** Validate feature outputs on varied speakers.
 - [~] **C:** Connect upload screen to backend.
 
 ### Day 7
-- [ ] **A:** Audit all 96 GOOD files and complete recordings.csv.
+- [ ] **A:** Audit all 64 GOOD files and complete recordings.csv.
 - [x] **B:** Create baseline statistics and speaker-normalization functions.
 - [x] **C:** Show mock baseline overlays and summary cards.
 

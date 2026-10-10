@@ -217,3 +217,9 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: Member B's pipeline logic (e.g. pandas dataframes in run_eval.py or build_dataset.py) needs to be manually updated to read/join three CSVs (recordings.csv, speakers.csv, flaws.csv) instead of the old monolithic metadata.csv.
 - Requests for others: Member B must rewrite the pandas logic before running the evaluation pipeline. Member A needs to upload the physical audio and CSV files to the new folder paths.
 
+
+## 2026-10-10 (Member A) - Tasks A10 & A11
+- **Files changed**: dataset/transcripts/*.txt, dataset/metadata/speakers.csv, docs/CONTRACTS.md, docs/TASKS.md, .gitignore, dataset/alignments/good/*.json
+- **Status**: Completed ingestion of S01-S04 audio, generated transcripts T01-T08, defined 8-speaker split, and ran Torchaudio forced alignment.
+- **How to verify**: Check dataset/alignments/good for JSON word-level timestamps.
+- **Next**: Needs Day 5 audio recording (S05-S08).
