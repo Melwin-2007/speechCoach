@@ -61,7 +61,7 @@ def extract_features():
         audio_path = f"dataset/raw/{row.get('quality', 'GOOD').lower()}/{spk}/{fid}.wav"
         if not os.path.exists(audio_path): continue
         
-        transcript = open(f"dataset/texts/{text_id}.txt", encoding="utf-8").read()
+        transcript = open(f"dataset/transcripts/{text_id}.txt", encoding="utf-8").read()
         res = analyze(audio_path, transcript, exclude_speaker=spk)
         
         feats = res["soft_features"]
