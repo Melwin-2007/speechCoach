@@ -229,3 +229,9 @@ Format: `[date] who: issue, how to reproduce, status`
 - **Status**: Fixed the dataset loading logic (pandas issue) to support the new nested directory structure. Successfully ran calibration on the 24 new audio files to generate fresh sigma and tau values for pitch and energy.
 - **How to verify**: Review configs/sigma.json and run the eval scripts.
 - **Next**: Needs synthetic flawed audio from Member A to verify the pitch/energy detectors.
+
+## 2026-10-10 (Member B) - ML Detectors
+- **Files changed**: src/speechcoach/models/pace_model.py, src/speechcoach/models/pause_model.py, src/speechcoach/models/pitch_model.py, scripts/train_*.py
+- **Status**: Built standalone scikit-learn anomaly detectors for Pace, Pause, and Pitch using IsolationForests. Trained and verified them on the GOOD recordings.
+- **How to verify**: Run scripts/train_pitch.py, train_pace.py, train_pause.py.
+- **Next**: Volume/Energy model or generate flawed datasets.
