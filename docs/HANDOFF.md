@@ -237,3 +237,5 @@ Format: `[date] who: issue, how to reproduce, status`
 - **Next**: Volume/Energy model or generate flawed datasets.
 
 - Built EnergyModel (Volume Drop/Flat Energy) with LUFS/RMS features.
+
+- Built ClarityModel (Voice Quality) with HNR, Spectral Flux, and 13-dim MFCC features.
