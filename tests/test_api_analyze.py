@@ -93,7 +93,7 @@ def test_analyze_success_and_caching():
     files = {"audio": ("sample_test.wav", io.BytesIO(wav_bytes), "audio/wav")}
     data = {
         "transcript": "Where the mind is without fear and the head is held high",
-        "baseline_id": "T4",
+        "baseline_id": "T04",
         "mode": "reference"
     }
 

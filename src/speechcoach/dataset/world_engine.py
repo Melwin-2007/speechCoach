@@ -246,7 +246,7 @@ def inject(
     rng = random.Random(file_seed)
 
     # Determine split
-    split = "test" if text_id in ["T3", "T6"] else "dev"
+    split = "test" if text_id in ["T03", "T06"] else "dev"
 
     if level == 0 or flaw == "resynth_control":
         # Pass through WORLD with no modifications
@@ -485,7 +485,7 @@ def inject(
 
 def main():
     parser = argparse.ArgumentParser(description="WORLD Vocoder Engine and Flaw Injector.")
-    parser.add_argument("--text", default="T4", help="Text ID to generate (default: T4)")
+    parser.add_argument("--text", default="T04", help="Text ID to generate (default: T04)")
     parser.add_argument("--base-speaker", default="orig-lincoln", help="Base speaker ID (default: orig-lincoln)")
     parser.add_argument("--flaw", default="PACE_FAST", help="Flaw type (default: PACE_FAST)")
     parser.add_argument("--levels", default="1,2,3,4,5", help="Comma-separated levels to generate")

@@ -63,7 +63,7 @@ def test_write_and_read_wav(tmp_path):
 
 
 def test_all_transcripts_exist_and_non_empty():
-    """Assert exactly 4 texts T1..T4 exist in dataset/texts/ and contain valid text."""
+    """Assert exactly 4 texts T01..T04 exist in dataset/texts/ and contain valid text."""
     texts_dir = REPO_ROOT / "dataset" / "texts"
     assert texts_dir.is_dir()
 
@@ -89,7 +89,7 @@ def test_sources_table_integrity():
 
 
 def test_interim_wavs_conformance():
-    """Assert all 4 prepared WAV files in data/interim/ and dataset/audio/ideal/ are strictly 16 kHz mono 16-bit PCM."""
+    """Assert all 4 prepared WAV files in data/interim/ and dataset/raw/good/ are strictly 16 kHz mono 16-bit PCM."""
     interim_dir = REPO_ROOT / "data" / "interim"
     wav_files = sorted(list(interim_dir.glob("T*__*__ideal.wav")))
     assert len(wav_files) == 4, f"Expected 4 interim WAVs, found {len(wav_files)}"
@@ -104,9 +104,9 @@ def test_interim_wavs_conformance():
 
 
 def test_human_audio_conformance():
-    """Assert all 4 teammate recordings in dataset/audio/human/ are strictly 16 kHz mono 16-bit PCM."""
+    """Assert all 4 teammate recordings in dataset/raw/human/ are strictly 16 kHz mono 16-bit PCM."""
     human_dir = REPO_ROOT / "dataset" / "audio" / "human"
-    assert human_dir.is_dir(), "Missing dataset/audio/human/ directory"
+    assert human_dir.is_dir(), "Missing dataset/raw/human/ directory"
 
     wav_files = sorted(list(human_dir.glob("*.wav")))
     assert len(wav_files) == 4, f"Expected 4 human recordings, found {len(wav_files)}"

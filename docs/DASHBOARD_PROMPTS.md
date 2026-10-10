@@ -146,7 +146,7 @@ Consistency rules (a reviewer will check these):
 - words[].z: small (|z| < 1.5) outside flaws, large inside, matching flaw severity.
 - each flaw: evidence {participant, baseline, z, unit} consistent with the series and the word z-scores; explanation has five fields (observed, deviation, where, why, fix) written from those numbers in plain English; band from |z| (minor >= 2, moderate >= 3, major >= 4.5); severity = clip((|z| - 1.5) / 4.5, 0, 1).
 - scores.dimensions plausible; overall = weighted sum with weights pacing .20, pausing .15, pitch .20, energy .15, emphasis .10, clarity .10, fluency .10.
-- meta: mode "reference", baseline_id "T4".
+- meta: mode "reference", baseline_id "T04".
 - Deterministic (seeded), floats rounded to 4 decimals, keys sorted, flaws sorted by start.
 
 --audio writes a 16 kHz mono 16-bit WAV (stdlib wave plus numpy): harmonic tone bursts at the word times (pitch following pitch_st, amplitude following energy_db) and silence in pauses. It does not need to sound like speech.
@@ -304,7 +304,7 @@ Task D11: Connect the real API (milestone M1). Sections: COMPONENTS.md sections 
 3. Map real responses: 400 {error} to kind audio or transcript by message content (fall back to a generic bad-request message), 413 to too_large, 422 to validation, network to network, anything else to server; run validateResult on success and show the invalid_response error if it fails. Never show raw server text beyond the contract's error message.
 4. Show warnings from meta.warnings in the warnings banner.
 5. If the live response does not match the contract, do NOT change the frontend to work around it: write the exact mismatch in docs/HANDOFF.md under Requests for Member B.
-Acceptance: uploading dataset/sample/<flawed>.wav with its transcript and baseline T4 shows REAL regions and charts; uploading the same file twice returns noticeably faster (server cache); a .txt file and a 30 MB file show friendly errors; the page never shows a stack trace.
+Acceptance: uploading dataset/sample/<flawed>.wav with its transcript and baseline T04 shows REAL regions and charts; uploading the same file twice returns noticeably faster (server cache); a .txt file and a 30 MB file show friendly errors; the page never shows a stack trace.
 Verify: give me the exact steps and the files to use; show the network request and response shape from the browser's Network tab.
 ```
 

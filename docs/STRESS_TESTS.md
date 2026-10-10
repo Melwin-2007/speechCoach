@@ -5,11 +5,11 @@ Why: Data Engineering and Stress Testing is 30% of the score. This file says wha
 ## 1. Matrix
 | # | Category | Data | Expectation | Output |
 |---|---|---|---|---|
-| S1 | GOOD speech from unseen speakers | ideal files of `speaker_split` test (h11, h12) and `val` | Few false alarms: <= 1 flagged region/min (target, adjust with team); report share of ideal files with any region | `results/stress_good_fpr.csv` |
+| S1 | GOOD speech from unseen speakers | ideal files of `speaker_split` test (S11, S12) and `val` | Few false alarms: <= 1 flagged region/min (target, adjust with team); report share of ideal files with any region | `results/stress_good_fpr.csv` |
 | S2 | Subtle level-1 flaws | L1 files, all families | Lower severity and confidence than L4; honestly lower recall | recall by level table |
 | S3 | Strong level-4/5 flaws | L4, L5 files | Clear regions, high severity, high confidence | F1@IoU0.5 by level |
-| S4 | Unseen text | T7, T8 (stress split; NOT in baseline library) | Analyzer must switch to Mode B ("No-reference mode") and say so; fewer flaw types reported | mode flag check + F1 in prior mode |
-| S5 | Unseen speaker | test speakers h11, h12 on dev texts | Normalization keeps speaker identity from driving results; compare score distributions of ideal files across speakers | per-speaker score boxplot |
+| S4 | Unseen text | T07, T08 (stress split; NOT in baseline library) | Analyzer must switch to Mode B ("No-reference mode") and say so; fewer flaw types reported | mode flag check + F1 in prior mode |
+| S5 | Unseen speaker | test speakers S11, S12 on dev texts | Normalization keeps speaker identity from driving results; compare score distributions of ideal files across speakers | per-speaker score boxplot |
 | S6 | Two simultaneous flaws | composites (5 per text) | Both flaws found, or uncertainty reported; causes not merged into one | per-component recall, confusion matrix |
 | S7 | Long pauses and sentence boundaries | PAUSE_EXCESS L4-L5, PAUSE_MISSING | Region boundaries not systematically shifted | mean signed start/end error |
 | S8 | Different recording loudness | ideal and flawed files re-gained by -12, -6, +6 dB (create with a script, not new recordings) | Result unchanged except VOLUME_DROP logic stays stable (analysis uses loudness relative to the file's own P95) | max change in z and in score |

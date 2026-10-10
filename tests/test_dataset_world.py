@@ -20,11 +20,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 def test_stable_hash_reproducibility():
     """Assert stable_hash produces deterministic results across invocations."""
-    h1 = stable_hash("test_id__PACE_FAST_L3")
-    h2 = stable_hash("test_id__PACE_FAST_L3")
-    assert h1 == h2
-    assert isinstance(h1, int)
-    assert h1 != stable_hash("test_id__PACE_FAST_L4")
+    S01 = stable_hash("test_id__PACE_FAST_L3")
+    S02 = stable_hash("test_id__PACE_FAST_L3")
+    assert S01 == S02
+    assert isinstance(S01, int)
+    assert S01 != stable_hash("test_id__PACE_FAST_L4")
 
 
 def test_analyze_world_synthetic_tone():
@@ -98,7 +98,7 @@ def test_map_word_times_monotonicity():
 
 
 def test_validate_labels_on_generated():
-    """Assert all generated labels in dataset/labels pass validate_labels."""
+    """Assert all generated labels in dataset/metadata/flaws.csv pass validate_labels."""
     label_dir = REPO_ROOT / "dataset" / "labels"
     labels = list(label_dir.glob("*.json"))
     assert len(labels) >= 6, f"Expected at least 6 labels, found {len(labels)}"

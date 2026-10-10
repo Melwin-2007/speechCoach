@@ -26,7 +26,7 @@ def main():
     for sig, sigma in sigmas.items():
         print(f"  {sig}: {sigma:.4f} (floor {floors.get(sig, 0):.4f})")
         
-    meta_path = Path("dataset/metadata.csv")
+    meta_path = Path("dataset/metadata/recordings.csv")
     files = []
     with open(meta_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -34,7 +34,7 @@ def main():
             if row["split"] == "dev":
                 files.append(row)
                 
-    labels_dir = Path("dataset/labels")
+    labels_dir = Path("dataset/metadata/flaws.csv")
     for row in files:
         variant = row["variant"]
         file_id = row["file_id"]

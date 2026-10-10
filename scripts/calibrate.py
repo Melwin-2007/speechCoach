@@ -18,7 +18,7 @@ def main():
     print("Starting calibration...")
     # Read metadata.csv
     ideals = defaultdict(list)
-    with open('dataset/metadata.csv', 'r') as f:
+    with open('dataset/metadata/recordings.csv', 'r') as f:
         reader = csv.DictReader(f)
         for row in reader:
             if row['severity_level'] == 'null':

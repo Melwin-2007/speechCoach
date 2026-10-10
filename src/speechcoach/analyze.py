@@ -20,7 +20,7 @@ from speechcoach.scoring.rubric import score
 def load_baseline(baseline_id: str, exclude_speaker: str | None = None) -> dict:
     """Loads and computes the baseline statistics for a given text ID."""
     ideals = []
-    meta_path = Path("dataset/metadata.csv")
+    meta_path = Path("dataset/metadata/recordings.csv")
     if not meta_path.exists():
         return {}
         

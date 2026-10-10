@@ -19,7 +19,7 @@ def main():
     parser.add_argument("--limit", type=int, default=None, help="Limit number of files for quick testing")
     args = parser.parse_args()
     
-    meta_path = Path("dataset/metadata.csv")
+    meta_path = Path("dataset/metadata/recordings.csv")
     if not meta_path.exists():
         print("No metadata found.")
         return
@@ -41,7 +41,7 @@ def main():
             if len(other_ideals) < 2:
                 print(f"  {text_id} when excluding {spk}: has {len(other_ideals)} other ideals.")
     
-    labels_dir = Path("dataset/labels")
+    labels_dir = Path("dataset/metadata/flaws.csv")
     if not labels_dir.exists():
         print(f"No labels found in {labels_dir}")
         return

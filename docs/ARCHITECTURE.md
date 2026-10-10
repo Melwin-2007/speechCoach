@@ -125,7 +125,7 @@ The dashboard calls Mode B "No-reference mode" and states in plain words that th
 6. Seed per file = `seed + stable_hash(file_id)`. Never normalize loudness after injecting VOLUME_DROP.
 
 ## 10. Quality gates (what "working" means)
-Evaluation sets (fixed in CONTRACTS 0.1): DEV = dev texts x train/val speakers (tuning allowed); TEST-TEXT = T3, T6; TEST-SPEAKER = speakers h11, h12 on dev texts; STRESS = T7, T8 (unseen text, forced Mode B), composites, noise, loudness changes. TEST sets are run ONCE after freeze of thresholds.
+Evaluation sets (fixed in CONTRACTS 0.1): DEV = dev texts x train/val speakers (tuning allowed); TEST-TEXT = T03, T06; TEST-SPEAKER = speakers S11, S12 on dev texts; STRESS = T07, T08 (unseen text, forced Mode B), composites, noise, loudness changes. TEST sets are run ONCE after freeze of thresholds.
 - Region detection on synthetic dev set: F1 at IoU>=0.5 high for L3-L5, honestly lower for L1-L2.
 - Score decreases monotonically with severity level (Spearman correlation reported).
 - Running the pipeline twice gives byte-identical JSON.
@@ -138,6 +138,6 @@ Evaluation sets (fixed in CONTRACTS 0.1): DEV = dev texts x train/val speakers (
 Purpose: the z-score rules decide with fixed thresholds; a small model can learn which windows really are flawed and give a `confidence`. It never replaces the explanation: reasons and numbers always come from the measured signals (section 6).
 - Input per word window: the z-signals (pace, pause, pitch, energy, dynamics, clarity, emphasis), their window means, neighbours at +-1 word, and mode flag. NO raw absolute pitch or loudness.
 - Model: one light tree-based classifier per family (XGBoost or sklearn `GradientBoostingClassifier`; sklearn is acceptable if XGBoost is awkward on CPU), fixed `random_state`, labels from `labels/*.json` (word inside a flaw region of that family, severity as optional regression target).
-- Training data: synthetic + human files of TRAIN speakers on DEV texts only. Splits grouped by speaker (never random clips). Validation speakers (h9, h10) choose thresholds. Test speakers/texts are touched once.
+- Training data: synthetic + human files of TRAIN speakers on DEV texts only. Splits grouped by speaker (never random clips). Validation speakers (S09, S10) choose thresholds. Test speakers/texts are touched once.
 - Use: `confidence = p_family` for each merged region; a region is kept if rule evidence passes AND `p >= p_min` (from `thresholds.yaml`), or if rule evidence is very strong (|z| >= tau_override). Report the rules-only and hybrid F1 side by side; keep whichever is better on validation and say so honestly.
 - Fallback: if the model file is missing, `analyze()` runs rules-only and sets `confidence = null`. Output stays deterministic (fixed seed, saved model).

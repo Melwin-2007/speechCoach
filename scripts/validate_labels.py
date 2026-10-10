@@ -16,7 +16,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-VALID_TEXT_IDS = {"T1", "T2", "T3", "T4", "T5", "T6"}
+VALID_TEXT_IDS = {"T01", "T02", "T03", "T04", "T05", "T06"}
 VALID_SOURCES = {"synthetic", "human", "original"}
 VALID_SPLITS = {"dev", "test"}
 VALID_FLAWS = {
@@ -91,7 +91,7 @@ def validate_label_file(path: Path) -> list[str]:
 
     # 7. Audio file existence
     if file_id and not find_audio_file(file_id):
-        errors.append(f"Referenced audio file for '{file_id}' not found in dataset/audio/")
+        errors.append(f"Referenced audio file for '{file_id}' not found in dataset/raw/")
 
     # 8. Words check
     words = data.get("words", [])

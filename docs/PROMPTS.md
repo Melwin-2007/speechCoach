@@ -153,7 +153,7 @@ Show real output, not summaries. If oracle F1 is also low, the problem is the de
 
 ## P18. Dataset QC audit (Member A, task D4)
 ```
-You are checking dataset quality. Read docs/RECORDING_PROTOCOL.md section 7, docs/FLAW_SPEC.md section 5 and dataset/metadata.csv.
+You are checking dataset quality. Read docs/RECORDING_PROTOCOL.md section 7, docs/FLAW_SPEC.md section 5 and dataset/metadata/recordings.csv.
 List every file where: the file is missing, duration is out of range, sample rate or channels are wrong, the label JSON does not match the file_id, a flaw region is outside the file, words are not monotonic, the speaker appears in two speaker splits, or a text appears in a wrong text split.
 Then give a table per text and per flaw family: files, levels present, missing levels. Output a fix list for Member A. Do not change any file.
 ```

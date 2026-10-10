@@ -50,10 +50,10 @@ def health_check():
 @app.get("/baselines")
 def get_baselines():
     return [
-        {"id": "T1", "title": "Indian Pep Talk", "n_ideals": 1},
-        {"id": "T2", "title": "Martin Luther King Jr. - I Have a Dream", "n_ideals": 1},
-        {"id": "T3", "title": "Dr. A.P.J. Abdul Kalam", "n_ideals": 1},
-        {"id": "T4", "title": "Tagore - Where the mind is without fear", "n_ideals": 2}
+        {"id": "T01", "title": "Indian Pep Talk", "n_ideals": 1},
+        {"id": "T02", "title": "Martin Luther King Jr. - I Have a Dream", "n_ideals": 1},
+        {"id": "T03", "title": "Dr. A.P.J. Abdul Kalam", "n_ideals": 1},
+        {"id": "T04", "title": "Tagore - Where the mind is without fear", "n_ideals": 2}
     ]
 
 @app.get("/demo/{name}", response_model=AnalysisResult)
@@ -186,7 +186,7 @@ def _generate_fallback_result(audio_path: Path, transcript: str, baseline_id: Op
         data = json.load(f)
 
     data["meta"]["mode"] = mode if mode in ["reference", "prior"] else "reference"
-    data["meta"]["baseline_id"] = baseline_id or "T4"
+    data["meta"]["baseline_id"] = baseline_id or "T04"
     data["meta"]["duration_s"] = duration_s
 
     # Parse words from transcript if available

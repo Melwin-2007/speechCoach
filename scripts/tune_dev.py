@@ -37,7 +37,7 @@ def main():
     else:
         sigmas = {k: 1.0 for k in ["pace", "pause", "pitch", "energy", "dynamics", "clarity"]}
         
-    labels_dir = Path("dataset/labels")
+    labels_dir = Path("dataset/metadata/flaws.csv")
     eval_files = []
     for p in sorted(labels_dir.glob("*.json")):
         with open(p, "r", encoding="utf-8") as f:
@@ -54,7 +54,7 @@ def main():
         text_id = label_data["text_id"]
         
         audio_path = None
-        with open("dataset/metadata.csv", "r", encoding="utf-8") as f:
+        with open("dataset/metadata/recordings.csv", "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
                 if row["file_id"] == file_id:

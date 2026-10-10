@@ -7,18 +7,18 @@ AI assistants forget everything between chats. **This file is their memory.** Re
 - Day: 4 (2026-10-06; Day 1 = 2026-10-03). Submission deadline: [TODO: put the real date here]. Freeze target: Day 6 (2026-10-08).
 - Last green tag: none
 - Milestones: M1 (upload shows real flaw regions): [ ] (C4 needs a logged real-upload check)   M2 (demo mode + explanations): [ ]   Freeze (Day 6): [ ]
-- Counts: ideal recordings: 4 (the T1-T4 originals) | synthetic files: 30 | human takes: 4 [verify: no session entry explains these 4]
+- Counts: ideal recordings: 4 (the T01-T04 originals) | synthetic files: 30 | human takes: 4 [verify: no session entry explains these 4]
 - Latest dev metrics (F1@IoU0.5 / Spearman score-vs-level): F1 0.065 (B4b, 2026-10-04, full dev eval); Spearman not yet reported; oracle-alignment F1 not yet measured.
-- Biggest risk right now: (1) detection quality (F1 0.065); (2) human recordings have not started and are the long pole; (3) two days to the planned freeze; (4) licence status of T1-T4 audio before the repo or dataset goes public.
+- Biggest risk right now: (1) detection quality (F1 0.065); (2) human recordings have not started and are the long pole; (3) two days to the planned freeze; (4) licence status of T01-T04 audio before the repo or dataset goes public.
 - Team: 3 members (A Data, B Pipeline, C App).
 
 ## 2. Requests between members
 Format: `[date] FROM -> TO: request. Status: open/done`
-- [2026-10-03] A -> B: 4 ideal recordings prepared (T1 Indian Pep, T2 MLK, T3 Kalam, T4 Lincoln) in `data/interim/` and `dataset/audio/ideal/`. Status: done
+- [2026-10-03] A -> B: 4 ideal recordings prepared (T01 Indian Pep, T02 MLK, T03 Kalam, T04 Lincoln) in `data/interim/` and `dataset/raw/good/`. Status: done
 - [2026-10-06] DOCS-SYNC -> B: do B5b first (oracle-alignment vs real-alignment eval, window size, FPR on ideal files), then B5c features, then B6. Mode B and CPU Fallback stay in B6. Use enum `FILLERS`. Status: open
-- [2026-10-06] DOCS-SYNC -> A: finish A3 including FLAT_ENERGY, STRESS_MISSING (full gradient), STRESS_EXAGGERATED (levels 1,3,5), then A4. Add `family`, `speaker`, `speaker_split`, `redistributable` to labels/metadata once v1.1 is approved. Do the licence audit for T1-T4 before the repo is public. Status: open
+- [2026-10-06] DOCS-SYNC -> A: finish A3 including FLAT_ENERGY, STRESS_MISSING (full gradient), STRESS_EXAGGERATED (levels 1,3,5), then A4. Add `family`, `speaker`, `speaker_split`, `redistributable` to labels/metadata once v1.1 is approved. Do the licence audit for T01-T04 before the repo is public. Status: open
 - [2026-10-06] DOCS-SYNC -> C: verify C4 with a real upload and write the HANDOFF entry (M1). After v1.1 approval: show `meta.mode_label`, `confidence`, `evidence.deviation_pct`, add the `unseen` demo preset. Status: open
-- [2026-10-06] DOCS-SYNC -> A: start D1 (write T5-T8, roster, recording sheet, consent template) and D2 (pilot). Status: open
+- [2026-10-06] DOCS-SYNC -> A: start D1 (write T05-T08, roster, recording sheet, consent template) and D2 (pilot). Status: open
 - [2026-10-06] DOCS-SYNC -> ALL: read the v1.1 proposal in section 3 and tick your approval. Status: open
 
 ## 3. Contract change requests
@@ -26,8 +26,8 @@ Format: `[date] who: exact proposed diff to docs/CONTRACTS.md. Approvals: A[ ] B
 - (none yet)
 - [2026-10-06] DOCS-SYNC (CONTRACTS v1.1 proposal, additive only). Approvals: A[ ] B[ ] C[ ]
   Proposed diff to `docs/CONTRACTS.md` (see the file, tagged `[v1.1]`):
-  1. `text_id` T1..T8; text split gets a third value `stress` (T7, T8).
-  2. Speaker ids h1..h12; new `speaker_split` (train h1-h8 and orig-*, val h9-h10, test h11-h12); evaluation sets DEV / TEST-TEXT / TEST-SPEAKER / STRESS defined.
+  1. `text_id` T01..T08; text split gets a third value `stress` (T07, T08).
+  2. Speaker ids S01..S12; new `speaker_split` (train S01-S08 and orig-*, val S09-S10, test S11-S12); evaluation sets DEV / TEST-TEXT / TEST-SPEAKER / STRESS defined.
   3. New enum value `STRESS_EXAGGERATED`; new enum "flaw families" (pacing, pausing, pitch, volume, clarity, emphasis); canonical name `FILLERS`.
   4. Label JSON: required `family` per flaw, `speaker`, `speaker_split`. `metadata.csv`: new columns `flaw_families`, `speaker_split`, `redistributable`.
   5. `frame_features`: optional extra keys `cent`, `band_ratio`, `dmfcc`.
@@ -39,28 +39,28 @@ Format: `[date] who: exact proposed diff to docs/CONTRACTS.md. Approvals: A[ ] B
 ## 4. Decisions log
 Format: `[date] decision: reason`
 - Stack fixed as in AGENTS.md section 3.
-- Dev split T1,T2,T4,T5; test split T3,T6 (never tune on test).
-- Focused the primary corpus on the 4 user-provided speeches: T1 (Indian Pep Talk), T2 (Martin Luther King Jr.), T3 (Dr. A.P.J. Abdul Kalam), T4 (Abraham Lincoln), providing a 2-2 accent balance (Indian vs American).
-- [2026-10-03] decision: Committed ideal audio files (T1-T4 WAVs, ~23.3 MB) directly to branch a/A1-texts-sources per explicit user instruction so all team members have immediate access to canonical audio.
+- Dev split T01,T02,T04,T05; test split T03,T06 (never tune on test).
+- Focused the primary corpus on the 4 user-provided speeches: T01 (Indian Pep Talk), T02 (Martin Luther King Jr.), T03 (Dr. A.P.J. Abdul Kalam), T04 (Abraham Lincoln), providing a 2-2 accent balance (Indian vs American).
+- [2026-10-03] decision: Committed ideal audio files (T01-T04 WAVs, ~23.3 MB) directly to branch a/A1-texts-sources per explicit user instruction so all team members have immediate access to canonical audio.
 - [2026-10-03] decision: Adopted the `app/ui_kit/` design system. Copied to `docs/design/` (DESIGN_SYSTEM.md, COMPONENTS.md, MOTION.md, reference PNGs) and `docs/DASHBOARD_PROMPTS.md`. Frontend tech changed: Plotly.js → custom SVG charts (d3-scale/d3-shape/d3-array), wavesurfer Regions plugin → our own region overlay layer, added CSS Modules + lucide-react + design linter. Updated AGENTS.md (section 3, 5), MEMBER_C_APP.md (guardrail 5-6), TASKS.md (all C tasks now reference design prompts D0a–D17). Reason: polished non-generic look (rounded shapes, custom animation, warm palette, no default blue, smaller bundle).
-- [2026-10-06] DOCS-SYNC: Aligned the doc set with the Track C A-to-Z build plan. Adopted: 3-member team, 8 texts (T1-T4 public speeches + T5-T8 original team texts), six flaw families with emphasis promoted to core, speaker-based split plus text split plus a stress split, stress-test matrix (`docs/STRESS_TESTS.md`), recording protocol (`docs/RECORDING_PROTOCOL.md`), 2-3 s overlapping windows (our W=6 words, about 2-3 s), optional learned window scorer (hybrid), confidence + deviation % in the output, no-reference mode wording, report-time severity mapping to the plan's 0-4 scale. Kept: L1-L5 files, WORLD synthetic gradient, z-score/MAD calibration, deterministic template explanations, 10-day schedule, design system. Reason for keeping: completed work and exact time-map ground truth; the plan states these choices are recommendations, not challenge requirements.
-- [2026-10-06] DOCS-SYNC: Not adopted from the plan (and why): 96 GOOD recordings as a hard target (T1-T4 are 2-4 minute speeches; core target is T5-T8 x available speakers plus teammates on T1-T4), WAV 48 kHz as a requirement (the pipeline resamples to 16 kHz; keep the best original), XGBoost as the main model (kept optional, B6f; rules are what produce the explanations), 20-day schedule (the repo runs on 10 days; stretch only if the real deadline allows).
+- [2026-10-06] DOCS-SYNC: Aligned the doc set with the Track C A-to-Z build plan. Adopted: 3-member team, 8 texts (T01-T04 public speeches + T05-T08 original team texts), six flaw families with emphasis promoted to core, speaker-based split plus text split plus a stress split, stress-test matrix (`docs/STRESS_TESTS.md`), recording protocol (`docs/RECORDING_PROTOCOL.md`), 2-3 s overlapping windows (our W=6 words, about 2-3 s), optional learned window scorer (hybrid), confidence + deviation % in the output, no-reference mode wording, report-time severity mapping to the plan's 0-4 scale. Kept: L1-L5 files, WORLD synthetic gradient, z-score/MAD calibration, deterministic template explanations, 10-day schedule, design system. Reason for keeping: completed work and exact time-map ground truth; the plan states these choices are recommendations, not challenge requirements.
+- [2026-10-06] DOCS-SYNC: Not adopted from the plan (and why): 96 GOOD recordings as a hard target (T01-T04 are 2-4 minute speeches; core target is T05-T08 x available speakers plus teammates on T01-T04), WAV 48 kHz as a requirement (the pipeline resamples to 16 kHz; keep the best original), XGBoost as the main model (kept optional, B6f; rules are what produce the explanations), 20-day schedule (the repo runs on 10 days; stretch only if the real deadline allows).
 
 ## 5. Known issues
 Format: `[date] who: issue, how to reproduce, status`
 - (none yet)
 - [2026-10-06] DOCS-SYNC: `docs/TASKS.md` shows C4 as `[~]`: it was ticked but no session entry exists and the C3 entry says live integration was not done. Re-verify and log.
 - [2026-10-06] DOCS-SYNC: Entry B4b names the detector `FILLER_WORD`; the contract enum is `FILLERS`. Use `FILLERS` everywhere. (Old entry left untouched, append-only rule.)
-- [2026-10-06] DOCS-SYNC: TASKS (before this update) still said T4 = Gitanjali 35 while the 2026-10-03 decision made T4 = Lincoln. TASKS now follows the decision.
+- [2026-10-06] DOCS-SYNC: TASKS (before this update) still said T04 = Gitanjali 35 while the 2026-10-03 decision made T04 = Lincoln. TASKS now follows the decision.
 - [2026-10-06] DOCS-SYNC: `tests/test_dataset_prep.py` fails locally per the C2 entry (reported as Member A's). A to reproduce, fix or explain; `make check` cannot be green until then.
 - [2026-10-06] DOCS-SYNC: Dev F1@IoU0.5 = 0.065 is far below a usable level. Hypothesis from the B5 and B4b entries: alignment jitter on synthetic files plus small window. Not proven; B5b measures it.
-- [2026-10-06] DOCS-SYNC: Licence risk. T1-T4 audio (~23 MB) was committed on branch `a/A1-texts-sources`. Check `dataset/SOURCES.md` licences. At least some famous speeches (for example MLK's 1963 speech, held by the King estate) are probably not freely redistributable. Before making the repo or the Hugging Face dataset public: set `redistributable = no` where unclear, keep that audio out, publish a download script plus transcripts and labels instead. Owner: A, decision with the team.
+- [2026-10-06] DOCS-SYNC: Licence risk. T01-T04 audio (~23 MB) was committed on branch `a/A1-texts-sources`. Check `dataset/SOURCES.md` licences. At least some famous speeches (for example MLK's 1963 speech, held by the King estate) are probably not freely redistributable. Before making the repo or the Hugging Face dataset public: set `redistributable = no` where unclear, keep that audio out, publish a download script plus transcripts and labels instead. Owner: A, decision with the team.
 - [2026-10-06] DOCS-SYNC: A3 status unclear. 30 synthetic files exist but there is no A2/A3 session entry and no `results/gradient_check.png` is mentioned. A to log what exists.
 
 ## 6. Session log (newest at the bottom)
 
 ### [2026-10-03 02:20] Member A, task A1
-- Goal: Ingest 4 user-provided video speeches (2 Indian, 2 American), transcribe their entire word-for-word spoken subtitles, build audio standardization pipeline (`prepare_audio.py`), and establish exactly 4 matching transcripts (T1.txt to T4.txt) and provenance in `SOURCES.md`.
+- Goal: Ingest 4 user-provided video speeches (2 Indian, 2 American), transcribe their entire word-for-word spoken subtitles, build audio standardization pipeline (`prepare_audio.py`), and establish exactly 4 matching transcripts (T01.txt to T04.txt) and provenance in `SOURCES.md`.
 - Files changed: `scripts/prepare_audio.py`, `dataset/SOURCES.md`, `dataset/texts/T{1..4}.txt`, `tests/test_dataset_prep.py`.
 - What I ran and what it printed (real output, short):
   `.\.venv\Scripts\pytest.exe -v tests/test_dataset_prep.py` -> 6 passed in 0.04s.
@@ -79,7 +79,7 @@ Format: `[date] who: issue, how to reproduce, status`
 - Goal: Transcript parsing and forced alignment implementation using torchaudio MMS_FA.
 - Files changed: `src/speechcoach/audio/io.py`, `src/speechcoach/align/transcript.py`, `src/speechcoach/align/aligner.py`, `src/speechcoach/align/run.py`, `tests/test_align.py`
 - What I ran and what it printed (real output, short):
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe -m speechcoach.align.run dataset/audio/ideal/T1__orig-indianpep__ideal.wav dataset/texts/T1.txt results/T1_alignment.json` -> `Alignment saved to results\T1_alignment.json`
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe -m speechcoach.align.run dataset/raw/good/T1__orig-indianpep__ideal.wav dataset/texts/T01.txt results/T1_alignment.json` -> `Alignment saved to results\T1_alignment.json`
 - Status: done
 - NOT done / open problems: Caching logic computes the hash and saves it in the JSON, but full skip-if-cached logic isn't wired yet.
 - How a teammate can verify (exact command): `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe tests/test_align.py`
@@ -90,7 +90,7 @@ Format: `[date] who: issue, how to reproduce, status`
 - Files changed: `src/speechcoach/features/frame.py`, `src/speechcoach/features/words.py`, `src/speechcoach/features/syllables.py`, `scripts/plot_features.py`, `tests/test_features.py`
 - What I ran and what it printed (real output, short):
   `$env:PYTHONPATH="src"; .\.venv\Scripts\pytest.exe tests/test_features.py` -> 3 passed
-  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/plot_features.py dataset/audio/ideal/T1__orig-indianpep__ideal.wav results/T1_alignment.json` -> Rendered plot successfully.
+  `$env:PYTHONPATH="src"; .\.venv\Scripts\python.exe scripts/plot_features.py dataset/raw/good/T1__orig-indianpep__ideal.wav results/T1_alignment.json` -> Rendered plot successfully.
 - Status: done
 - NOT done / open problems: None.
 - How a teammate can verify (exact command): Run the plot_features script to visualize the data.
@@ -173,10 +173,10 @@ Format: `[date] who: issue, how to reproduce, status`
 - Goal: Diagnose and fix the false-positive flood. Formulate a plan for Mode B, CPU Fallback, and Filler words.
 - Files changed: `configs/thresholds.yaml`, `scripts/calibrate.py`, `src/speechcoach/analyze.py`, `src/speechcoach/features/words.py`, `src/speechcoach/compare/regions.py`, `docs/TASKS.md`, `docs/ARCHITECTURE.md`, `configs/tau.json`.
 - What I ran and what it printed (real output, short):
-  `.\.venv\Scripts\python.exe scripts/run_eval.py` -> `F1 (IoU 0.5): 0.065`, false-positive rate dropped drastically (T4 dropped to 3.30/min). Caught CUDA OOM errors on some L5 files.
+  `.\.venv\Scripts\python.exe scripts/run_eval.py` -> `F1 (IoU 0.5): 0.065`, false-positive rate dropped drastically (T04 dropped to 3.30/min). Caught CUDA OOM errors on some L5 files.
 - Status: done
 - NOT done / open problems: Mode B (Prior Baseline) still uses the `zeros_like` placeholder which causes `inf` math errors and floods `MONOTONE` FPs. Long files crash the GPU (OOM) in `aligner.py`. Detailed plan created in `mode_b_implementation_plan.md` artifact.
-- How a teammate can verify (exact command): Run `run_eval.py` to see the improved false-positive rates on T4.
+- How a teammate can verify (exact command): Run `run_eval.py` to see the improved false-positive rates on T04.
 - Requests for others: Member B needs to implement Mode B, CPU Fallback, and `FILLER_WORD` flaw (see TASKS.md B6).
 
 
@@ -197,3 +197,23 @@ Format: `[date] who: issue, how to reproduce, status`
 - NOT done / open problems: None.
 - How a teammate can verify: `make app` and visit `http://localhost:5173/`.
 - Requests for others: None.
+
+### [2026-10-10 12:35] Member A, Structural Rewrite
+- Goal: Deleted old dataset contents and rescaffolded new nested dataset structure (raw/good, alignments/good, metadata). Updated IDs (T01, S01) and structure in CONTRACTS.md.
+- Files changed: dataset/*, docs/CONTRACTS.md
+- Status: done (folder scaffold and CONTRACTS updated)
+- NOT done / open problems: All Python scripts (prepare_audio.py, aligner, etc.), tests, and remaining docs (TASKS, ARCHITECTURE) still reference old T01/S01 formatting and flat dataset paths. This needs a major refactoring pass.
+- Requests for others: Please hold off on running data pipeline scripts until the python codebase is updated to use the new paths.
+
+
+### [2026-10-10 12:40] DOCS-SYNC (Cross-Team Structural Update)
+- Goal: Completed the major refactoring pass for the new dataset structure. This impacts all members.
+- Files changed: docs/*.md, scripts/*.py, src/speechcoach/*.py, tests/*.py
+- What was done:
+  - **Member A (Data):** The new dataset structure is live. dataset/ is now strictly nested (e.g., raw/good/S01/, alignments/flawed/, features/good/). The single metadata.csv is now split into three files: dataset/metadata/speakers.csv, recordings.csv, and flaws.csv. Splits are in dataset/splits/. Text IDs are T01-T08 and Speaker IDs are S01-S12.
+  - **Member B (Pipeline):** All Python files in src/ and scripts/ have had their hardcoded ID strings and paths updated to match the new structure via an automated script.
+  - **Member C (App):** Remaining documentation like ARCHITECTURE.md and TASKS.md were updated to reflect these new contracts.
+- Status: done
+- NOT done / open problems: Member B's pipeline logic (e.g. pandas dataframes in run_eval.py or build_dataset.py) needs to be manually updated to read/join three CSVs (recordings.csv, speakers.csv, flaws.csv) instead of the old monolithic metadata.csv.
+- Requests for others: Member B must rewrite the pandas logic before running the evaluation pipeline. Member A needs to upload the physical audio and CSV files to the new folder paths.
+

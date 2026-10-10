@@ -67,7 +67,7 @@ composites:    # 5 per text, levels 2-4
   - [PACE_SLOW, FLAT_ENERGY]
   - [PACE_FAST, PAUSE_MISSING, MONOTONE]
 ```
-Files per text: 1 control + 7x5 (full gradient) + 6x3 (reduced) + 5 composites = 59. Eight texts = about 470 synthetic files, inside the plan's 400-600 target for flawed recordings (plus the human takes below). T1 already has the original 30-file pacing/monotone/volume/pause set; A3 adds the rest.
+Files per text: 1 control + 7x5 (full gradient) + 6x3 (reduced) + 5 composites = 59. Eight texts = about 470 synthetic files, inside the plan's 400-600 target for flawed recordings (plus the human takes below). T01 already has the original 30-file pacing/monotone/volume/pause set; A3 adds the rest.
 
 ## 4. Human flaw cards (real recordings)
 | Card | Instruction | Maps to |

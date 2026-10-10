@@ -13,16 +13,14 @@ Change protocol is in section 9.
 - Sample rate: 16000 Hz mono everywhere in the dataset.
 
 ### 0.1 IDs and names
-- `text_id`: `T1` ... `T8` [v1.1: was T1..T6]. T1-T4 = prepared public speeches; T5-T8 = original team-written texts (100-130 words). Text split: **dev** T1, T2, T4, T5; **test** T3, T6; **stress** T7, T8 [v1.1] (unseen-text set: kept OUT of the baseline library so the analyzer must use Mode B; also used for no-reference tests).
-- `speaker_split` [v1.1]: by speaker, never by clip. `train` = h1-h8 and every `orig-*`; `val` = h9, h10; `test` = h11, h12. A `synth-<base>` speaker inherits the base speaker's split. Speakers not yet recruited simply stay unused; the rule is fixed now so nobody tunes on a test voice later.
+- `text_id`: `T01` ... `T08` [v1.1: was T01..T06]. T01-T04 = prepared public speeches; T05-T08 = original team-written texts (100-130 words). Text split: **dev** T01, T02, T04, T05; **test** T03, T06; **stress** T07, T08 [v1.1] (unseen-text set: kept OUT of the baseline library so the analyzer must use Mode B; also used for no-reference tests).
+- `speaker_split` [v1.1]: by speaker, never by clip. `train` = S01-S08 and every `orig-*`; `val` = S09, S10; `test` = S11, S12. A `synth-<base>` speaker inherits the base speaker's split. Speakers not yet recruited simply stay unused; the rule is fixed now so nobody tunes on a test voice later.
 - Evaluation sets [v1.1]: DEV = text split dev AND speaker_split in (train, val); TEST-TEXT = text split test; TEST-SPEAKER = speaker_split test on dev texts; STRESS = text split stress plus composites/noise/loudness variants. Tuning only on DEV; thresholds picked on `val` speakers; TEST sets run once.
-- Speaker ids: `h1` ... `h12` [v1.1: was h1-h3] (teammates first, then volunteers; `hN` = the plan's `S0N`), `orig-<name>` (historical original, e.g. `orig-jfk`), `synth-<base_speaker>` (synthetic derived from that base).
-- `file_id = {text_id}__{speaker}__{variant}`. Variants:
-  - ideal recordings: `ideal`, `ideal2` ...
-  - resynth control: `resynth_control`
-  - synthetic flaws: `{FLAW}_L{1-5}` or composites `COMP{n}_L{2-4}`
-  - human flawed takes: `flaw01`, `flaw02` ... (+ `almost01` for "almost perfect")
-- Examples: `T4__h1__ideal`, `T1__synth-orig-jfk__PACE_FAST_L3`, `T3__h2__flaw01`.
+- Speaker ids: `S01` ... `S12` (teammates first, then volunteers), `orig-<name>` (historical original, e.g. `orig-jfk`), `synth-<base_speaker>` (synthetic derived from that base).
+- `file_id = {speaker}_{text_id}_{quality}`. Quality:
+  - `GOOD`: ideal recordings
+  - `FLAWED`: synthetic or human flawed takes
+- Examples: `S01_T04_GOOD`, `S02_T01_FLAWED`.
 
 ### 0.2 Enums
 - **Flaw types:** `PACE_FAST, PACE_SLOW, PAUSE_MISSING, PAUSE_EXCESS, PAUSE_MISPLACED, MONOTONE, PITCH_ERRATIC, VOLUME_DROP, FLAT_ENERGY, CLARITY, FILLERS, STRESS_MISSING, STRESS_EXAGGERATED` [v1.1: added STRESS_EXAGGERATED]. The canonical name is `FILLERS` (an old HANDOFF entry says `FILLER_WORD`; that was a typo, do not use it).
@@ -38,37 +36,26 @@ Change protocol is in section 9.
 ```
 `punct` is one of `""`, `,`, `.`, `;`, `:`, `?`, `!` (punctuation attached AFTER the word).
 
-## 2. Alignment file: `dataset/alignments/<file_id>.json`
+## 2. Alignment files: `dataset/alignments/good/<file_id>.json` and `dataset/alignments/flawed/<file_id>.json`
 ```json
-{"file_id": "T4__h1__ideal", "text_id": "T4", "sr": 16000, "duration_s": 41.2,
+{"file_id": "S01_T04_GOOD", "text_id": "T04", "sr": 16000, "duration_s": 41.2,
  "method": "torchaudio-MMS_FA", "words": [ <Word>, ... ]}
 ```
 
-## 3. Label file: `dataset/labels/<file_id>.json`
-```json
-{
-  "file_id": "T1__synth-orig-jfk__PACE_FAST_L3",
-  "text_id": "T1",
-  "source": "synthetic",
-  "base_file_id": "T1__orig-jfk__ideal",
-  "reference_file_ids": ["T1__orig-jfk__ideal", "T1__h1__ideal"],
-  "severity_level": 3,
-  "speaker": "synth-orig-jfk",
-  "split": "dev",
-  "speaker_split": "train",
-  "duration_s": 58.4,
-  "flaws": [
-    {"type": "PACE_FAST", "start_s": 12.40, "end_s": 19.85,
-     "family": "pacing", "first_word": 24, "last_word": 41, "params": {"speed": 1.35}}
-  ],
-  "words": [ <Word>, ... ],
-  "license": "public-domain; source: <url>"
-}
-```
-Rules: `family` (per flaw), `speaker` and `speaker_split` [v1.1] are required in new label files; `split` is `dev`, `test` or `stress`. `source` is `synthetic`, `human` or `original`. `severity_level` is 0-5 for synthetic (0 = ideal/control), `null` for human. For ideal recordings `flaws` is `[]`. `words` times are in the NEW file's time (mapped through the time program for synthetic files). Every `start_s < end_s <= duration_s`.
+## 3. Metadata & Labels (`dataset/metadata/`)
+Flaws and file metadata are tracked across `speakers.csv`, `recordings.csv`, and `flaws.csv`.
 
-## 4. `dataset/metadata.csv` columns
-`file_id,text_id,source,speaker,variant,severity_level,flaw_types,flaw_families,split,speaker_split,duration_s,license,redistributable,audio_path,label_path` [v1.1: added `flaw_families`, `speaker_split`, `redistributable` (yes/no from SOURCES.md; `no` = audio is not published)]
+`recordings.csv` columns:
+`file_id,text_id,speaker_id,quality,duration_s,license,redistributable`
+
+`flaws.csv` columns:
+`file_id,flaw_type,flaw_family,severity_level,start_s,end_s,first_word,last_word`
+
+`speakers.csv` columns:
+`speaker_id,source,speaker_split`
+
+## 4. Splits (`dataset/splits/`)
+Splits are defined in `train.csv`, `validation.csv`, and `test.csv`.
 
 ## 5. Python interfaces (signatures are frozen)
 ```python
@@ -115,7 +102,7 @@ def inject(base_file_id: str, flaw: str, level: int, seed: int) -> tuple[np.ndar
 ## 6. AnalysisResult JSON (what `analyze()` and `/analyze` return)
 ```json
 {
-  "meta": {"mode": "reference", "baseline_id": "T1", "duration_s": 58.4, "version": "1.0",
+  "meta": {"mode": "reference", "baseline_id": "T01", "duration_s": 58.4, "version": "1.0",
            "warnings": [], "mode_label": "Reference mode"},
   "words": [{"i": 0, "w": "ask", "start": 1.2, "end": 1.52, "punct": "", "conf": 0.93,
              "z": {"pace": 0.3, "pause": 0.1, "pitch": -0.2, "energy": 0.1, "clarity": 0.0}}],
@@ -143,7 +130,7 @@ Rules: `family`, `confidence`, `evidence.deviation_pct` and `meta.mode_label` ar
 | Method | Path | Body / params | Returns |
 |---|---|---|---|
 | GET | `/health` | none | `{"status":"ok"}` |
-| GET | `/baselines` | none | `[{"id":"T1","title":"...","n_ideals":3}]` |
+| GET | `/baselines` | none | `[{"id":"T01","title":"...","n_ideals":3}]` |
 | POST | `/analyze` | multipart: `audio` (file), `transcript` (text), `baseline_id` (optional), `mode` (`auto|reference|prior`) | AnalysisResult |
 | GET | `/demo/{name}` | `name` in `ideal`, `almost`, `botched`, `unseen` [v1.1: `unseen` = no-reference example] | AnalysisResult (precomputed) |
 

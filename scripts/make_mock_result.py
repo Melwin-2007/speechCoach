@@ -376,7 +376,7 @@ def build_mock_dataset(preset: str = "botched", seed: int = 1234) -> dict:
     result = {
         "meta": {
             "mode": "reference",
-            "baseline_id": "T4",
+            "baseline_id": "T04",
             "duration_s": duration_s,
             "version": "1.0",
             "warnings": warnings
