@@ -71,7 +71,7 @@ class PaceModel:
             raise ValueError("No valid features extracted for training.")
             
         X_train = np.vstack(X_train)
-        self.model.fit(X_train)
+        self.model.fit(X_train)  # type: ignore
         self.is_trained = True
         print(f"PaceModel trained on {len(X_train)} windows.")
         
@@ -85,8 +85,8 @@ class PaceModel:
             return []
             
         # Predict: 1 = normal, -1 = anomaly
-        preds = self.model.predict(X)
-        scores = self.model.decision_function(X) # lower score = more anomalous
+        preds = self.model.predict(X)  # type: ignore
+        scores = self.model.decision_function(X) # type: ignore # lower score = more anomalous
         
         flaws = []
         for i, (pred, score) in enumerate(zip(preds, scores)):
