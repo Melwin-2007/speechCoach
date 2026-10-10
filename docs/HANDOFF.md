@@ -242,3 +242,9 @@ Format: `[date] who: issue, how to reproduce, status`
 
 - **Analysis/Findings**: Created scripts/test_all_models.py to evaluate models trained on S01-S03 against unseen good speaker S04. Results: Energy (0 FPs), Pause (1 FP), Pitch (6 FPs), Pace (11 FPs), Clarity (14 FPs). Conclusion: Unsupervised anomaly detection fails to generalize across speakers. We MUST transition to supervised classifiers (e.g. RandomForest) once Member A generates the human-labeled flawed datasets.
 - **Requests**: Member A MUST generate the flawed datasets and flaws.csv labels so Member B can train supervised classifiers.
+
+### [2026-10-11] Member B
+- **Goal**: Phase 5 dataset evaluation and fixing analysis schema.
+- **Files changed**: `scripts/run_eval.py`, `src/speechcoach/analyze.py`
+- **Status**: Fixed `run_eval.py` determinism bugs caused by JSON schema changes. Fixed `analyze.py` cache loading bug (caused TypeError on dict string indices). Evaluation is running on the ~400 files.
+- **Remaining**: Wait for Phase 5 to finish and check Acceptance Criteria. Then run Phase 6 (`train_score_model.py`) and finalize Phase 7 dashboard JSON contract in `analyze.py`.

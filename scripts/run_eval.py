@@ -44,10 +44,12 @@ def match_flaw(true_flaw, pred_flaws):
 
 def main():
     # Precompute LOO bounds
-    print("Precomputing LOO bounds...")
+    print("Precomputing LOO bounds...", flush=True)
     from scripts.fit_population_bounds import main as fit_bounds
     for spk in ["S01", "S02", "S03", "S04"]:
-        fit_bounds(out=f"configs/population_bounds_loo_{spk}.json", exclude_spk=spk)
+        out_path = f"configs/population_bounds_loo_{spk}.json"
+        if not os.path.exists(out_path):
+            fit_bounds(out=out_path, exclude_spk=spk)
         
     labels_path = Path("dataset/metadata/flaws.json")
     if not labels_path.exists():
@@ -86,13 +88,17 @@ def main():
             
         if row.get('quality') == 'GOOD':
             good_files.append((fid, row["speaker_id"], row["text_id"]))
-        elif fid in flaw_map:
-            eval_files.append((fid, {
-                "file_id": fid,
-                "speaker": row["speaker_id"],
-                "text_id": row["text_id"],
-                "flaws": flaw_map.get(fid, [])
-            }))
+            
+    for fid, flaws in flaw_map.items():
+        spk = fid.split("_")[0]
+        text_id = fid.split("_")[1]
+        if spk == "S04": continue
+        eval_files.append((fid, {
+            "file_id": fid,
+            "speaker": spk,
+            "text_id": text_id,
+            "flaws": flaws
+        }))
             
     print(f"\nEvaluating {len(eval_files)} flawed files and {len(good_files)} good files (S01-S03)")
     
@@ -109,60 +115,70 @@ def main():
     # Determinism test on first file
     det_file = eval_files[0] if eval_files else None
     if det_file:
-        row = next((r for r in reader_rows if r["file_id"] == det_file[0]), None)
-        audio_path = f"dataset/raw/{row.get('quality', 'GOOD').lower()}/{row['speaker_id']}/{det_file[0]}.wav"
-        transcript = open(f"dataset/texts/{row['text_id']}.txt", encoding="utf-8").read()
-        res1 = analyze(audio_path, transcript, exclude_speaker=row["speaker_id"])
-        res2 = analyze(audio_path, transcript, exclude_speaker=row["speaker_id"])
+        audio_path = f"dataset/raw/flawed/{det_file[1]['speaker']}/{det_file[0]}.wav"
+        transcript = open(f"dataset/transcripts/{det_file[1]['text_id']}.txt", encoding="utf-8").read()
+        res1 = analyze(audio_path, transcript, exclude_speaker=det_file[1]['speaker'])
+        res2 = analyze(audio_path, transcript, exclude_speaker=det_file[1]['speaker'])
         
         # Check determinism
-        assert res1["meta"]["bounds_hash"] == res2["meta"]["bounds_hash"], "Bounds hash determinism failed"
-        assert len(res1["flaws"]) == len(res2["flaws"]), "Flaws length determinism failed"
-        for f1, f2 in zip(res1["flaws"], res2["flaws"]):
+        assert res1.get("bounds_hash") == res2.get("bounds_hash"), "Bounds hash determinism failed"
+        assert len(res1.get("regions", [])) == len(res2.get("regions", [])), "Flaws length determinism failed"
+        for f1, f2 in zip(res1.get("regions", []), res2.get("regions", [])):
             assert f1["start"] == f2["start"] and f1["end"] == f2["end"] and f1["type"] == f2["type"], "Flaw values determinism failed"
-        print("Determinism test PASSED")
+        print("Determinism test PASSED", flush=True)
     
     # Evaluate Good files for FP/min
-    for fid, spk, text_id in good_files:
-        audio_path = f"dataset/raw/good/{spk}/{fid}.wav"
-        if not os.path.exists(audio_path): continue
-        transcript = open(f"dataset/texts/{text_id}.txt", encoding="utf-8").read()
-        res = analyze(audio_path, transcript, exclude_speaker=spk)
-        dur = res["meta"]["duration_s"]
-        good_duration_s += dur
-        speaker_duration_s[spk] += dur
-        
-        for f in res.get("flaws", []):
-            fp_by_type[f["type"]] += 1
-            fp_by_speaker[spk] += 1
+    for i, (fid, spk, text_id) in enumerate(good_files):
+        print(f"Good {i+1}/{len(good_files)}: {fid}", flush=True)
+        try:
+            audio_path = f"dataset/raw/good/{spk}/{fid}.wav"
+            if not os.path.exists(audio_path): continue
+            transcript = open(f"dataset/transcripts/{text_id}.txt", encoding="utf-8").read()
+            res = analyze(audio_path, transcript, exclude_speaker=spk)
+            dur = res["meta"]["duration_s"]
+            good_duration_s += dur
+            speaker_duration_s[spk] += dur
+            
+            for f in res.get("regions", []):
+                fp_by_type[f["type"]] += 1
+                fp_by_speaker[spk] += 1
+        except Exception as e:
+            import traceback
+            print(f"Error on good file {fid}: {e}\n{traceback.format_exc()}", flush=True)
+
             
     # Evaluate Flawed files for Recall
-    for fid, label_data in eval_files:
-        spk = label_data["speaker"]
-        text_id = label_data["text_id"]
-        row = next((r for r in reader_rows if r["file_id"] == fid), None)
-        audio_path = f"dataset/raw/{row.get('quality', 'GOOD').lower()}/{spk}/{fid}.wav"
-        if not os.path.exists(audio_path): continue
-        
-        transcript = open(f"dataset/texts/{text_id}.txt", encoding="utf-8").read()
-        res = analyze(audio_path, transcript, exclude_speaker=spk)
-        
-        pred_flaws = res.get("flaws", [])
-        
-        for t in label_data["flaws"]:
-            typ = t["type"]
-            sev = t["severity"]
-            key = f"{typ}_L{sev}"
+    for i, (fid, label_data) in enumerate(eval_files):
+        print(f"Flawed {i+1}/{len(eval_files)}: {fid}", flush=True)
+        try:
+            spk = label_data["speaker"]
+            text_id = label_data["text_id"]
+            row = None
+            audio_path = f"dataset/raw/flawed/{spk}/{fid}.wav"
+            if not os.path.exists(audio_path): continue
             
-            iou_pass, time_pass, best_iou = match_flaw(t, pred_flaws)
+            transcript = open(f"dataset/transcripts/{text_id}.txt", encoding="utf-8").read()
+            res = analyze(audio_path, transcript, exclude_speaker=spk)
             
-            recall_stats[key]["total"] += 1
-            if iou_pass: recall_stats[key]["iou"] += 1
-            if time_pass: recall_stats[key]["time"] += 1
+            pred_flaws = res.get("regions", [])
             
-            if not iou_pass and typ == "PACE_FAST" and sev == 4:
-                # Diagnostic
-                print(f"[DIAGNOSTIC] Missed PACE_FAST L4 in {fid}. Best IoU: {best_iou:.2f}")
+            for t in label_data["flaws"]:
+                typ = t["type"]
+                sev = t["severity"]
+                key = f"{typ}_L{sev}"
+                
+                iou_pass, time_pass, best_iou = match_flaw(t, pred_flaws)
+                
+                recall_stats[key]["total"] += 1
+                if iou_pass: recall_stats[key]["iou"] += 1
+                if time_pass: recall_stats[key]["time"] += 1
+                
+                if not iou_pass and typ == "PACE_FAST" and sev == 4:
+                    # Diagnostic
+                    print(f"[DIAGNOSTIC] Missed PACE_FAST L4 in {fid}. Best IoU: {best_iou:.2f}", flush=True)
+        except Exception as e:
+            import traceback
+            print(f"Error on flawed file {fid}: {e}\n{traceback.format_exc()}", flush=True)
 
     # Generate Report
     report = []

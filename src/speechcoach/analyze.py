@@ -23,7 +23,23 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
     y = load_audio(audio_path, sr=16000, target_lufs=-23.0)
     duration_s = float(len(y) / 16000.0)
     raw_words = parse_transcript(transcript)
-    words = align_words(y, raw_words)
+    
+    # Check cache for alignments
+    import json
+    audio_path_str = str(audio_path).replace("\\", "/")
+    words = None
+    if "dataset/raw" in audio_path_str:
+        cache_path = audio_path_str.replace("dataset/raw", "dataset/alignments")
+        # remove speaker dir
+        parts = cache_path.split("/")
+        # dataset/alignments/type/speaker/file.wav -> dataset/alignments/type/file.json
+        if len(parts) >= 5:
+            cache_path = "/".join(parts[:-2] + [parts[-1].replace(".wav", ".json")])
+        if Path(cache_path).exists():
+            words = json.loads(Path(cache_path).read_text())["words"]
+            
+    if words is None:
+        words = align_words(y, raw_words)
     
     # 2. Extract Phrase Features
     g = frame_features(y)
@@ -70,16 +86,16 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
             end_s = float(grid["t"][e_idx])
             
             src_mode = src[s_idx]
-            dev_sigma = float(np.mean(sig[s_idx:e_idx+1]))
-            raw_dev = float(np.mean(dev[s_idx:e_idx+1]))
+            dev_peak = float(np.max(dev[s_idx:e_idx+1]))
+            dev_mean = float(np.mean(dev[s_idx:e_idx+1]))
             
             evidence = {
                 "flaw": name,
                 "start": round(start_s, 2),
                 "end": round(end_s, 2),
                 "source": str(src_mode),
-                "dev_sigma": round(dev_sigma, 2),
-                "raw_dev": round(raw_dev, 2)
+                "dev_peak": round(dev_peak, 2),
+                "dev_mean": round(dev_mean, 2)
             }
             
             # Additional context for specific flaws
@@ -105,12 +121,23 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 evidence["baseline"] = round(float(B.get("pause_s", {}).get("comma", {}).get("median", 0.3)), 2)
                 evidence["unit"] = "s"
                 
+            tier = "flagged" if dev_peak >= p.get("enter", 2.0) else "minor"
+            
             flaw_dict = {
                 "id": flaw_id,
                 "type": name,
+                "flaw": name,
+                "tier": tier,
                 "start": round(start_s, 2),
                 "end": round(end_s, 2),
-                "evidence": evidence
+                "source": str(src_mode),
+                "value": evidence.get("value", 0.0),
+                "baseline": evidence.get("baseline", 0.0),
+                "band": "unknown",
+                "dev_peak": round(dev_peak, 2),
+                "dev_mean": round(dev_mean, 2),
+                "text_span": "TODO",
+                "explanation": explain(evidence)
             }
             
             try:
@@ -124,17 +151,57 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
     regions.sort(key=lambda x: x["start"])
     
     # 5. Build response
+    
+    # Extract unassessed regions (gaps and unreliable areas)
+    not_assessed = []
+    unreliable = ~grid["reliable"]
+    unreliable_spans = detect_regions(np.where(unreliable, 3.0, 0.0), grid["t"], enter=2.0, exit=1.0, min_dur=0.5, merge_gap=0.0, smooth=1)
+    for s_idx, e_idx in unreliable_spans:
+        not_assessed.append({"start": round(float(grid["t"][s_idx]), 2), "end": round(float(grid["t"][e_idx]), 2)})
+        
+    score = 0.0
+    subscores = {}
+    model_hash = "unknown"
+    
+    model_path = Path(__file__).resolve().parent / "models" / "weights" / "scoring_model.pkl"
+    if model_path.exists():
+        try:
+            import pickle
+            with open(model_path, "rb") as f:
+                model_data = pickle.load(f)
+            model_hash = model_data.get("hash", "unknown")
+            X = np.array([[soft_features.get(f, 0.0) for f in model_data["feature_names"]]])
+            X_scaled = model_data["scaler"].transform(X)
+            raw_pred = model_data["ridge"].predict(X_scaled)
+            score_pred = model_data["isotonic"].predict(raw_pred)[0]
+            score = round(float(max(0.0, min(100.0, score_pred))), 1)
+        except Exception as e:
+            print(f"Failed to score: {e}")
+        
     result = {
-        "meta": {
-            "mode": mode,
-            "duration_s": round(duration_s, 4),
-            "version": "2.0",
-            "bounds_hash": B.get("hash", "unknown")
+        "bounds_hash": B.get("hash", "unknown"),
+        "model_hash": model_hash,
+        "score": score,
+        "subscores": subscores,
+        "grid": {
+            "t": grid["t"].tolist(),
+            "sps": grid["sps"].tolist(),
+            "st_std": grid["st_std"].tolist(),
+            "db_rel": grid["db_rel"].tolist(),
+            "pause_s": grid["pause_s"].tolist(),
+            "f0_contour": g["f0"].tolist(),
+            "energy_contour": g["db_rel"].tolist(),
+            "baseline_pace": np.full_like(grid["t"], norms.get("median_pace", 0.0)).tolist(),
+            "baseline_pitch": np.full_like(grid["t"], norms.get("median_f0", 0.0)).tolist()
         },
-        "words": words,
-        "flaws": regions,
-        "soft_features": soft_features,
-        "scores": {} # Placeholder for Score model (Fix 6)
+        "regions": regions,
+        "not_assessed": not_assessed,
+        "words": words, # Kept for UI convenience
+        "soft_features": soft_features, # Kept for scoring model
+        "meta": {
+            "duration_s": round(duration_s, 4),
+            "version": "2.0"
+        }
     }
     
     return result
