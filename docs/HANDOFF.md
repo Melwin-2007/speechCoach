@@ -239,3 +239,6 @@ Format: `[date] who: issue, how to reproduce, status`
 - Built EnergyModel (Volume Drop/Flat Energy) with LUFS/RMS features.
 
 - Built ClarityModel (Voice Quality) with HNR, Spectral Flux, and 13-dim MFCC features.
+
+- **Analysis/Findings**: Created scripts/test_all_models.py to evaluate models trained on S01-S03 against unseen good speaker S04. Results: Energy (0 FPs), Pause (1 FP), Pitch (6 FPs), Pace (11 FPs), Clarity (14 FPs). Conclusion: Unsupervised anomaly detection fails to generalize across speakers. We MUST transition to supervised classifiers (e.g. RandomForest) once Member A generates the human-labeled flawed datasets.
+- **Requests**: Member A MUST generate the flawed datasets and flaws.csv labels so Member B can train supervised classifiers.
