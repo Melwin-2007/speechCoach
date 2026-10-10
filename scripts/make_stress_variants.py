@@ -12,44 +12,43 @@ except ImportError:
 
 np.random.seed(42)
 
-def apply_pace_fast(y, sr, start_s, end_s):
+def apply_pace_fast(y, sr, start_s, end_s, severity):
     start_idx = int(start_s * sr)
     end_idx = int(end_s * sr)
     segment = y[start_idx:end_idx]
-    # Speed up by 1.5x
-    stretched = librosa.effects.time_stretch(segment, rate=1.5)
+    rate = {2: 1.15, 3: 1.3, 4: 1.5}.get(severity, 1.5)
+    stretched = librosa.effects.time_stretch(segment, rate=rate)
     y_new = np.concatenate([y[:start_idx], stretched, y[end_idx:]])
-    # The end_s in the new file will be earlier because it shrank
     new_end_s = start_s + (len(stretched) / sr)
-    return y_new, start_s, new_end_s
+    return y_new, start_s, new_end_s, rate, {"rate": rate}
 
-def apply_pace_slow(y, sr, start_s, end_s):
+def apply_pace_slow(y, sr, start_s, end_s, severity):
     start_idx = int(start_s * sr)
     end_idx = int(end_s * sr)
     segment = y[start_idx:end_idx]
-    # Slow down by 0.7x
-    stretched = librosa.effects.time_stretch(segment, rate=0.7)
+    rate = {2: 0.85, 3: 0.7, 4: 0.55}.get(severity, 0.7)
+    stretched = librosa.effects.time_stretch(segment, rate=rate)
     y_new = np.concatenate([y[:start_idx], stretched, y[end_idx:]])
     new_end_s = start_s + (len(stretched) / sr)
-    return y_new, start_s, new_end_s
+    return y_new, start_s, new_end_s, rate, {"rate": rate}
 
-def apply_pause_excess(y, sr, start_s, end_s):
-    # Use start_s as the insertion point, ignore end_s
+def apply_pause_excess(y, sr, start_s, end_s, severity):
     insert_s = start_s
-    # Insert 2.5 seconds of silence
+    dur = {2: 1.0, 3: 1.8, 4: 2.5}.get(severity, 2.5)
     insert_idx = int(insert_s * sr)
-    silence = np.zeros(int(2.5 * sr), dtype=y.dtype)
+    silence = np.zeros(int(dur * sr), dtype=y.dtype)
     y_new = np.concatenate([y[:insert_idx], silence, y[insert_idx:]])
-    return y_new, insert_s, insert_s + 2.5
+    return y_new, insert_s, insert_s + dur, dur, {"dur_added": dur}
 
-def apply_volume_drop(y, sr, start_s, end_s):
+def apply_volume_drop(y, sr, start_s, end_s, severity):
     start_idx = int(start_s * sr)
     end_idx = int(end_s * sr)
     y_new = y.copy()
-    y_new[start_idx:end_idx] = y_new[start_idx:end_idx] * 0.15  # drop volume significantly
-    return y_new, start_s, end_s
+    gain = {2: 0.5, 3: 0.3, 4: 0.15}.get(severity, 0.15)
+    y_new[start_idx:end_idx] = y_new[start_idx:end_idx] * gain
+    return y_new, start_s, end_s, float(20 * np.log10(gain)), {"gain": gain}
 
-def apply_monotone(y, sr, start_s, end_s):
+def apply_monotone(y, sr, start_s, end_s, severity):
     if pw is None:
         return y, start_s, end_s
     start_idx = int(start_s * sr)
@@ -57,14 +56,15 @@ def apply_monotone(y, sr, start_s, end_s):
     segment = y[start_idx:end_idx].astype(np.float64)
     
     # Extract pyworld features
-    f0, t = pw.dio(segment, sr)  # type: ignore
-    f0 = pw.stonemask(segment, f0, t, sr)  # type: ignore
-    sp = pw.cheaptrick(segment, f0, t, sr)  # type: ignore
-    ap = pw.d4c(segment, f0, t, sr)  # type: ignore
+    f0, t = pw.dio(segment, sr)
+    f0 = pw.stonemask(segment, f0, t, sr)
+    sp = pw.cheaptrick(segment, f0, t, sr)
+    ap = pw.d4c(segment, f0, t, sr)
     
-    # Flatten F0 to its non-zero mean
+    # Compress F0 toward median
     f0_mean = np.mean(f0[f0 > 0]) if np.any(f0 > 0) else 150.0
-    f0[f0 > 0] = f0_mean
+    factor = {2: 0.8, 3: 0.5, 4: 0.2}.get(severity, 0.2)
+    f0[f0 > 0] = f0_mean + (f0[f0 > 0] - f0_mean) * factor
     
     synthesized = pw.synthesize(f0, sp, ap, sr).astype(np.float32)  # type: ignore
     
@@ -75,9 +75,34 @@ def apply_monotone(y, sr, start_s, end_s):
         
     y_new = y.copy()
     y_new[start_idx:end_idx] = synthesized
-    return y_new, start_s, end_s
+    return y_new, start_s, end_s, factor, {"compression": factor}
 
-def apply_clarity(y, sr, start_s, end_s):
+def apply_pitch_erratic(y, sr, start_s, end_s, severity):
+    if pw is None: return y, start_s, end_s
+    start_idx = int(start_s * sr)
+    end_idx = int(end_s * sr)
+    segment = y[start_idx:end_idx].astype(np.float64)
+    
+    f0, t = pw.dio(segment, sr)
+    f0 = pw.stonemask(segment, f0, t, sr)
+    sp = pw.cheaptrick(segment, f0, t, sr)
+    ap = pw.d4c(segment, f0, t, sr)
+    
+    f0_mean = np.mean(f0[f0 > 0]) if np.any(f0 > 0) else 150.0
+    factor = {2: 1.5, 3: 2.0, 4: 2.5}.get(severity, 2.5)
+    f0[f0 > 0] = f0_mean + (f0[f0 > 0] - f0_mean) * factor
+    
+    synthesized = pw.synthesize(f0, sp, ap, sr).astype(np.float32)
+    if len(synthesized) > len(segment):
+        synthesized = synthesized[:len(segment)]
+    elif len(synthesized) < len(segment):
+        synthesized = np.pad(synthesized, (0, len(segment) - len(synthesized)))
+        
+    y_new = y.copy()
+    y_new[start_idx:end_idx] = synthesized
+    return y_new, start_s, end_s, factor, {"exaggeration": factor}
+
+def apply_clarity(y, sr, start_s, end_s, severity):
     # Add white noise and simulate low quality / mumbling
     start_idx = int(start_s * sr)
     end_idx = int(end_s * sr)
@@ -86,7 +111,7 @@ def apply_clarity(y, sr, start_s, end_s):
     noise = np.random.normal(0, 0.02, len(segment))
     y_new = y.copy()
     y_new[start_idx:end_idx] = segment * 0.6 + noise
-    return y_new, start_s, end_s
+    return y_new, start_s, end_s, 0.0, {}
 
 def main():
     print("Generating Synthetic Flawed Dataset...")
@@ -95,7 +120,7 @@ def main():
     raw_flawed_dir = Path("e:/SpeechCoach/dataset/raw/flawed")
     metadata_dir = Path("e:/SpeechCoach/dataset/metadata")
     
-    flaws_csv_path = metadata_dir / "flaws.csv"
+    flaws_json_path = metadata_dir / "flaws.json"
     recordings_csv_path = metadata_dir / "recordings.csv"
     
     # Ensure dirs exist
@@ -109,7 +134,8 @@ def main():
         ("PACE_FAST", apply_pace_fast),
         ("PACE_SLOW", apply_pace_slow),
         ("PAUSE_EXCESS", apply_pause_excess),
-        ("MONOTONE", apply_monotone),
+        ("PITCH_FLAT", apply_monotone),
+        ("PITCH_ERRATIC", apply_pitch_erratic),
         ("VOLUME_DROP", apply_volume_drop),
         ("CLARITY", apply_clarity)
     ]
@@ -134,53 +160,48 @@ def main():
         max_time = len(y) / sr
         
         for flaw_type, flaw_func in all_flaws:
-            print(f"Applying {flaw_type} to {file_id}...")
-            
-            # Randomize timestamps: start anywhere from 2s up to max_time - 8s
-            if max_time > 10.0:
-                start_t = float(np.random.uniform(2.0, max_time - 8.0))
-            else:
-                start_t = 1.0
+            for severity in [2, 3, 4]:
+                print(f"Applying {flaw_type} L{severity} to {file_id}...")
                 
-            end_t = start_t + float(np.random.uniform(4.0, 8.0)) # Flaw lasts 4-8 seconds
-            
-            if flaw_type == "PAUSE_EXCESS":
-                y_new, flaw_start, flaw_end = flaw_func(y, sr, start_t, end_t)
-            else:
-                y_new, flaw_start, flaw_end = flaw_func(y, sr, start_t, end_t)
-            
-            # Create output directory for this speaker
-            out_speaker_dir = raw_flawed_dir / speaker_id
-            out_speaker_dir.mkdir(exist_ok=True)
-            
-            # Generate new file ID and save
-            new_file_id = file_id.replace("_GOOD", f"_{flaw_type}")
-            out_path = out_speaker_dir / f"{new_file_id}.wav"
-            
-            sf.write(out_path, y_new, sr)
-            
-            # Log the flaw
-            flaws_data.append({
-                "file_id": new_file_id,
-                "speaker_id": speaker_id,
-                "text_id": text_id,
-                "flaw_type": flaw_type,
-                "start_time": round(flaw_start, 3),
-                "end_time": round(flaw_end, 3),
-                "severity": np.random.randint(2, 5) # Random severity 2, 3, or 4
-            })
+                # Randomize timestamps: start anywhere from 2s up to max_time - 8s
+                if max_time > 10.0:
+                    start_t = float(np.random.uniform(2.0, max_time - 8.0))
+                else:
+                    start_t = 1.0
+                    
+                end_t = start_t + float(np.random.uniform(4.0, 8.0)) # Flaw lasts 4-8 seconds
+                
+                y_new, flaw_start, flaw_end, expected_val, params = flaw_func(y, sr, start_t, end_t, severity)
+                
+                # Create output directory for this speaker
+                out_speaker_dir = raw_flawed_dir / speaker_id
+                out_speaker_dir.mkdir(exist_ok=True)
+                
+                # Generate new file ID and save
+                new_file_id = file_id.replace("_GOOD", f"_{flaw_type}_L{severity}")
+                out_path = out_speaker_dir / f"{new_file_id}.wav"
+                
+                sf.write(out_path, y_new, sr)
+                
+                # Log the flaw
+                flaws_data.append({
+                    "file_id": new_file_id,
+                    "speaker_id": speaker_id,
+                    "text_id": text_id,
+                    "flaw_type": flaw_type,
+                    "start_time": round(flaw_start, 3),
+                    "end_time": round(flaw_end, 3),
+                    "severity": severity,
+                    "expected_val": expected_val,
+                    "params": params
+                })
         
-    # Write to flaws.csv
-    file_exists = flaws_csv_path.exists()
-    with open(flaws_csv_path, 'a' if file_exists else 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=["file_id", "speaker_id", "text_id", "flaw_type", "start_time", "end_time", "severity"])
-        if not file_exists:
-            writer.writeheader()
-        for row in flaws_data:
-            writer.writerow(row)
+    # Write to flaws.json
+    with open(flaws_json_path, 'w', encoding='utf-8') as f:
+        json.dump(flaws_data, f, indent=2)
             
     print(f"\nSuccessfully generated {len(flaws_data)} flawed audio recordings!")
-    print(f"Flaw metadata saved to {flaws_csv_path}")
+    print(f"Flaw metadata saved to {flaws_json_path}")
 
 if __name__ == "__main__":
     main()

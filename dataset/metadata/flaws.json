@@ -1,0 +1,6410 @@
+[
+  {
+    "file_id": "S01_T01_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 21.901,
+    "end_time": 28.686,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T01_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 40.893,
+    "end_time": 45.812,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T01_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 10.29,
+    "end_time": 13.372,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T01_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 5.086,
+    "end_time": 13.868,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T01_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 33.939,
+    "end_time": 43.7,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T01_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 3.094,
+    "end_time": 17.42,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T01_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 46.231,
+    "end_time": 47.231,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T01_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 11.661,
+    "end_time": 13.461,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T01_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 18.165,
+    "end_time": 20.665,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T01_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 24.951,
+    "end_time": 30.116,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T01_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 34.51,
+    "end_time": 39.068,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T01_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 17.523,
+    "end_time": 22.988,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T01_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 26.233,
+    "end_time": 33.373,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T01_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 12.609,
+    "end_time": 18.666,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T01_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 33.477,
+    "end_time": 37.663,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T01_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 34.281,
+    "end_time": 38.963,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T01_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 5.456,
+    "end_time": 13.252,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T01_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 53.307,
+    "end_time": 60.541,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T01_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 18.185,
+    "end_time": 22.576,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T01_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 33.301,
+    "end_time": 40.852,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T01_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 36.895,
+    "end_time": 42.829,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T02_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 31.249,
+    "end_time": 35.15,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T02_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 41.402,
+    "end_time": 45.852,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T02_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 39.474,
+    "end_time": 42.652,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T02_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 4.809,
+    "end_time": 10.835,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T02_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 17.053,
+    "end_time": 26.724,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T02_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 18.272,
+    "end_time": 30.362,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T02_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 5.024,
+    "end_time": 6.024,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T02_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 31.267,
+    "end_time": 33.067,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T02_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 12.793,
+    "end_time": 15.293,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T02_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 35.005,
+    "end_time": 42.908,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T02_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 26.537,
+    "end_time": 34.532,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T02_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 26.893,
+    "end_time": 33.009,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T02_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 2.226,
+    "end_time": 8.648,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T02_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 20.068,
+    "end_time": 25.642,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T02_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 6.109,
+    "end_time": 10.188,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T02_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 29.122,
+    "end_time": 34.209,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T02_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 37.028,
+    "end_time": 43.611,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T02_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 42.145,
+    "end_time": 49.223,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T02_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 11.847,
+    "end_time": 19.459,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T02_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 45.003,
+    "end_time": 50.503,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T02_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 53.174,
+    "end_time": 58.774,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T03_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 14.653,
+    "end_time": 19.981,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T03_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 33.657,
+    "end_time": 39.408,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T03_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 4.357,
+    "end_time": 9.014,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T03_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 44.235,
+    "end_time": 52.378,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T03_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 25.042,
+    "end_time": 33.463,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T03_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 41.474,
+    "end_time": 50.509,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T03_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 24.889,
+    "end_time": 25.889,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T03_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 45.009,
+    "end_time": 46.809,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T03_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 47.403,
+    "end_time": 49.903,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T03_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 15.142,
+    "end_time": 21.518,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T03_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 43.649,
+    "end_time": 50.136,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T03_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 20.287,
+    "end_time": 25.459,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T03_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 45.334,
+    "end_time": 50.311,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T03_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 23.184,
+    "end_time": 30.612,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T03_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 10.862,
+    "end_time": 16.816,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T03_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 46.131,
+    "end_time": 53.72,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T03_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 36.592,
+    "end_time": 43.514,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T03_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 18.304,
+    "end_time": 25.284,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T03_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 40.916,
+    "end_time": 47.148,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T03_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 20.996,
+    "end_time": 28.235,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T03_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 42.459,
+    "end_time": 49.733,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T04_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 57.688,
+    "end_time": 62.637,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T04_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 47.765,
+    "end_time": 51.672,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T04_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 66.108,
+    "end_time": 71.001,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T04_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 45.521,
+    "end_time": 53.305,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T04_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 11.489,
+    "end_time": 22.608,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T04_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 65.849,
+    "end_time": 75.65,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T04_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 10.608,
+    "end_time": 11.608,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T04_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 20.276,
+    "end_time": 22.076,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T04_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 32.595,
+    "end_time": 35.095,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T04_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 17.057,
+    "end_time": 22.883,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T04_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 48.078,
+    "end_time": 52.444,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T04_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 51.976,
+    "end_time": 57.28,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T04_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 46.47,
+    "end_time": 50.505,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T04_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 33.376,
+    "end_time": 40.384,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T04_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 24.923,
+    "end_time": 29.064,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T04_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 7.441,
+    "end_time": 12.028,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T04_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 47.004,
+    "end_time": 51.947,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T04_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 7.394,
+    "end_time": 12.752,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T04_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 27.881,
+    "end_time": 34.876,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T04_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 56.685,
+    "end_time": 63.85,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T04_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 46.509,
+    "end_time": 52.046,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T05_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 34.101,
+    "end_time": 39.345,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T05_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 50.659,
+    "end_time": 55.721,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T05_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 45.391,
+    "end_time": 50.217,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T05_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 56.42,
+    "end_time": 65.331,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T05_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 31.368,
+    "end_time": 38.114,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T05_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 46.758,
+    "end_time": 58.229,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T05_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 18.819,
+    "end_time": 19.819,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T05_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 12.781,
+    "end_time": 14.581,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T05_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 21.858,
+    "end_time": 24.358,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T05_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 21.225,
+    "end_time": 28.501,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T05_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 28.939,
+    "end_time": 35.557,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T05_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 57.9,
+    "end_time": 64.146,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T05_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 58.106,
+    "end_time": 62.644,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T05_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 57.921,
+    "end_time": 62.482,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T05_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 29.905,
+    "end_time": 37.078,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T05_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 4.607,
+    "end_time": 8.65,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T05_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 23.739,
+    "end_time": 30.679,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T05_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 27.836,
+    "end_time": 35.617,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T05_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 13.55,
+    "end_time": 19.616,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T05_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 31.552,
+    "end_time": 38.964,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T05_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 41.374,
+    "end_time": 49.145,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T06_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PACE_FAST",
+    "start_time": 39.784,
+    "end_time": 45.751,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T06_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PACE_FAST",
+    "start_time": 59.703,
+    "end_time": 63.547,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T06_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PACE_FAST",
+    "start_time": 40.872,
+    "end_time": 44.157,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T06_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 29.946,
+    "end_time": 35.408,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T06_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 27.898,
+    "end_time": 34.579,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T06_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 63.044,
+    "end_time": 72.113,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T06_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 32.138,
+    "end_time": 33.138,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T06_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 42.198,
+    "end_time": 43.998,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T06_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 16.217,
+    "end_time": 18.717,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T06_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 59.706,
+    "end_time": 67.439,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T06_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 18.677,
+    "end_time": 25.339,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T06_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 12.534,
+    "end_time": 18.499,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T06_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 6.45,
+    "end_time": 13.012,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T06_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 23.526,
+    "end_time": 27.561,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T06_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 52.139,
+    "end_time": 56.655,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T06_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 56.03,
+    "end_time": 63.607,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T06_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 6.242,
+    "end_time": 11.748,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T06_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 5.972,
+    "end_time": 13.481,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T06_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "CLARITY",
+    "start_time": 16.06,
+    "end_time": 21.112,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T06_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "CLARITY",
+    "start_time": 13.468,
+    "end_time": 21.215,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T06_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T06",
+    "flaw_type": "CLARITY",
+    "start_time": 32.693,
+    "end_time": 37.537,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T07_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PACE_FAST",
+    "start_time": 45.78,
+    "end_time": 49.473,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T07_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PACE_FAST",
+    "start_time": 41.071,
+    "end_time": 46.436,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T07_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PACE_FAST",
+    "start_time": 44.027,
+    "end_time": 46.978,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T07_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 56.263,
+    "end_time": 61.635,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T07_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 43.875,
+    "end_time": 53.244,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T07_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 6.492,
+    "end_time": 16.17,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T07_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 53.026,
+    "end_time": 54.026,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T07_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 58.874,
+    "end_time": 60.674,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T07_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 47.366,
+    "end_time": 49.866,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T07_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 40.568,
+    "end_time": 47.353,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T07_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 27.086,
+    "end_time": 34.891,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T07_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 18.162,
+    "end_time": 25.496,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T07_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 19.378,
+    "end_time": 24.856,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T07_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 10.388,
+    "end_time": 14.413,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T07_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 12.149,
+    "end_time": 16.464,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T07_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 4.911,
+    "end_time": 10.352,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T07_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 12.208,
+    "end_time": 17.931,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T07_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 44.949,
+    "end_time": 52.843,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T07_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "CLARITY",
+    "start_time": 67.297,
+    "end_time": 72.028,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T07_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "CLARITY",
+    "start_time": 65.639,
+    "end_time": 70.183,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T07_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T07",
+    "flaw_type": "CLARITY",
+    "start_time": 49.48,
+    "end_time": 56.423,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T08_PACE_FAST_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PACE_FAST",
+    "start_time": 38.53,
+    "end_time": 42.528,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S01_T08_PACE_FAST_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PACE_FAST",
+    "start_time": 37.335,
+    "end_time": 41.738,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S01_T08_PACE_FAST_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PACE_FAST",
+    "start_time": 13.544,
+    "end_time": 17.598,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T08_PACE_SLOW_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 31.171,
+    "end_time": 39.799,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S01_T08_PACE_SLOW_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 7.002,
+    "end_time": 16.871,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S01_T08_PACE_SLOW_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 41.919,
+    "end_time": 54.862,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S01_T08_PAUSE_EXCESS_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 16.41,
+    "end_time": 17.41,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S01_T08_PAUSE_EXCESS_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 6.8,
+    "end_time": 8.6,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S01_T08_PAUSE_EXCESS_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 16.484,
+    "end_time": 18.984,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T08_PITCH_FLAT_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 33.528,
+    "end_time": 38.787,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S01_T08_PITCH_FLAT_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 35.821,
+    "end_time": 42.991,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T08_PITCH_FLAT_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 23.362,
+    "end_time": 28.169,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S01_T08_PITCH_ERRATIC_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 9.228,
+    "end_time": 15.813,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S01_T08_PITCH_ERRATIC_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 14.8,
+    "end_time": 19.535,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S01_T08_PITCH_ERRATIC_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 19.653,
+    "end_time": 26.954,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S01_T08_VOLUME_DROP_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 45.257,
+    "end_time": 51.881,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S01_T08_VOLUME_DROP_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 47.318,
+    "end_time": 52.504,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S01_T08_VOLUME_DROP_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 54.56,
+    "end_time": 62.158,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S01_T08_CLARITY_L2",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "CLARITY",
+    "start_time": 62.034,
+    "end_time": 68.082,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T08_CLARITY_L3",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "CLARITY",
+    "start_time": 43.961,
+    "end_time": 50.556,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S01_T08_CLARITY_L4",
+    "speaker_id": "S01",
+    "text_id": "T08",
+    "flaw_type": "CLARITY",
+    "start_time": 19.434,
+    "end_time": 27.167,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T01_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 39.966,
+    "end_time": 43.563,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T01_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 42.63,
+    "end_time": 47.975,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T01_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 33.015,
+    "end_time": 37.181,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T01_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 29.608,
+    "end_time": 37.13,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T01_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 20.085,
+    "end_time": 26.987,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T01_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 42.466,
+    "end_time": 55.386,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T01_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 49.664,
+    "end_time": 50.664,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T01_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 18.758,
+    "end_time": 20.558,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T01_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 9.945,
+    "end_time": 12.445,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T01_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 30.663,
+    "end_time": 35.232,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T01_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 37.528,
+    "end_time": 43.146,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T01_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 12.577,
+    "end_time": 17.398,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T01_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 20.393,
+    "end_time": 27.253,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T01_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 28.297,
+    "end_time": 35.63,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T01_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 16.222,
+    "end_time": 21.641,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T01_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 32.299,
+    "end_time": 39.585,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T01_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 35.567,
+    "end_time": 41.773,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T01_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 27.575,
+    "end_time": 34.88,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T01_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 11.688,
+    "end_time": 19.543,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T01_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 21.703,
+    "end_time": 27.578,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T01_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 38.58,
+    "end_time": 45.135,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T02_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 26.101,
+    "end_time": 30.215,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T02_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 3.704,
+    "end_time": 8.886,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T02_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 23.5,
+    "end_time": 26.207,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T02_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 4.518,
+    "end_time": 11.427,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T02_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 15.878,
+    "end_time": 25.243,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T02_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 22.219,
+    "end_time": 29.746,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T02_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 41.18,
+    "end_time": 42.18,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T02_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 7.094,
+    "end_time": 8.894,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T02_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 11.828,
+    "end_time": 14.328,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T02_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 2.175,
+    "end_time": 9.848,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T02_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 4.086,
+    "end_time": 10.887,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T02_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 6.371,
+    "end_time": 10.44,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T02_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 21.975,
+    "end_time": 26.868,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T02_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 17.384,
+    "end_time": 23.535,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T02_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 35.289,
+    "end_time": 41.476,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T02_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 36.316,
+    "end_time": 42.947,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T02_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 29.872,
+    "end_time": 37.44,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T02_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 10.658,
+    "end_time": 16.238,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T02_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 24.209,
+    "end_time": 30.144,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T02_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 18.071,
+    "end_time": 24.567,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T02_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 37.592,
+    "end_time": 42.8,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T03_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 12.792,
+    "end_time": 18.505,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T03_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 40.605,
+    "end_time": 44.704,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T03_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 7.446,
+    "end_time": 10.137,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T03_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 30.488,
+    "end_time": 35.439,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T03_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 26.714,
+    "end_time": 33.297,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T03_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 42.05,
+    "end_time": 51.23,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T03_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 23.774,
+    "end_time": 24.774,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T03_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 28.88,
+    "end_time": 30.68,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T03_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 41.929,
+    "end_time": 44.429,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T03_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 34.809,
+    "end_time": 42.71,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T03_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 15.697,
+    "end_time": 22.733,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T03_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 15.627,
+    "end_time": 20.83,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T03_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 41.318,
+    "end_time": 46.498,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T03_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 36.863,
+    "end_time": 44.07,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T03_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 5.851,
+    "end_time": 11.784,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T03_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 41.913,
+    "end_time": 48.216,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T03_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 8.92,
+    "end_time": 14.75,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T03_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 7.153,
+    "end_time": 13.841,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T03_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 22.77,
+    "end_time": 28.451,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T03_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 4.667,
+    "end_time": 9.107,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T03_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 24.288,
+    "end_time": 30.0,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T04_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 15.257,
+    "end_time": 22.026,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T04_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 13.449,
+    "end_time": 17.934,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T04_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 41.004,
+    "end_time": 45.686,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T04_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 23.778,
+    "end_time": 29.96,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T04_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 41.345,
+    "end_time": 49.77,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T04_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 15.883,
+    "end_time": 30.2,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T04_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 7.676,
+    "end_time": 8.676,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T04_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 27.388,
+    "end_time": 29.188,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T04_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 34.949,
+    "end_time": 37.449,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T04_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 35.805,
+    "end_time": 40.548,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T04_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 27.333,
+    "end_time": 34.918,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T04_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 28.615,
+    "end_time": 33.941,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T04_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 47.653,
+    "end_time": 55.337,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T04_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 38.244,
+    "end_time": 45.854,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T04_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 24.616,
+    "end_time": 30.623,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T04_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 13.101,
+    "end_time": 20.103,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T04_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 27.181,
+    "end_time": 32.644,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T04_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 9.518,
+    "end_time": 16.555,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T04_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 22.935,
+    "end_time": 28.636,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T04_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 26.379,
+    "end_time": 32.863,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T04_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 14.642,
+    "end_time": 20.804,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T05_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 2.686,
+    "end_time": 9.532,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T05_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 7.32,
+    "end_time": 10.973,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T05_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 30.937,
+    "end_time": 34.482,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T05_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 30.72,
+    "end_time": 35.592,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T05_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 7.534,
+    "end_time": 18.231,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T05_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 17.518,
+    "end_time": 29.29,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T05_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 5.862,
+    "end_time": 6.862,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T05_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 23.912,
+    "end_time": 25.712,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T05_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 11.926,
+    "end_time": 14.426,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T05_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 21.986,
+    "end_time": 29.241,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T05_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 24.082,
+    "end_time": 29.887,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T05_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 15.695,
+    "end_time": 21.164,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T05_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 32.708,
+    "end_time": 37.462,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T05_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 8.492,
+    "end_time": 16.265,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T05_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 26.043,
+    "end_time": 32.622,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T05_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 12.777,
+    "end_time": 18.55,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T05_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 33.437,
+    "end_time": 40.687,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T05_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 45.342,
+    "end_time": 49.574,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T05_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 32.044,
+    "end_time": 38.959,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T05_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 7.717,
+    "end_time": 14.199,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T05_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 37.98,
+    "end_time": 42.641,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T06_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PACE_FAST",
+    "start_time": 13.875,
+    "end_time": 20.063,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T06_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PACE_FAST",
+    "start_time": 20.674,
+    "end_time": 24.076,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T06_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PACE_FAST",
+    "start_time": 36.501,
+    "end_time": 41.384,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T06_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 52.683,
+    "end_time": 57.98,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T06_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 50.592,
+    "end_time": 61.524,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T06_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 30.025,
+    "end_time": 43.925,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T06_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 16.0,
+    "end_time": 17.0,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T06_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 55.751,
+    "end_time": 57.551,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T06_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 50.547,
+    "end_time": 53.047,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T06_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 37.878,
+    "end_time": 42.269,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T06_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 13.576,
+    "end_time": 17.767,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T06_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 7.631,
+    "end_time": 11.764,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T06_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 17.298,
+    "end_time": 24.211,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T06_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 26.719,
+    "end_time": 32.852,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T06_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 29.519,
+    "end_time": 33.913,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T06_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 51.243,
+    "end_time": 56.554,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T06_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 22.76,
+    "end_time": 29.625,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T06_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 18.5,
+    "end_time": 26.243,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T06_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "CLARITY",
+    "start_time": 16.537,
+    "end_time": 21.032,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T06_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "CLARITY",
+    "start_time": 24.691,
+    "end_time": 29.853,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T06_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T06",
+    "flaw_type": "CLARITY",
+    "start_time": 29.186,
+    "end_time": 34.294,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T07_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PACE_FAST",
+    "start_time": 46.495,
+    "end_time": 52.714,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T07_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PACE_FAST",
+    "start_time": 10.988,
+    "end_time": 15.946,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T07_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PACE_FAST",
+    "start_time": 18.923,
+    "end_time": 21.834,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T07_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 39.849,
+    "end_time": 49.011,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T07_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 3.511,
+    "end_time": 9.399,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T07_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 40.599,
+    "end_time": 50.361,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T07_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 26.724,
+    "end_time": 27.724,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T07_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 47.189,
+    "end_time": 48.989,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T07_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 7.517,
+    "end_time": 10.017,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T07_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 11.904,
+    "end_time": 18.667,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T07_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 43.111,
+    "end_time": 48.3,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T07_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 32.561,
+    "end_time": 39.879,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T07_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 19.808,
+    "end_time": 24.765,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T07_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 7.821,
+    "end_time": 12.373,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T07_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 3.515,
+    "end_time": 10.361,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T07_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 35.249,
+    "end_time": 40.395,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T07_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 23.51,
+    "end_time": 28.123,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T07_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 10.286,
+    "end_time": 15.313,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T07_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "CLARITY",
+    "start_time": 5.75,
+    "end_time": 12.187,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T07_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "CLARITY",
+    "start_time": 32.884,
+    "end_time": 39.452,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T07_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T07",
+    "flaw_type": "CLARITY",
+    "start_time": 12.277,
+    "end_time": 20.153,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T08_PACE_FAST_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PACE_FAST",
+    "start_time": 12.219,
+    "end_time": 17.351,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S02_T08_PACE_FAST_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PACE_FAST",
+    "start_time": 15.675,
+    "end_time": 21.171,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S02_T08_PACE_FAST_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PACE_FAST",
+    "start_time": 16.145,
+    "end_time": 20.73,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T08_PACE_SLOW_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 24.061,
+    "end_time": 29.021,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S02_T08_PACE_SLOW_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 44.024,
+    "end_time": 54.72,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S02_T08_PACE_SLOW_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 9.584,
+    "end_time": 18.501,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S02_T08_PAUSE_EXCESS_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 27.817,
+    "end_time": 28.817,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S02_T08_PAUSE_EXCESS_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 23.869,
+    "end_time": 25.669,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S02_T08_PAUSE_EXCESS_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 43.57,
+    "end_time": 46.07,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T08_PITCH_FLAT_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 22.167,
+    "end_time": 29.258,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S02_T08_PITCH_FLAT_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 29.969,
+    "end_time": 35.477,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T08_PITCH_FLAT_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 45.332,
+    "end_time": 51.043,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S02_T08_PITCH_ERRATIC_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 35.971,
+    "end_time": 41.053,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S02_T08_PITCH_ERRATIC_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 12.389,
+    "end_time": 16.964,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S02_T08_PITCH_ERRATIC_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 24.561,
+    "end_time": 32.436,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S02_T08_VOLUME_DROP_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 23.302,
+    "end_time": 29.212,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S02_T08_VOLUME_DROP_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 35.608,
+    "end_time": 42.761,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S02_T08_VOLUME_DROP_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 7.284,
+    "end_time": 12.86,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S02_T08_CLARITY_L2",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "CLARITY",
+    "start_time": 33.638,
+    "end_time": 40.288,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T08_CLARITY_L3",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "CLARITY",
+    "start_time": 17.652,
+    "end_time": 22.342,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S02_T08_CLARITY_L4",
+    "speaker_id": "S02",
+    "text_id": "T08",
+    "flaw_type": "CLARITY",
+    "start_time": 19.464,
+    "end_time": 24.646,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T01_PACE_FAST_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 29.996,
+    "end_time": 34.072,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S03_T01_PACE_FAST_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 5.961,
+    "end_time": 11.579,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S03_T01_PACE_FAST_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 7.929,
+    "end_time": 11.951,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S03_T01_PACE_SLOW_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 18.605,
+    "end_time": 26.695,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S03_T01_PACE_SLOW_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 13.031,
+    "end_time": 20.351,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S03_T01_PACE_SLOW_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 11.947,
+    "end_time": 22.755,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S03_T01_PAUSE_EXCESS_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 39.396,
+    "end_time": 40.396,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S03_T01_PAUSE_EXCESS_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 35.49,
+    "end_time": 37.29,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S03_T01_PAUSE_EXCESS_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 28.52,
+    "end_time": 31.02,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S03_T01_PITCH_FLAT_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 28.001,
+    "end_time": 35.403,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S03_T01_PITCH_FLAT_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 3.766,
+    "end_time": 9.817,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S03_T01_PITCH_FLAT_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 6.463,
+    "end_time": 10.698,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S03_T01_PITCH_ERRATIC_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 33.781,
+    "end_time": 39.707,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S03_T01_PITCH_ERRATIC_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 9.048,
+    "end_time": 13.274,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S03_T01_PITCH_ERRATIC_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 22.346,
+    "end_time": 28.88,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S03_T01_VOLUME_DROP_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 18.409,
+    "end_time": 24.248,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S03_T01_VOLUME_DROP_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 28.126,
+    "end_time": 35.552,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S03_T01_VOLUME_DROP_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 8.206,
+    "end_time": 12.724,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S03_T01_CLARITY_L2",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 29.632,
+    "end_time": 34.772,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T01_CLARITY_L3",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 25.759,
+    "end_time": 33.168,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T01_CLARITY_L4",
+    "speaker_id": "S03",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 20.527,
+    "end_time": 25.22,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T02_PACE_FAST_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 31.602,
+    "end_time": 37.442,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S03_T02_PACE_FAST_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 14.855,
+    "end_time": 19.019,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S03_T02_PACE_FAST_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 31.279,
+    "end_time": 34.324,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S03_T02_PACE_SLOW_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 36.908,
+    "end_time": 42.046,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S03_T02_PACE_SLOW_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 23.17,
+    "end_time": 34.11,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S03_T02_PACE_SLOW_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 19.807,
+    "end_time": 27.581,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S03_T02_PAUSE_EXCESS_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 13.53,
+    "end_time": 14.53,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S03_T02_PAUSE_EXCESS_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 12.198,
+    "end_time": 13.998,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S03_T02_PAUSE_EXCESS_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 31.607,
+    "end_time": 34.107,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S03_T02_PITCH_FLAT_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 33.187,
+    "end_time": 37.308,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S03_T02_PITCH_FLAT_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 15.875,
+    "end_time": 21.599,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S03_T02_PITCH_FLAT_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 33.028,
+    "end_time": 40.095,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S03_T02_PITCH_ERRATIC_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 11.296,
+    "end_time": 16.43,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S03_T02_PITCH_ERRATIC_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 31.36,
+    "end_time": 36.341,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S03_T02_PITCH_ERRATIC_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 33.17,
+    "end_time": 39.001,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S03_T02_VOLUME_DROP_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 37.76,
+    "end_time": 44.338,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S03_T02_VOLUME_DROP_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 10.323,
+    "end_time": 17.263,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S03_T02_VOLUME_DROP_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 8.547,
+    "end_time": 13.071,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S03_T02_CLARITY_L2",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 29.364,
+    "end_time": 33.58,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T02_CLARITY_L3",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 21.522,
+    "end_time": 27.463,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T02_CLARITY_L4",
+    "speaker_id": "S03",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 9.688,
+    "end_time": 16.98,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T03_PACE_FAST_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 31.894,
+    "end_time": 38.247,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S03_T03_PACE_FAST_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 40.367,
+    "end_time": 43.772,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S03_T03_PACE_FAST_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 26.785,
+    "end_time": 31.124,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S03_T03_PACE_SLOW_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 27.698,
+    "end_time": 36.124,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S03_T03_PACE_SLOW_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 29.506,
+    "end_time": 35.608,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S03_T03_PACE_SLOW_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 9.326,
+    "end_time": 18.209,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S03_T03_PAUSE_EXCESS_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 35.738,
+    "end_time": 36.738,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S03_T03_PAUSE_EXCESS_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 24.569,
+    "end_time": 26.369,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S03_T03_PAUSE_EXCESS_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 3.527,
+    "end_time": 6.027,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S03_T03_PITCH_FLAT_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 18.559,
+    "end_time": 23.005,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S03_T03_PITCH_FLAT_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 34.691,
+    "end_time": 39.966,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S03_T03_PITCH_FLAT_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 9.256,
+    "end_time": 14.041,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S03_T03_PITCH_ERRATIC_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 39.767,
+    "end_time": 46.949,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S03_T03_PITCH_ERRATIC_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 33.87,
+    "end_time": 38.47,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S03_T03_PITCH_ERRATIC_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 30.758,
+    "end_time": 37.459,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S03_T03_VOLUME_DROP_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 23.3,
+    "end_time": 29.78,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S03_T03_VOLUME_DROP_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 25.413,
+    "end_time": 33.072,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S03_T03_VOLUME_DROP_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 28.782,
+    "end_time": 34.401,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S03_T03_CLARITY_L2",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 10.894,
+    "end_time": 18.333,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T03_CLARITY_L3",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 38.574,
+    "end_time": 44.076,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S03_T03_CLARITY_L4",
+    "speaker_id": "S03",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 8.343,
+    "end_time": 13.376,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T01_PACE_FAST_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 4.757,
+    "end_time": 9.68,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S04_T01_PACE_FAST_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 25.21,
+    "end_time": 30.224,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S04_T01_PACE_FAST_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PACE_FAST",
+    "start_time": 11.553,
+    "end_time": 15.895,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T01_PACE_SLOW_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 36.272,
+    "end_time": 43.232,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S04_T01_PACE_SLOW_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 11.374,
+    "end_time": 22.309,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S04_T01_PACE_SLOW_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 20.515,
+    "end_time": 33.142,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S04_T01_PAUSE_EXCESS_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 28.672,
+    "end_time": 29.672,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S04_T01_PAUSE_EXCESS_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 9.206,
+    "end_time": 11.006,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S04_T01_PAUSE_EXCESS_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 25.463,
+    "end_time": 27.963,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T01_PITCH_FLAT_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 18.905,
+    "end_time": 24.582,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S04_T01_PITCH_FLAT_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 16.925,
+    "end_time": 23.759,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T01_PITCH_FLAT_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 7.116,
+    "end_time": 12.791,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S04_T01_PITCH_ERRATIC_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 6.79,
+    "end_time": 11.409,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T01_PITCH_ERRATIC_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 37.589,
+    "end_time": 42.199,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S04_T01_PITCH_ERRATIC_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 23.156,
+    "end_time": 28.523,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T01_VOLUME_DROP_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 6.132,
+    "end_time": 11.203,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T01_VOLUME_DROP_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 31.887,
+    "end_time": 36.549,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S04_T01_VOLUME_DROP_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 2.488,
+    "end_time": 9.024,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S04_T01_CLARITY_L2",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 39.76,
+    "end_time": 44.35,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T01_CLARITY_L3",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 20.803,
+    "end_time": 25.09,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T01_CLARITY_L4",
+    "speaker_id": "S04",
+    "text_id": "T01",
+    "flaw_type": "CLARITY",
+    "start_time": 23.024,
+    "end_time": 31.0,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T02_PACE_FAST_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 9.142,
+    "end_time": 15.415,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S04_T02_PACE_FAST_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 47.346,
+    "end_time": 52.867,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S04_T02_PACE_FAST_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PACE_FAST",
+    "start_time": 40.761,
+    "end_time": 45.046,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T02_PACE_SLOW_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 11.586,
+    "end_time": 16.993,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S04_T02_PACE_SLOW_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 17.365,
+    "end_time": 24.904,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S04_T02_PACE_SLOW_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 32.962,
+    "end_time": 45.95,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S04_T02_PAUSE_EXCESS_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 36.801,
+    "end_time": 37.801,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S04_T02_PAUSE_EXCESS_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 39.065,
+    "end_time": 40.865,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S04_T02_PAUSE_EXCESS_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 6.141,
+    "end_time": 8.641,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T02_PITCH_FLAT_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 45.309,
+    "end_time": 52.323,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S04_T02_PITCH_FLAT_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 33.731,
+    "end_time": 41.686,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T02_PITCH_FLAT_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 14.139,
+    "end_time": 22.088,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S04_T02_PITCH_ERRATIC_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 23.619,
+    "end_time": 29.997,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T02_PITCH_ERRATIC_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 26.783,
+    "end_time": 34.661,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S04_T02_PITCH_ERRATIC_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 36.439,
+    "end_time": 42.373,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T02_VOLUME_DROP_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 25.934,
+    "end_time": 32.226,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T02_VOLUME_DROP_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 22.264,
+    "end_time": 27.234,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S04_T02_VOLUME_DROP_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 22.754,
+    "end_time": 27.998,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S04_T02_CLARITY_L2",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 34.327,
+    "end_time": 38.73,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T02_CLARITY_L3",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 36.474,
+    "end_time": 43.043,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T02_CLARITY_L4",
+    "speaker_id": "S04",
+    "text_id": "T02",
+    "flaw_type": "CLARITY",
+    "start_time": 35.743,
+    "end_time": 39.921,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T03_PACE_FAST_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 29.592,
+    "end_time": 36.507,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S04_T03_PACE_FAST_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 10.645,
+    "end_time": 15.263,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S04_T03_PACE_FAST_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PACE_FAST",
+    "start_time": 15.774,
+    "end_time": 20.91,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T03_PACE_SLOW_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 31.878,
+    "end_time": 40.666,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S04_T03_PACE_SLOW_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 40.857,
+    "end_time": 49.534,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S04_T03_PACE_SLOW_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 37.567,
+    "end_time": 49.492,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S04_T03_PAUSE_EXCESS_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 18.424,
+    "end_time": 19.424,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S04_T03_PAUSE_EXCESS_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 24.056,
+    "end_time": 25.856,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S04_T03_PAUSE_EXCESS_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 11.993,
+    "end_time": 14.493,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T03_PITCH_FLAT_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 8.434,
+    "end_time": 15.113,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S04_T03_PITCH_FLAT_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 17.046,
+    "end_time": 24.754,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T03_PITCH_FLAT_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 41.205,
+    "end_time": 45.34,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S04_T03_PITCH_ERRATIC_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 10.065,
+    "end_time": 17.169,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T03_PITCH_ERRATIC_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 22.613,
+    "end_time": 26.71,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S04_T03_PITCH_ERRATIC_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 32.581,
+    "end_time": 40.479,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T03_VOLUME_DROP_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 34.153,
+    "end_time": 40.755,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T03_VOLUME_DROP_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 36.192,
+    "end_time": 44.097,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S04_T03_VOLUME_DROP_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 40.498,
+    "end_time": 47.398,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S04_T03_CLARITY_L2",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 22.531,
+    "end_time": 26.946,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T03_CLARITY_L3",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 42.487,
+    "end_time": 47.203,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T03_CLARITY_L4",
+    "speaker_id": "S04",
+    "text_id": "T03",
+    "flaw_type": "CLARITY",
+    "start_time": 40.086,
+    "end_time": 44.528,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T04_PACE_FAST_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 44.376,
+    "end_time": 49.101,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S04_T04_PACE_FAST_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 28.16,
+    "end_time": 33.903,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S04_T04_PACE_FAST_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PACE_FAST",
+    "start_time": 14.785,
+    "end_time": 19.029,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T04_PACE_SLOW_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 46.81,
+    "end_time": 54.307,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S04_T04_PACE_SLOW_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 35.356,
+    "end_time": 42.73,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S04_T04_PACE_SLOW_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 21.135,
+    "end_time": 30.025,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S04_T04_PAUSE_EXCESS_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 46.903,
+    "end_time": 47.903,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S04_T04_PAUSE_EXCESS_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 23.777,
+    "end_time": 25.577,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S04_T04_PAUSE_EXCESS_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 10.593,
+    "end_time": 13.093,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T04_PITCH_FLAT_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 39.915,
+    "end_time": 46.422,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S04_T04_PITCH_FLAT_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 47.284,
+    "end_time": 54.327,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T04_PITCH_FLAT_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 26.965,
+    "end_time": 32.284,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S04_T04_PITCH_ERRATIC_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 21.923,
+    "end_time": 26.243,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T04_PITCH_ERRATIC_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 12.785,
+    "end_time": 19.644,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S04_T04_PITCH_ERRATIC_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 18.26,
+    "end_time": 25.412,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T04_VOLUME_DROP_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 18.634,
+    "end_time": 22.885,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T04_VOLUME_DROP_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 19.112,
+    "end_time": 26.418,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S04_T04_VOLUME_DROP_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 9.024,
+    "end_time": 14.878,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S04_T04_CLARITY_L2",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 39.051,
+    "end_time": 44.81,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T04_CLARITY_L3",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 45.07,
+    "end_time": 51.67,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T04_CLARITY_L4",
+    "speaker_id": "S04",
+    "text_id": "T04",
+    "flaw_type": "CLARITY",
+    "start_time": 37.375,
+    "end_time": 42.154,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T05_PACE_FAST_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 14.968,
+    "end_time": 19.541,
+    "severity": 2,
+    "expected_val": 1.15,
+    "params": {
+      "rate": 1.15
+    }
+  },
+  {
+    "file_id": "S04_T05_PACE_FAST_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 42.38,
+    "end_time": 46.832,
+    "severity": 3,
+    "expected_val": 1.3,
+    "params": {
+      "rate": 1.3
+    }
+  },
+  {
+    "file_id": "S04_T05_PACE_FAST_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PACE_FAST",
+    "start_time": 36.633,
+    "end_time": 41.784,
+    "severity": 4,
+    "expected_val": 1.5,
+    "params": {
+      "rate": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T05_PACE_SLOW_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 4.605,
+    "end_time": 12.54,
+    "severity": 2,
+    "expected_val": 0.85,
+    "params": {
+      "rate": 0.85
+    }
+  },
+  {
+    "file_id": "S04_T05_PACE_SLOW_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 27.826,
+    "end_time": 38.3,
+    "severity": 3,
+    "expected_val": 0.7,
+    "params": {
+      "rate": 0.7
+    }
+  },
+  {
+    "file_id": "S04_T05_PACE_SLOW_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PACE_SLOW",
+    "start_time": 10.94,
+    "end_time": 21.015,
+    "severity": 4,
+    "expected_val": 0.55,
+    "params": {
+      "rate": 0.55
+    }
+  },
+  {
+    "file_id": "S04_T05_PAUSE_EXCESS_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 37.994,
+    "end_time": 38.994,
+    "severity": 2,
+    "expected_val": 1.0,
+    "params": {
+      "dur_added": 1.0
+    }
+  },
+  {
+    "file_id": "S04_T05_PAUSE_EXCESS_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 22.722,
+    "end_time": 24.522,
+    "severity": 3,
+    "expected_val": 1.8,
+    "params": {
+      "dur_added": 1.8
+    }
+  },
+  {
+    "file_id": "S04_T05_PAUSE_EXCESS_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PAUSE_EXCESS",
+    "start_time": 5.365,
+    "end_time": 7.865,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "dur_added": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T05_PITCH_FLAT_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 39.897,
+    "end_time": 45.004,
+    "severity": 2,
+    "expected_val": 0.8,
+    "params": {
+      "compression": 0.8
+    }
+  },
+  {
+    "file_id": "S04_T05_PITCH_FLAT_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 20.903,
+    "end_time": 27.194,
+    "severity": 3,
+    "expected_val": 0.5,
+    "params": {
+      "compression": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T05_PITCH_FLAT_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PITCH_FLAT",
+    "start_time": 30.375,
+    "end_time": 37.627,
+    "severity": 4,
+    "expected_val": 0.2,
+    "params": {
+      "compression": 0.2
+    }
+  },
+  {
+    "file_id": "S04_T05_PITCH_ERRATIC_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 29.316,
+    "end_time": 37.171,
+    "severity": 2,
+    "expected_val": 1.5,
+    "params": {
+      "exaggeration": 1.5
+    }
+  },
+  {
+    "file_id": "S04_T05_PITCH_ERRATIC_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 44.271,
+    "end_time": 52.013,
+    "severity": 3,
+    "expected_val": 2.0,
+    "params": {
+      "exaggeration": 2.0
+    }
+  },
+  {
+    "file_id": "S04_T05_PITCH_ERRATIC_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "PITCH_ERRATIC",
+    "start_time": 30.83,
+    "end_time": 37.744,
+    "severity": 4,
+    "expected_val": 2.5,
+    "params": {
+      "exaggeration": 2.5
+    }
+  },
+  {
+    "file_id": "S04_T05_VOLUME_DROP_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 38.599,
+    "end_time": 44.923,
+    "severity": 2,
+    "expected_val": -6.020599913279624,
+    "params": {
+      "gain": 0.5
+    }
+  },
+  {
+    "file_id": "S04_T05_VOLUME_DROP_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 17.507,
+    "end_time": 24.748,
+    "severity": 3,
+    "expected_val": -10.457574905606752,
+    "params": {
+      "gain": 0.3
+    }
+  },
+  {
+    "file_id": "S04_T05_VOLUME_DROP_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "VOLUME_DROP",
+    "start_time": 15.383,
+    "end_time": 22.081,
+    "severity": 4,
+    "expected_val": -16.478174818886377,
+    "params": {
+      "gain": 0.15
+    }
+  },
+  {
+    "file_id": "S04_T05_CLARITY_L2",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 29.743,
+    "end_time": 34.36,
+    "severity": 2,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T05_CLARITY_L3",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 25.065,
+    "end_time": 32.314,
+    "severity": 3,
+    "expected_val": 0.0,
+    "params": {}
+  },
+  {
+    "file_id": "S04_T05_CLARITY_L4",
+    "speaker_id": "S04",
+    "text_id": "T05",
+    "flaw_type": "CLARITY",
+    "start_time": 5.451,
+    "end_time": 11.726,
+    "severity": 4,
+    "expected_val": 0.0,
+    "params": {}
+  }
+]
