@@ -56,8 +56,15 @@ export default function App() {
   const [error, setError] = useState(null);
   const [selectedFlawId, setSelectedFlawId] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
+  const [seekTarget, setSeekTarget] = useState(null);
   const [activeSection, setActiveSection] = useState("home");
   const [showCTA, setShowCTA] = useState(false);
+
+  const handleSeek = (timeSec) => {
+    const t = Math.max(0, Number(timeSec) || 0);
+    setCurrentTime(t);
+    setSeekTarget({ time: t, id: Date.now() });
+  };
 
   // Recording state
   const [isRecording, setIsRecording] = useState(false);
@@ -822,6 +829,7 @@ export default function App() {
                   selectedFlawId={selectedFlawId}
                   onSelectFlaw={(id) => setSelectedFlawId(id)}
                   onTimeUpdate={(t) => setCurrentTime(t)}
+                  seekTarget={seekTarget}
                 />
 
                 {/* Word Alignment Ribbon */}
@@ -829,7 +837,8 @@ export default function App() {
                   words={data.words}
                   duration={data.meta.duration_s}
                   selectedFlaw={selectedFlaw}
-                  onSelectWord={(w) => setCurrentTime(w.start)}
+                  currentTime={currentTime}
+                  onSelectWord={(w) => handleSeek(w.start)}
                 />
 
                 {/* 3-Tier Acoustic Time Series Charts */}
@@ -837,6 +846,8 @@ export default function App() {
                   series={data.series}
                   meta={data.meta}
                   flaws={data.flaws}
+                  currentTime={currentTime}
+                  onSeek={handleSeek}
                 />
 
                 {/* Interactive Transcript Panel */}
@@ -844,7 +855,7 @@ export default function App() {
                   words={data.words}
                   currentTime={currentTime}
                   selectedFlaw={selectedFlaw}
-                  onWordClick={(w) => setCurrentTime(w.start)}
+                  onWordClick={(w) => handleSeek(w.start)}
                 />
               </div>
 
@@ -857,7 +868,7 @@ export default function App() {
                 />
                 <ExplanationCard
                   flaw={selectedFlaw}
-                  onPlayFlaw={(f) => setCurrentTime(f.start)}
+                  onPlayFlaw={(f) => handleSeek(f.start)}
                 />
               </div>
             </div>

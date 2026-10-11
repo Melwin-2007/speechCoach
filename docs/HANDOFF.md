@@ -294,4 +294,20 @@ Format: `[date] who: issue, how to reproduce, status`
 - **How to verify**: Run `.venv\Scripts\pytest tests/`.
 - **Requests**: None.
 
+### [2026-10-11 20:45] Member C (Dynamic Loading & Real-Time Synchronized Charts)
+- **Goal**: Make the upload loading screen and generated inspection charts fully dynamic, interactive, and synchronized with audio playback.
+- **Files changed**:
+  - `app/src/components/LoadingCard/LoadingCard.jsx` & `LoadingCard.module.css`: Replaced static spinner with dynamic 5-bar acoustic audio equalizer, smooth asymptotic overall progress meter (0% to 98%), and live 7-stage pipeline tracker with real-time status transitions.
+  - `app/src/components/ScoreCard/ScoreCard.jsx`: Added `useCountUp` to smoothly count up the overall delivery score and animate the circular ring meter on result load.
+  - `app/src/components/Charts/RadarCard.jsx` & `RadarCard.module.css`: Added dynamic blossom expansion on entry with `useCountUp`, plus interactive axis inspection with spoke highlighting and dynamic hover telemetry pills.
+  - `app/src/components/Charts/TimeChart.jsx` & `ChartStack.module.css`: Added real-time audio playhead tracking, live acoustic value tracer on the participant curve (pitch, energy, rate), real-time header telemetry badge, animated SVG curve entrance with `stroke-dashoffset`, and click/drag-to-seek playback.
+  - `app/src/components/Charts/ChartStack.jsx`: Forwarded `currentTime` and `onSeek` callbacks to all three time series charts.
+  - `app/src/components/WordRibbon/WordRibbon.jsx` & `WordRibbon.module.css`: Added synchronized audio playhead indicator moving across the word deviation pulse track.
+  - `app/src/components/WaveformPanel/WaveformPanel.jsx`: Added `seekTarget` listener to seek and play audio when words, flaws, or time series charts are clicked.
+  - `app/src/App.jsx`: Wired `currentTime`, `seekTarget`, and `handleSeek` across all audio inspection components.
+- **Status**: Completed. `npm run lint:design` passes with 0 violations, Vite build succeeds (`dist/`), and all 43 pytest tests pass.
+- **How to verify**: In browser at `http://localhost:5173/`, upload an audio or pick a sample preset and click "Analyze speech" to observe the dynamic loading equalizer/stages, score count-up, radar expansion, and real-time playback playhead tracking across all 3 acoustic charts.
+- **Requests**: None.
+
+
 

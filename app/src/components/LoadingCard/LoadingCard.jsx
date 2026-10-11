@@ -1,66 +1,157 @@
 import React, { useState, useEffect } from "react";
-import { Loader2, X } from "lucide-react";
+import { Loader2, CheckCircle, Circle, X } from "lucide-react";
 import styles from "./LoadingCard.module.css";
 
-const STAGES = [
-  { label: "Decoding audio waveform & computing LUFS loudness", weight: "15%" },
-  { label: "Parsing transcript & tokenizing words", weight: "28%" },
-  { label: "Forced phonetic alignment (torchaudio MMS_FA)", weight: "45%" },
-  { label: "Extracting F0 pitch & harmonic-to-noise ratio", weight: "62%" },
-  { label: "Building baseline deviation signals (z-scores)", weight: "78%" },
-  { label: "Segmenting flaw regions across 7 acoustic dimensions", weight: "90%" },
-  { label: "Synthesizing scores & evidence metrics", weight: "98%" },
+const PIPELINE_STAGES = [
+  { id: "decode", label: "Decoding audio waveform & LUFS loudness leveling", targetSec: 1.5 },
+  { id: "tokens", label: "Parsing transcript tokens & word boundaries", targetSec: 3.5 },
+  { id: "align", label: "Phonetic forced alignment (TorchAudio MMS_FA)", targetSec: 9.0 },
+  { id: "dsp", label: "Extracting Praat F0 pitch, HNR & energy contours", targetSec: 14.5 },
+  { id: "bounds", label: "Computing deviation z-scores vs population bounds", targetSec: 18.0 },
+  { id: "scoring", label: "Running RidgeCV + Isotonic delivery scoring model", targetSec: 21.5 },
+  { id: "explain", label: "Generating causal feedback & acoustic telemetry", targetSec: 24.0 },
 ];
 
 export default function LoadingCard({ onCancel }) {
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
-    const start = Date.now();
+    const startTime = Date.now();
     const interval = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - start) / 100) / 10);
-    }, 100);
+      setElapsed((Date.now() - startTime) / 1000);
+    }, 50);
     return () => clearInterval(interval);
   }, []);
 
-  const formattedElapsed = elapsed.toFixed(1) + "s";
+  // Compute smooth asymptotic overall progress climbing to 98%
+  // Progresses rapidly through initial stages then smoothly approaches 98%
+  const overallPct = Math.min(
+    98,
+    Math.max(
+      6,
+      Math.round(100 * (1 - Math.exp(-elapsed / 8.5)))
+    )
+  );
+
+  // Find active stage
+  let activeIndex = 0;
+  for (let i = 0; i < PIPELINE_STAGES.length; i++) {
+    if (elapsed >= PIPELINE_STAGES[i].targetSec) {
+      activeIndex = Math.min(PIPELINE_STAGES.length - 1, i + 1);
+    } else {
+      activeIndex = i;
+      break;
+    }
+  }
+
+  const activeStage = PIPELINE_STAGES[activeIndex];
 
   return (
     <div className={styles.loadingContainer}>
+      {/* Header with live dynamic equalizer and timer */}
       <div className={styles.headerRow}>
-        <div className={styles.spinnerRow}>
-          <Loader2 size={24} className={styles.spinIcon} />
+        <div className={styles.headerLeft}>
+          <div className={styles.equalizerWrap} aria-hidden="true">
+            <span className={styles.eqBar} style={{ animationDelay: "0ms" }} />
+            <span className={styles.eqBar} style={{ animationDelay: "180ms" }} />
+            <span className={styles.eqBar} style={{ animationDelay: "360ms" }} />
+            <span className={styles.eqBar} style={{ animationDelay: "90ms" }} />
+            <span className={styles.eqBar} style={{ animationDelay: "270ms" }} />
+          </div>
           <div>
-            <h3 className="h3" style={{ margin: 0 }}>Analyzing Speech</h3>
-            <p className="body-sm" style={{ color: "var(--muted)", margin: "4px 0 0 0" }}>
-              Evaluating delivery against reference baselines
+            <h3 className={styles.headerTitle}>Analyzing Speech</h3>
+            <p className={styles.headerSubtitle}>
+              Running multimodal speech acoustic pipeline in real time
             </p>
           </div>
         </div>
         <div className={styles.timerBadge}>
-          <span className="mono-sm" style={{ color: "var(--ink)" }}>{formattedElapsed}</span>
+          <span className={styles.pulseDot} />
+          <span>{elapsed.toFixed(1)}s</span>
         </div>
       </div>
 
-      <div className={styles.honestBars}>
-        {STAGES.map((stage, idx) => {
-          const isActive = elapsed > idx * 0.4;
+      {/* Main Overall Progress Meter */}
+      <div className={styles.overallSection}>
+        <div className={styles.overallMetaRow}>
+          <span className={styles.overallStageName}>
+            Stage {activeIndex + 1} of {PIPELINE_STAGES.length}: {activeStage.label}
+          </span>
+          <span className={styles.overallPercent}>{overallPct}%</span>
+        </div>
+        <div className={styles.overallTrack}>
+          <div
+            className={styles.overallFill}
+            style={{ width: `${overallPct}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Dynamic 7-Stage Pipeline Breakdown */}
+      <div className={styles.stagesList}>
+        {PIPELINE_STAGES.map((stage, idx) => {
+          const isDone = elapsed >= stage.targetSec;
+          const isActive = idx === activeIndex && !isDone;
+          const isPending = idx > activeIndex;
+
+          const prevSec = idx === 0 ? 0 : PIPELINE_STAGES[idx - 1].targetSec;
+          const stageDuration = stage.targetSec - prevSec;
+          const stageElapsed = Math.max(0, elapsed - prevSec);
+          const stageFillPct = isDone
+            ? 100
+            : isActive
+            ? Math.min(95, Math.round((stageElapsed / stageDuration) * 100))
+            : 0;
+
           return (
-            <div key={idx} className={styles.barWrap}>
-              <div className={styles.labelRow}>
-                <span className="small" style={{ color: isActive ? "var(--ink)" : "var(--muted)" }}>
-                  {stage.label}
-                </span>
-                <span className="mono-sm" style={{ color: "var(--faint)" }}>
-                  {stage.weight}
-                </span>
+            <div
+              key={stage.id}
+              className={`${styles.stageCard} ${isActive ? styles.stageCardActive : ""}`}
+            >
+              <div className={styles.stageTopRow}>
+                <div className={styles.stageLabelGroup}>
+                  {isDone ? (
+                    <CheckCircle size={16} className={styles.stageIconDone} />
+                  ) : isActive ? (
+                    <Loader2 size={16} className={styles.stageIconActive} />
+                  ) : (
+                    <Circle size={16} className={styles.stageIconPending} />
+                  )}
+                  <span
+                    className={styles.stageLabel}
+                    style={{
+                      color: isDone
+                        ? "var(--ink)"
+                        : isActive
+                        ? "var(--ink)"
+                        : "var(--muted)",
+                    }}
+                  >
+                    {stage.label}
+                  </span>
+                </div>
+
+                <div>
+                  {isDone ? (
+                    <span className={styles.badgeDone}>Done</span>
+                  ) : isActive ? (
+                    <span className={styles.badgeActive}>Processing</span>
+                  ) : (
+                    <span className={styles.badgePending}>Queued</span>
+                  )}
+                </div>
               </div>
-              <div className={styles.barBg}>
+
+              <div className={styles.stageTrack}>
                 <div
-                  className={styles.barFill}
+                  className={styles.stageFill}
                   style={{
-                    width: isActive ? stage.weight : "0%",
-                    transition: "width 0.6s ease",
+                    width: `${stageFillPct}%`,
+                    backgroundColor: isDone
+                      ? "var(--ok)"
+                      : isActive
+                      ? "var(--c-pitch)"
+                      : "transparent",
                   }}
                 />
               </div>

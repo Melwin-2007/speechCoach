@@ -85,7 +85,7 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 ### Day 15
 - [ ] **A:** Finish dataset README and label documentation.
 - [x] **B:** Evaluate on validation speakers; tune thresholds.
-- [ ] **C:** Integrate error handling and processing progress.
+- [x] **C:** Integrate error handling and processing progress.
 
 ### Day 16
 - [ ] **A:** Run final dataset integrity checks.
@@ -95,7 +95,7 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 ### Day 17
 - [ ] **A:** Review mislabeled or questionable regions with B.
 - [ ] **B:** Fix detection errors and generate evaluation plots.
-- [ ] **C:** Polish charts, layout, and audio playback.
+- [x] **C:** Polish charts, layout, and audio playback.
 
 ### Day 18
 - [ ] **A:** Freeze dataset splits and release candidate.

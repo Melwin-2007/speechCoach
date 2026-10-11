@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { DIMENSIONS } from "../../lib/colors";
 import { scoreLabel, fmtNum } from "../../lib/format";
+import { useCountUp } from "../../lib/motion";
 import styles from "./ScoreCard.module.css";
 
 const ICON_MAP = {
@@ -27,10 +28,11 @@ export default function ScoreCard({ scores, meta, flawCount = 0 }) {
   if (!scores) return null;
 
   const overall = scores.overall || 0;
+  const animatedOverall = useCountUp(overall, { duration: 900 });
   const radius = 54;
   const strokeWidth = 12;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (overall / 100) * circumference;
+  const strokeDashoffset = circumference - (animatedOverall / 100) * circumference;
 
   return (
     <div className={styles.scoreCard}>
@@ -57,7 +59,7 @@ export default function ScoreCard({ scores, meta, flawCount = 0 }) {
             />
           </svg>
           <div className={styles.ringContent}>
-            <span className={styles.scoreNumber}>{Math.round(overall)}</span>
+            <span className={styles.scoreNumber}>{Math.round(animatedOverall)}</span>
             <span className={styles.scoreMax}>/100</span>
           </div>
         </div>

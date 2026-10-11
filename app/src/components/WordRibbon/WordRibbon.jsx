@@ -14,6 +14,7 @@ export default function WordRibbon({
   duration = 58.4,
   selectedFlaw,
   onSelectWord,
+  currentTime = 0,
 }) {
   const [hoveredWord, setHoveredWord] = useState(null);
 
@@ -93,6 +94,16 @@ export default function WordRibbon({
               />
             );
           })}
+
+          {/* Dynamic synchronized audio playhead line */}
+          {currentTime != null && currentTime > 0 && (
+            <div
+              className={styles.ribbonPlayhead}
+              style={{
+                left: `${Math.min(100, Math.max(0, (currentTime / (duration || 58.4)) * 100))}%`,
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

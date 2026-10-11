@@ -115,3 +115,15 @@
   outline-offset: 1px;
   z-index: 5;
 }
+
+.ribbonPlayhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--ink);
+  pointer-events: none;
+  z-index: 6;
+  border-radius: var(--r-pill);
+}
+

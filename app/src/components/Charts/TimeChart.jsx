@@ -7,6 +7,7 @@ import styles from "./ChartStack.module.css";
 export default function TimeChart({
   title,
   unit,
+  unitAbbr = "",
   t,
   duration,
   participantData,
@@ -14,6 +15,8 @@ export default function TimeChart({
   baselineLo,
   baselineHi,
   flaws = [],
+  currentTime,
+  onSeek,
   hoverTime,
   onHoverTime,
   color = "var(--c-pacing)",
@@ -41,11 +44,13 @@ export default function TimeChart({
 
   if (!t || t.length === 0) return null;
 
+  const totalDuration = duration || (t.length > 0 ? t[t.length - 1] : 58.4);
+
   // Scales
   const innerWidth = Math.max(50, width - padding.left - padding.right);
   const innerHeight = Math.max(30, height - padding.top - padding.bottom);
 
-  const xScale = scaleLinear().domain([0, duration || 58.4]).range([padding.left, width - padding.right]);
+  const xScale = scaleLinear().domain([0, totalDuration]).range([padding.left, width - padding.right]);
 
   // Compute Y domain
   let computedMin = minY;
@@ -104,12 +109,32 @@ export default function TimeChart({
   // Grid ticks
   const yTicks = yScale.ticks(4);
 
+  // Live Playhead & Value Lookup
+  let liveInfo = null;
+  if (currentTime != null && currentTime >= 0 && t.length > 0) {
+    const clampedTime = Math.max(0, Math.min(totalDuration, currentTime));
+    const idx = Math.min(
+      t.length - 1,
+      Math.max(0, Math.round((clampedTime / totalDuration) * (t.length - 1)))
+    );
+    const pVal = participantData[idx];
+    const bVal = baselineData ? baselineData[idx] : null;
+    const isValid = pVal != null && !isNaN(pVal);
+
+    liveInfo = {
+      x: xScale(clampedTime),
+      val: isValid ? pVal : null,
+      y: isValid ? yScale(pVal) : null,
+      baseVal: bVal != null && !isNaN(bVal) ? bVal : null,
+    };
+  }
+
   // Hover data lookup
   let hoverInfo = null;
   if (hoverTime != null) {
     const idx = Math.min(
       t.length - 1,
-      Math.max(0, Math.round((hoverTime / (duration || 58.4)) * (t.length - 1)))
+      Math.max(0, Math.round((hoverTime / totalDuration) * (t.length - 1)))
     );
     const pVal = participantData[idx];
     const bVal = baselineData ? baselineData[idx] : null;
@@ -120,12 +145,23 @@ export default function TimeChart({
     };
   }
 
+  const handlePointerDown = (e) => {
+    if (!containerRef.current || !onSeek) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const xPos = e.clientX - rect.left;
+    const timeVal = Math.max(0, Math.min(totalDuration, xScale.invert(xPos)));
+    onSeek(timeVal);
+  };
+
   const handlePointerMove = (e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const xPos = e.clientX - rect.left;
-    const timeVal = Math.max(0, Math.min(duration || 58.4, xScale.invert(xPos)));
+    const timeVal = Math.max(0, Math.min(totalDuration, xScale.invert(xPos)));
     if (onHoverTime) onHoverTime(timeVal);
+    if (e.buttons === 1 && onSeek) {
+      onSeek(timeVal);
+    }
   };
 
   const handlePointerLeave = () => {
@@ -139,7 +175,23 @@ export default function TimeChart({
           {IconComponent && <IconComponent size={16} color={color} />}
           <span>{title}</span>
         </div>
-        <span className={styles.chartUnit}>{unit}</span>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--s-3)", flexWrap: "wrap" }}>
+          {liveInfo && (
+            <div
+              className={styles.liveBadge}
+              title={`Live acoustic telemetry at ${fmtTime(currentTime)}`}
+            >
+              <span className={styles.livePulseDot} />
+              <span>
+                {liveInfo.val != null
+                  ? `${fmtNum(liveInfo.val, 1)} ${unitAbbr}`
+                  : "Unvoiced"}
+              </span>
+            </div>
+          )}
+          <span className={styles.chartUnit}>{unit}</span>
+        </div>
       </div>
 
       {hoverInfo && (
@@ -154,8 +206,10 @@ export default function TimeChart({
 
       <div
         className={styles.svgWrap}
+        onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
+        title="Click or drag anywhere on the contour to jump audio"
       >
         <svg className={styles.svg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
           {/* Horizontal Grid lines */}
@@ -197,15 +251,21 @@ export default function TimeChart({
           })}
 
           {/* Baseline Area Corridor */}
-          {areaPath && <path d={areaPath} className={styles.baselineArea} />}
+          {areaPath && <path d={areaPath} className={styles.baselineAreaAnimated} />}
 
           {/* Baseline Center Line */}
-          {baselinePath && <path d={baselinePath} className={styles.baselinePath} />}
+          {baselinePath && <path d={baselinePath} className={styles.baselinePathAnimated} />}
 
-          {/* Participant Line */}
-          {participantPath && <path d={participantPath} className={styles.participantPath} />}
+          {/* Dynamic Participant Line with animated stroke draw */}
+          {participantPath && (
+            <path
+              d={participantPath}
+              pathLength="1"
+              className={styles.participantPathAnimated}
+            />
+          )}
 
-          {/* Crosshair Line */}
+          {/* Hover Crosshair Line */}
           {hoverTime != null && (
             <line
               x1={xScale(hoverTime)}
@@ -215,8 +275,46 @@ export default function TimeChart({
               className={styles.crosshair}
             />
           )}
+
+          {/* Dynamic Synchronized Audio Playhead & Live Contour Tracer */}
+          {liveInfo && (
+            <g className={styles.playheadGroup}>
+              <line
+                x1={liveInfo.x}
+                y1={padding.top}
+                x2={liveInfo.x}
+                y2={height - padding.bottom}
+                className={styles.playheadLine}
+              />
+              <circle
+                cx={liveInfo.x}
+                cy={padding.top}
+                r={3.5}
+                className={styles.playheadHandle}
+              />
+              {liveInfo.y != null && (
+                <g>
+                  <circle
+                    cx={liveInfo.x}
+                    cy={liveInfo.y}
+                    r={9}
+                    className={styles.tracerPulse}
+                    style={{ stroke: color }}
+                  />
+                  <circle
+                    cx={liveInfo.x}
+                    cy={liveInfo.y}
+                    r={4.5}
+                    className={styles.tracerDot}
+                    style={{ fill: color }}
+                  />
+                </g>
+              )}
+            </g>
+          )}
         </svg>
       </div>
     </div>
   );
 }
+

@@ -3,7 +3,7 @@ import { Activity, Volume2, Gauge } from "lucide-react";
 import TimeChart from "./TimeChart";
 import styles from "./ChartStack.module.css";
 
-export default function ChartStack({ series, meta, flaws = [] }) {
+export default function ChartStack({ series, meta, flaws = [], currentTime = 0, onSeek }) {
   const [hoverTime, setHoverTime] = useState(null);
 
   if (!series || !series.t) return null;
@@ -46,6 +46,7 @@ export default function ChartStack({ series, meta, flaws = [] }) {
         <TimeChart
           title="Pitch Variation (F0)"
           unit="semitones (st) relative to median"
+          unitAbbr="st"
           icon={Activity}
           color="var(--c-pitch)"
           t={t}
@@ -55,6 +56,8 @@ export default function ChartStack({ series, meta, flaws = [] }) {
           baselineLo={series.baseline.pitch_lo}
           baselineHi={series.baseline.pitch_hi}
           flaws={pitchFlaws}
+          currentTime={currentTime}
+          onSeek={onSeek}
           hoverTime={hoverTime}
           onHoverTime={setHoverTime}
           minY={-4.0}
@@ -65,6 +68,7 @@ export default function ChartStack({ series, meta, flaws = [] }) {
         <TimeChart
           title="Vocal Energy & Dynamics"
           unit="dB relative to peak level"
+          unitAbbr="dB"
           icon={Volume2}
           color="var(--c-energy)"
           t={t}
@@ -72,6 +76,8 @@ export default function ChartStack({ series, meta, flaws = [] }) {
           participantData={series.participant.energy_db}
           baselineData={series.baseline.energy_db}
           flaws={energyFlaws}
+          currentTime={currentTime}
+          onSeek={onSeek}
           hoverTime={hoverTime}
           onHoverTime={setHoverTime}
           minY={-30.0}
@@ -82,6 +88,7 @@ export default function ChartStack({ series, meta, flaws = [] }) {
         <TimeChart
           title="Speaking Rate (Pacing)"
           unit="syllables per second (syl/s)"
+          unitAbbr="syl/s"
           icon={Gauge}
           color="var(--c-pacing)"
           t={t}
@@ -89,6 +96,8 @@ export default function ChartStack({ series, meta, flaws = [] }) {
           participantData={series.participant.rate_sps}
           baselineData={series.baseline.rate_sps}
           flaws={pacingFlaws}
+          currentTime={currentTime}
+          onSeek={onSeek}
           hoverTime={hoverTime}
           onHoverTime={setHoverTime}
           minY={1.0}

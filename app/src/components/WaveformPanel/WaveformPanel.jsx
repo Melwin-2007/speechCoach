@@ -13,6 +13,7 @@ export default function WaveformPanel({
   selectedFlawId,
   onSelectFlaw,
   onTimeUpdate,
+  seekTarget,
 }) {
   const containerRef = useRef(null);
   const waveformRef = useRef(null);
@@ -82,6 +83,18 @@ export default function WaveformPanel({
       }
     };
   }, [audioUrl]);
+
+  // Handle external seek requests (from transcript click, flaw click, or chart click)
+  useEffect(() => {
+    if (seekTarget && wavesurferRef.current && isReady) {
+      const dur = wavesurferRef.current.getDuration() || duration;
+      const progress = Math.max(0, Math.min(1, seekTarget.time / dur));
+      wavesurferRef.current.seekTo(progress);
+      if (!isPlaying) {
+        wavesurferRef.current.play();
+      }
+    }
+  }, [seekTarget, isReady]);
 
   const togglePlay = () => {
     if (!wavesurferRef.current) return;
