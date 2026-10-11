@@ -66,34 +66,15 @@ def test_analyze_oversize_file():
     assert "exceeds" in res_data["error"] or "25 MB" in res_data["error"]
 
 def test_analyze_success_and_caching():
-    # 1 second 16kHz mono 16-bit PCM WAV
-    sample_rate = 16000
-    num_samples = 16000
-    byte_rate = sample_rate * 2
-    data_size = num_samples * 2
-    riff_size = 36 + data_size
-    
-    header = bytearray()
-    header.extend(b"RIFF")
-    header.extend(riff_size.to_bytes(4, "little"))
-    header.extend(b"WAVE")
-    header.extend(b"fmt ")
-    header.extend((16).to_bytes(4, "little")) # PCM format size
-    header.extend((1).to_bytes(2, "little"))  # PCM format code
-    header.extend((1).to_bytes(2, "little"))  # Mono
-    header.extend(sample_rate.to_bytes(4, "little"))
-    header.extend(byte_rate.to_bytes(4, "little"))
-    header.extend((2).to_bytes(2, "little"))  # Block align
-    header.extend((16).to_bytes(2, "little")) # Bits per sample
-    header.extend(b"data")
-    header.extend(data_size.to_bytes(4, "little"))
-    pcm_data = b"\x00\x00" * num_samples
-    wav_bytes = bytes(header) + pcm_data
+    from pathlib import Path
+    audio_path = Path("dataset/raw/good/S01/S01_T01_GOOD.wav")
+    wav_bytes = audio_path.read_bytes()
+    transcript = Path("dataset/transcripts/T01.txt").read_text(encoding="utf-8").strip()
 
     files = {"audio": ("sample_test.wav", io.BytesIO(wav_bytes), "audio/wav")}
     data = {
-        "transcript": "Where the mind is without fear and the head is held high",
-        "baseline_id": "T04",
+        "transcript": transcript,
+        "baseline_id": "T01",
         "mode": "reference"
     }
 
@@ -111,3 +92,12 @@ def test_analyze_success_and_caching():
     assert res2.status_code == 200
     result2 = res2.json()
     assert result1 == result2
+
+def test_analyze_unalignable_audio_fails():
+    # Silent or mismatched audio must fail cleanly with HTTP 400 without falling back to dummy data
+    silent_bytes = b"RIFF\x24\x00\x00\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\x00\x00\x00"
+    files = {"audio": ("silent.wav", io.BytesIO(silent_bytes), "audio/wav")}
+    data = {"transcript": "Technology has changed the way we communicate"}
+    res = client.post("/analyze", files=files, data=data)
+    assert res.status_code == 400
+    assert "error" in res.json()

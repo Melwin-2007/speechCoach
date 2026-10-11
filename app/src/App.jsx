@@ -15,6 +15,8 @@ import {
   ShieldAlert,
   Settings,
   Cpu,
+  Mic,
+  Square,
 } from "lucide-react";
 import Styleguide from "./components/Styleguide/Styleguide";
 import ScoreCard from "./components/ScoreCard/ScoreCard";
@@ -34,9 +36,6 @@ import { getBaselines, getDemo, analyze } from "./api/client";
 import { fmtTime } from "./lib/format";
 import styles from "./App.module.css";
 
-const SAMPLE_TRANSCRIPTS = {
-  T4: "Where the mind is without fear and the head is held high. Where knowledge is free. Where the world has not been broken up into fragments by narrow domestic walls. Where words come out from the depth of truth. Where tireless striving stretches its arms towards perfection. Where the clear stream of reason has not lost its way into the dreary desert sand of dead habit. Where the mind is led forward by thee into ever-widening thought and action. Into that heaven of freedom, my Father, let my country awake. We speak not only for ourselves, but for generations yet unborn who look to us for courage, clarity, and truth.",
-};
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash || "#/");
@@ -60,8 +59,25 @@ export default function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [showCTA, setShowCTA] = useState(false);
 
+  // Recording state
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingDuration, setRecordingDuration] = useState(0);
+
   const fileInputRef = useRef(null);
   const abortControllerRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const streamRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const recordTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (recordTimerRef.current) clearInterval(recordTimerRef.current);
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -185,8 +201,132 @@ export default function App() {
     }
   };
 
+  const formatRecordingTimer = (secs) => {
+    const m = Math.floor(secs / 60).toString().padStart(2, "0");
+    const s = (secs % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+
+  const startRecording = async () => {
+    setError(null);
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setError({
+          kind: "audio",
+          message: "Microphone recording is not supported in this browser environment.",
+        });
+        return;
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+
+      let mimeType = "audio/webm";
+      if (typeof MediaRecorder !== "undefined" && !MediaRecorder.isTypeSupported("audio/webm")) {
+        if (MediaRecorder.isTypeSupported("audio/mp4")) {
+          mimeType = "audio/mp4";
+        } else if (MediaRecorder.isTypeSupported("audio/ogg")) {
+          mimeType = "audio/ogg";
+        } else {
+          mimeType = "";
+        }
+      }
+
+      const recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+      mediaRecorderRef.current = recorder;
+      audioChunksRef.current = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          audioChunksRef.current.push(e.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        const actualMime = recorder.mimeType || "audio/webm";
+        const blob = new Blob(audioChunksRef.current, { type: actualMime });
+        const ext = actualMime.includes("mp4") ? ".m4a" : actualMime.includes("ogg") ? ".ogg" : actualMime.includes("wav") ? ".wav" : ".webm";
+        const recordedFile = new File([blob], `mic_recording_${Date.now()}${ext}`, { type: actualMime });
+
+        handleFileSelect(recordedFile);
+
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach((track) => track.stop());
+          streamRef.current = null;
+        }
+      };
+
+      recorder.start(200);
+      setIsRecording(true);
+      setRecordingDuration(0);
+
+      recordTimerRef.current = setInterval(() => {
+        setRecordingDuration((prev) => prev + 1);
+      }, 1000);
+    } catch (err) {
+      console.error("Microphone access error:", err);
+      setError({
+        kind: "audio",
+        message: "Microphone permission was denied or no input device was found.",
+      });
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+    }
+    if (recordTimerRef.current) {
+      clearInterval(recordTimerRef.current);
+      recordTimerRef.current = null;
+    }
+    setIsRecording(false);
+  };
+
+  const cancelRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.ondataavailable = null;
+      mediaRecorderRef.current.onstop = null;
+      mediaRecorderRef.current.stop();
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    if (recordTimerRef.current) {
+      clearInterval(recordTimerRef.current);
+      recordTimerRef.current = null;
+    }
+    audioChunksRef.current = [];
+    setIsRecording(false);
+    setRecordingDuration(0);
+  };
+
+  const handleBaselineChange = (val) => {
+    setBaselineId(val);
+    if (val && val !== "auto" && val !== "prior") {
+      const found = baselinesList.find((b) => b.id === val);
+      if (found && found.transcript) {
+        setTranscript(found.transcript);
+      }
+    }
+  };
+
   const handleUseSampleTranscript = () => {
-    setTranscript(SAMPLE_TRANSCRIPTS.T4);
+    if (baselineId && baselineId !== "auto" && baselineId !== "prior") {
+      const found = baselinesList.find((b) => b.id === baselineId);
+      if (found && found.transcript) {
+        setTranscript(found.transcript);
+        return;
+      }
+    }
+    const defaultBaseline = baselinesList.find((b) => b.id === "T01") || baselinesList[0];
+    if (defaultBaseline && defaultBaseline.transcript) {
+      setTranscript(defaultBaseline.transcript);
+      if (baselineId === "auto") {
+        setBaselineId(defaultBaseline.id);
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -215,6 +355,12 @@ export default function App() {
           setSelectedFlawId(null);
         }
         setLoading(false);
+        setTimeout(() => {
+          const insightsEl = document.getElementById("insights");
+          if (insightsEl) {
+            insightsEl.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
       } catch (err) {
         setError(err);
         setLoading(false);
@@ -240,6 +386,12 @@ export default function App() {
         setSelectedFlawId(null);
       }
       setLoading(false);
+      setTimeout(() => {
+        const insightsEl = document.getElementById("insights");
+        if (insightsEl) {
+          insightsEl.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
     } catch (err) {
       if (err && err.kind === "timeout") {
         setError(err);
@@ -346,7 +498,36 @@ export default function App() {
                 onChange={(e) => handleFileSelect(e.target.files[0])}
               />
 
-              {!file ? (
+              {isRecording ? (
+                <div className={styles.recordingPanel}>
+                  <div className={styles.recordingBadge}>
+                    <span className={styles.recordingDot} />
+                    Live Recording
+                  </div>
+                  <div className={styles.recordingTimer}>
+                    {formatRecordingTimer(recordingDuration)}
+                  </div>
+                  <div className={styles.recordingHint}>
+                    Speak clearly into your microphone · Click stop when finished
+                  </div>
+                  <div className={styles.recordingActions}>
+                    <button
+                      type="button"
+                      className={styles.stopRecordBtn}
+                      onClick={stopRecording}
+                    >
+                      <Square size={16} /> Stop recording
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.cancelRecordBtn}
+                      onClick={cancelRecording}
+                    >
+                      <X size={16} /> Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : !file ? (
                 <div
                   className={`${styles.dropZone} ${isDragOver ? styles.dropZoneActive : ""}`}
                   onDragOver={handleDragOver}
@@ -361,9 +542,29 @@ export default function App() {
                   <div className={styles.dropHelper}>
                     WAV, MP3, M4A, FLAC, OGG or WEBM · up to 25 MB
                   </div>
-                  <button type="button" className={styles.chooseFileBtn}>
-                    Choose an audio file
-                  </button>
+                  <div className={styles.dropActionsRow}>
+                    <button
+                      type="button"
+                      className={styles.chooseFileBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        fileInputRef.current && fileInputRef.current.click();
+                      }}
+                    >
+                      <Upload size={16} /> Choose audio file
+                    </button>
+                    <span className={styles.dropDivider}>or</span>
+                    <button
+                      type="button"
+                      className={styles.micRecordBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        startRecording();
+                      }}
+                    >
+                      <Mic size={16} /> Record with mic
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--s-4)", marginBottom: "var(--s-6)" }}>
@@ -396,7 +597,7 @@ export default function App() {
                   <label className={styles.fieldLabel}>Which speech is this?</label>
                   <Select
                     value={baselineId}
-                    onChange={(val) => setBaselineId(val)}
+                    onChange={handleBaselineChange}
                   />
                   <span className={styles.fieldHelper}>
                     Pick the matching text for the most precise baseline comparison.
@@ -407,7 +608,7 @@ export default function App() {
                   <div className={styles.fieldLabelRow}>
                     <label className={styles.fieldLabel}>Transcript</label>
                     <span className={styles.fieldLink} onClick={handleUseSampleTranscript}>
-                      Use sample transcript
+                      Prefill speech transcript
                     </span>
                   </div>
                   <textarea
@@ -464,8 +665,8 @@ export default function App() {
                   onClick={() => setPreset("botched")}
                 >
                   <h3 className="h3">Botched Take</h3>
-                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Rushed pace, flat pitch, volume dips, and missing pauses.</p>
-                  <span className="mono-sm">Score: ~42.1</span>
+                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual recording with an excessive 3.3s hesitation pause anomaly.</p>
+                  <span className="mono-sm">Score: ~70.5 · 1 flaw</span>
                 </div>
 
                 <div
@@ -479,8 +680,8 @@ export default function App() {
                   onClick={() => setPreset("almost")}
                 >
                   <h3 className="h3">Almost Perfect</h3>
-                  <p className="small" style={{ margin: "var(--s-2) 0" }}>High quality delivery with one minor pacing rush.</p>
-                  <span className="mono-sm">Score: ~88.4</span>
+                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual recording with a fast pacing anomaly at 48.3s.</p>
+                  <span className="mono-sm">Score: ~64.3 · 1 flaw</span>
                 </div>
 
                 <div
@@ -494,8 +695,8 @@ export default function App() {
                   onClick={() => setPreset("ideal")}
                 >
                   <h3 className="h3">Ideal Baseline</h3>
-                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Canonical baseline reading matching standard tempo and pitch variation.</p>
-                  <span className="mono-sm">Score: ~94.2</span>
+                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual reference recording of T01 with clean, balanced delivery.</p>
+                  <span className="mono-sm">Score: ~64.3 · 0 flaws</span>
                 </div>
               </div>
 

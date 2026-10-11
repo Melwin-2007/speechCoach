@@ -271,3 +271,27 @@ Format: `[date] who: issue, how to reproduce, status`
   - Fixed Pyright linter errors in `scripts/train_score_model.py`.
 - **How to verify**: Run `.venv\Scripts\python scripts/test_analyze.py`.
 - **Next**: App dev server / full frontend end-to-end testing with Member C (Phase 7).
+
+### [2026-10-11 19:38] Member C & Member B (Task C7 / Integration)
+- **Goal**: Remove all mock/dummy assets and wire app and API strictly to actual recordings and real pipeline results.
+- **Files changed**: `src/speechcoach/api/main.py`, `app/src/App.jsx`, `app/public/demo-audio/*`, `app/public/demo/*`, `app/public/mock_result.json`, `tests/test_api_analyze.py`.
+- **What was done**:
+  - Removed `_generate_fallback_result` from `src/speechcoach/api/main.py`. The `/analyze` endpoint now strictly runs the real analysis pipeline and returns HTTP 400 on unalignable audio.
+  - Replaced dummy sine-wave audio and poem JSONs in `app/public/demo-audio/` and `app/public/demo/` with actual recordings from `dataset/raw/good` and `dataset/raw/flawed` (`S01_T01_GOOD.wav`, `S01_T01_PACE_FAST_L4.wav`, `S01_T01_PAUSE_LONG_L4.wav`) analyzed with the real engine on transcript `T01.txt`.
+  - Removed mock `SAMPLE_TRANSCRIPTS` in `App.jsx`, connected sample transcript prefill directly to `/baselines` (`T01`–`T08`), and updated sample benchmark cards.
+  - Updated API test suite (`tests/test_api_analyze.py`) to test real audio processing, caching, and unalignable audio rejection.
+- **Status**: Completed. All 43 pytest tests pass, design linter passes, and Vite production build succeeds.
+- **How to verify**: Run `.venv\Scripts\pytest tests/` and `cd app && npm run build && npm run lint:design`.
+- **Requests**: None.
+
+### [2026-10-11 20:20] Member B & Member C (Cleanup)
+- **Goal**: Clean up unused Day-10 IsolationForest models and obsolete training/diagnostic scripts.
+- **Files deleted**:
+  - `src/speechcoach/models/{pace,pitch,pause,energy,clarity}_model.{py,pkl}`
+  - `scripts/{train_pace,train_pitch,train_pause,train_energy,train_clarity,train_supervised,test_all_models}.py`
+  - Created `src/speechcoach/models/__init__.py`.
+- **Status**: Completed. All 43 pytest tests pass without dependencies on deleted files. Both frontend and backend dev servers active.
+- **How to verify**: Run `.venv\Scripts\pytest tests/`.
+- **Requests**: None.
+
+

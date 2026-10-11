@@ -125,10 +125,14 @@ export async function getBaselines() {
   } catch (err) {
     console.warn("Failed to fetch baselines from backend, using fallback list:", err);
     return [
-      { id: "T1", title: "Indian Pep Talk", n_ideals: 1 },
-      { id: "T2", title: "Martin Luther King Jr. - I Have a Dream", n_ideals: 1 },
-      { id: "T3", title: "Dr. A.P.J. Abdul Kalam", n_ideals: 1 },
-      { id: "T4", title: "Tagore - Where the mind is without fear", n_ideals: 2 },
+      { id: "T01", title: "Technology & Communication", n_ideals: 4 },
+      { id: "T02", title: "Modern Education", n_ideals: 4 },
+      { id: "T03", title: "Environmental Responsibility", n_ideals: 4 },
+      { id: "T04", title: "Artificial Intelligence", n_ideals: 4 },
+      { id: "T05", title: "Public Speaking & Delivery", n_ideals: 4 },
+      { id: "T06", title: "Innovation & Problem Solving", n_ideals: 4 },
+      { id: "T07", title: "Teamwork & Collaboration", n_ideals: 4 },
+      { id: "T08", title: "The Future & Decision Making", n_ideals: 4 },
     ];
   }
 }
