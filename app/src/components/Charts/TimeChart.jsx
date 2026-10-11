@@ -25,12 +25,17 @@ export default function TimeChart({
   icon: IconComponent,
 }) {
   const containerRef = useRef(null);
+  const chartId = React.useId().replace(/[:]/g, "_");
+  const clipId = `chart_clip_${chartId}`;
   const [width, setWidth] = useState(800);
   const height = 130;
   const padding = { top: 12, right: 16, bottom: 20, left: 40 };
 
   useEffect(() => {
     if (!containerRef.current) return;
+    if (containerRef.current.clientWidth > 50) {
+      setWidth(containerRef.current.clientWidth);
+    }
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentRect.width > 50) {
@@ -212,6 +217,17 @@ export default function TimeChart({
         title="Click or drag anywhere on the contour to jump audio"
       >
         <svg className={styles.svg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+          <defs>
+            <clipPath id={clipId}>
+              <rect
+                x={padding.left}
+                y={padding.top}
+                width={innerWidth}
+                height={innerHeight}
+              />
+            </clipPath>
+          </defs>
+
           {/* Horizontal Grid lines */}
           {yTicks.map((tickVal) => (
             <g key={tickVal}>
@@ -233,37 +249,40 @@ export default function TimeChart({
             </g>
           ))}
 
-          {/* Flaw region highlight boxes */}
-          {flaws.map((flaw) => {
-            const rx = xScale(flaw.start);
-            const rw = Math.max(4, xScale(flaw.end) - rx);
-            return (
-              <rect
-                key={flaw.id}
-                x={rx}
-                y={padding.top}
-                width={rw}
-                height={innerHeight}
-                fill={color}
-                className={styles.flawRect}
+          {/* Strictly bounded data series layer */}
+          <g clipPath={`url(#${clipId})`}>
+            {/* Flaw region highlight boxes */}
+            {flaws.map((flaw) => {
+              const rx = xScale(flaw.start);
+              const rw = Math.max(4, xScale(flaw.end) - rx);
+              return (
+                <rect
+                  key={flaw.id}
+                  x={rx}
+                  y={padding.top}
+                  width={rw}
+                  height={innerHeight}
+                  fill={color}
+                  className={styles.flawRect}
+                />
+              );
+            })}
+
+            {/* Baseline Area Corridor */}
+            {areaPath && <path d={areaPath} className={styles.baselineAreaAnimated} />}
+
+            {/* Baseline Center Line */}
+            {baselinePath && <path d={baselinePath} className={styles.baselinePathAnimated} />}
+
+            {/* Dynamic Participant Line with animated stroke draw */}
+            {participantPath && (
+              <path
+                d={participantPath}
+                pathLength="1"
+                className={styles.participantPathAnimated}
               />
-            );
-          })}
-
-          {/* Baseline Area Corridor */}
-          {areaPath && <path d={areaPath} className={styles.baselineAreaAnimated} />}
-
-          {/* Baseline Center Line */}
-          {baselinePath && <path d={baselinePath} className={styles.baselinePathAnimated} />}
-
-          {/* Dynamic Participant Line with animated stroke draw */}
-          {participantPath && (
-            <path
-              d={participantPath}
-              pathLength="1"
-              className={styles.participantPathAnimated}
-            />
-          )}
+            )}
+          </g>
 
           {/* Hover Crosshair Line */}
           {hoverTime != null && (

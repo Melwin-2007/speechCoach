@@ -309,5 +309,14 @@ Format: `[date] who: issue, how to reproduce, status`
 - **How to verify**: In browser at `http://localhost:5173/`, upload an audio or pick a sample preset and click "Analyze speech" to observe the dynamic loading equalizer/stages, score count-up, radar expansion, and real-time playback playhead tracking across all 3 acoustic charts.
 - **Requests**: None.
 
+### [2026-10-11 21:40] Member C (Fix Rogue Baseline Band & Voice Contour in Time Series Charts)
+- **Goal**: Fix the isolated floating green baseline band in the Pitch chart and restore animated participant voice contours across all acoustic time series charts.
+- **Files changed**:
+  - `app/src/components/Charts/ChartStack.module.css`: Added local `@keyframes draw` for `.participantPathAnimated`, added `@media (prefers-reduced-motion: reduce)` fallbacks, removed duplicate `.svgWrap` class declaration, and set `overflow: hidden; display: block;` on `.svgWrap` and `.svg`.
+  - `app/src/components/Charts/TimeChart.jsx`: Added SVG `<clipPath id={clipId}>` wrapping flaws, baseline corridor, dashed reference line, and participant voice contour to prevent any rendering overflow outside plot coordinates. Added initial container `clientWidth` measurement on mount to prevent resize jitter.
+- **Status**: Completed. All voice contours (pitch, energy, rate) render smoothly and animate in, and baseline bands strictly respect chart bounds.
+- **How to verify**: Visit `http://localhost:5173/`, open any sample (e.g. Botched or Ideal), and inspect the Acoustic Time Series section to verify that the dark voice contour renders inside all three charts alongside the baseline corridor without floating artifacts.
+- **Requests**: None.
+
 
 

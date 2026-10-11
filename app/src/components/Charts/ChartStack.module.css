@@ -110,14 +110,16 @@
 .svgWrap {
   width: 100%;
   height: 140px;
-  overflow: visible;
+  overflow: hidden;
   position: relative;
+  cursor: crosshair;
 }
 
 .svg {
   width: 100%;
   height: 100%;
-  overflow: visible;
+  overflow: hidden;
+  display: block;
 }
 
 .gridLine {
@@ -130,14 +132,6 @@
   font-family: var(--font-mono);
   font-size: 11px;
   fill: var(--muted);
-}
-
-.svgWrap {
-  width: 100%;
-  height: 140px;
-  overflow: visible;
-  position: relative;
-  cursor: crosshair;
 }
 
 .participantPath {
@@ -317,6 +311,27 @@
   }
   to {
     opacity: 0.65;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .participantPathAnimated {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .baselinePathAnimated,
+  .baselineAreaAnimated {
+    opacity: 1;
+    animation: none;
   }
 }
 
