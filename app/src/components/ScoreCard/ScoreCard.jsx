@@ -24,7 +24,7 @@ const ICON_MAP = {
   Mic,
 };
 
-export default function ScoreCard({ scores, meta, flawCount = 0 }) {
+function ScoreCard({ scores, meta, flawCount = 0 }) {
   if (!scores) return null;
 
   const overall = scores.overall || 0;
@@ -114,3 +114,5 @@ export default function ScoreCard({ scores, meta, flawCount = 0 }) {
     </div>
   );
 }
+
+export default React.memo(ScoreCard);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { wordBand, fmtTime, fmtNum } from "../../lib/format";
 import styles from "./WordRibbon.module.css";
 
@@ -9,7 +9,7 @@ const BAND_COLORS = {
   major: "var(--sev-4)",
 };
 
-export default function WordRibbon({
+function WordRibbon({
   words = [],
   duration = 58.4,
   selectedFlaw,
@@ -18,7 +18,46 @@ export default function WordRibbon({
 }) {
   const [hoveredWord, setHoveredWord] = useState(null);
 
+  const wordBlocks = useMemo(() => {
+    if (!words || words.length === 0) return null;
+    return words.map((word) => {
+      const band = wordBand(word.z);
+      const leftPct = Math.max(0, (word.start / duration) * 100);
+      const rawWidth = ((word.end - word.start) / duration) * 100;
+      const widthPct = Math.max(0.2, rawWidth);
+
+      const isInsideSelectedFlaw =
+        selectedFlaw &&
+        word.i >= selectedFlaw.first_word &&
+        word.i <= selectedFlaw.last_word;
+
+      let heightPct = "24%";
+      if (band === "minor") heightPct = "45%";
+      else if (band === "moderate") heightPct = "75%";
+      else if (band === "major") heightPct = "100%";
+
+      return (
+        <div
+          key={word.i}
+          className={`${styles.wordBlock} ${isInsideSelectedFlaw ? styles.wordInsideFlaw : ""}`}
+          style={{
+            left: `${leftPct}%`,
+            width: `${widthPct}%`,
+            height: heightPct,
+            backgroundColor: BAND_COLORS[band] || "var(--sev-0)",
+          }}
+          onMouseEnter={() => setHoveredWord(word)}
+          onMouseLeave={() => setHoveredWord(null)}
+          onClick={() => onSelectWord && onSelectWord(word)}
+          title={`${word.w}: ${fmtTime(word.start)} – ${fmtTime(word.end)} (${band})`}
+        />
+      );
+    });
+  }, [words, duration, selectedFlaw, onSelectWord]);
+
   if (!words || words.length === 0) return null;
+
+  const playheadPct = Math.min(100, Math.max(0, (currentTime / (duration || 58.4)) * 100));
 
   return (
     <div className={styles.ribbonContainer}>
@@ -58,49 +97,14 @@ export default function WordRibbon({
 
       <div className={styles.trackWrapper}>
         <div className={styles.track}>
-          {words.map((word) => {
-            const band = wordBand(word.z);
-            const leftPct = Math.max(0, (word.start / duration) * 100);
-            
-            // Ensure minimum visual width so tiny words aren't invisible
-            const rawWidth = ((word.end - word.start) / duration) * 100;
-            const widthPct = Math.max(0.2, rawWidth); 
-            
-            const isInsideSelectedFlaw =
-              selectedFlaw &&
-              word.i >= selectedFlaw.first_word &&
-              word.i <= selectedFlaw.last_word;
-
-            // Height indicates severity
-            let heightPct = "24%";
-            if (band === "minor") heightPct = "45%";
-            else if (band === "moderate") heightPct = "75%";
-            else if (band === "major") heightPct = "100%";
-
-            return (
-              <div
-                key={word.i}
-                className={`${styles.wordBlock} ${isInsideSelectedFlaw ? styles.wordInsideFlaw : ""}`}
-                style={{
-                  left: `${leftPct}%`,
-                  width: `${widthPct}%`,
-                  height: heightPct,
-                  backgroundColor: BAND_COLORS[band] || "var(--sev-0)",
-                }}
-                onMouseEnter={() => setHoveredWord(word)}
-                onMouseLeave={() => setHoveredWord(null)}
-                onClick={() => onSelectWord && onSelectWord(word)}
-                title={`${word.w}: ${fmtTime(word.start)} – ${fmtTime(word.end)} (${band})`}
-              />
-            );
-          })}
+          {wordBlocks}
 
           {/* Dynamic synchronized audio playhead line */}
           {currentTime != null && currentTime > 0 && (
             <div
               className={styles.ribbonPlayhead}
               style={{
-                left: `${Math.min(100, Math.max(0, (currentTime / (duration || 58.4)) * 100))}%`,
+                left: `${playheadPct}%`,
               }}
             />
           )}
@@ -109,3 +113,6 @@ export default function WordRibbon({
     </div>
   );
 }
+
+export default React.memo(WordRibbon);
+

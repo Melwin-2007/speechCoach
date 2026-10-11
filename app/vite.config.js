@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/health': 'http://localhost:8000',
-      '/baselines': 'http://localhost:8000',
-      '/analyze': 'http://localhost:8000',
-      '/demo': 'http://localhost:8000',
-      '/demo-audio': 'http://localhost:8000',
+      '/health': { target: 'http://127.0.0.1:8000', changeOrigin: true },
+      '/baselines': { target: 'http://127.0.0.1:8000', changeOrigin: true },
+      '/analyze': { target: 'http://127.0.0.1:8000', changeOrigin: true, timeout: 180000 },
+      '/demo': { target: 'http://127.0.0.1:8000', changeOrigin: true },
+      '/demo-audio': { target: 'http://127.0.0.1:8000', changeOrigin: true },
     },
   },
 })

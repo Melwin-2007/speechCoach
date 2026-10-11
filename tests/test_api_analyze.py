@@ -68,6 +68,8 @@ def test_analyze_oversize_file():
 def test_analyze_success_and_caching():
     from pathlib import Path
     audio_path = Path("dataset/raw/good/S01/S01_T01_GOOD.wav")
+    if not audio_path.exists():
+        audio_path = Path("app/public/demo-audio/ideal.wav")
     wav_bytes = audio_path.read_bytes()
     transcript = Path("dataset/transcripts/T01.txt").read_text(encoding="utf-8").strip()
 
@@ -101,3 +103,46 @@ def test_analyze_unalignable_audio_fails():
     res = client.post("/analyze", files=files, data=data)
     assert res.status_code == 400
     assert "error" in res.json()
+
+
+def test_flawed_speech_score_penalties_and_band():
+    """Verify that speech with pacing flaws receives appropriate penalties (not ~98%),
+    negative deviations receive 'major' band, and flaws are strictly sorted."""
+    from pathlib import Path
+    audio_path = Path("app/public/demo-audio/almost.wav")
+    if not audio_path.exists():
+        return
+    wav_bytes = audio_path.read_bytes()
+    transcript = Path("dataset/transcripts/T01.txt").read_text(encoding="utf-8").strip()
+
+    files = {"audio": ("almost_test.wav", io.BytesIO(wav_bytes), "audio/wav")}
+    data = {
+        "transcript": transcript,
+        "baseline_id": "T01",
+        "mode": "reference"
+    }
+
+    res = client.post("/analyze", files=files, data=data)
+    assert res.status_code == 200
+    body = res.json()
+    parsed = AnalysisResult.model_validate(body)
+
+    # 1. Flaws must be present and sorted chronologically
+    flaws = parsed.flaws
+    assert len(flaws) >= 1
+    for i in range(1, len(flaws)):
+        assert flaws[i].start >= flaws[i - 1].start
+
+    # 2. Check for PACE_SLOW and verify negative deviation correctly yields major band
+    pace_slow_flaws = [f for f in flaws if f.type == "PACE_SLOW"]
+    assert len(pace_slow_flaws) >= 1
+    pace_flaw = pace_slow_flaws[0]
+    assert pace_flaw.band == "major"
+    assert pace_flaw.severity >= 0.8
+    assert pace_flaw.evidence.z < -3.0
+
+    # 3. Pacing score must reflect the flaw penalty, not ~98%
+    pacing_score = parsed.scores.dimensions.pacing
+    assert pacing_score < 80.0, f"Expected pacing score < 80, got {pacing_score}"
+    assert pacing_score >= 25.0
+

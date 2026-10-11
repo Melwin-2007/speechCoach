@@ -3,13 +3,13 @@ import { Loader2, CheckCircle, Circle, X } from "lucide-react";
 import styles from "./LoadingCard.module.css";
 
 const PIPELINE_STAGES = [
-  { id: "decode", label: "Decoding audio waveform & LUFS loudness leveling", targetSec: 1.5 },
-  { id: "tokens", label: "Parsing transcript tokens & word boundaries", targetSec: 3.5 },
-  { id: "align", label: "Phonetic forced alignment (TorchAudio MMS_FA)", targetSec: 9.0 },
-  { id: "dsp", label: "Extracting Praat F0 pitch, HNR & energy contours", targetSec: 14.5 },
-  { id: "bounds", label: "Computing deviation z-scores vs population bounds", targetSec: 18.0 },
-  { id: "scoring", label: "Running RidgeCV + Isotonic delivery scoring model", targetSec: 21.5 },
-  { id: "explain", label: "Generating causal feedback & acoustic telemetry", targetSec: 24.0 },
+  { id: "decode", label: "Decoding audio waveform & LUFS loudness leveling", targetSec: 2.0 },
+  { id: "tokens", label: "Parsing transcript tokens & word boundaries", targetSec: 4.0 },
+  { id: "align", label: "Phonetic forced alignment (TorchAudio MMS_FA)", targetSec: 12.0 },
+  { id: "dsp", label: "Extracting Praat F0 pitch, HNR & energy contours", targetSec: 18.0 },
+  { id: "bounds", label: "Computing deviation z-scores vs population bounds", targetSec: 23.0 },
+  { id: "scoring", label: "Running delivery rubric & dimension scoring model", targetSec: 27.0 },
+  { id: "explain", label: "Generating causal feedback & acoustic telemetry", targetSec: 32.0 },
 ];
 
 export default function LoadingCard({ onCancel }) {
@@ -23,13 +23,13 @@ export default function LoadingCard({ onCancel }) {
     return () => clearInterval(interval);
   }, []);
 
-  // Compute smooth asymptotic overall progress climbing to 98%
-  // Progresses rapidly through initial stages then smoothly approaches 98%
+  // Compute smooth asymptotic progress climbing progressively up to 99%
+  // Dynamically adjusts so it never feels stuck or frozen at 98%
   const overallPct = Math.min(
-    98,
+    99,
     Math.max(
-      6,
-      Math.round(100 * (1 - Math.exp(-elapsed / 8.5)))
+      8,
+      Math.round(100 * (1 - Math.exp(-elapsed / 15.5)))
     )
   );
 

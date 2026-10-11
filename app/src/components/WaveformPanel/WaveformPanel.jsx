@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { Play, Pause, SkipBack, SkipForward, AlertCircle } from "lucide-react";
 import { DIMENSIONS, getFlawMeta } from "../../lib/colors";
@@ -61,9 +61,15 @@ export default function WaveformPanel({
         setCurrentTime(0);
       });
 
+      let rafId = null;
       ws.on("timeupdate", (t) => {
         setCurrentTime(t);
-        if (onTimeUpdate) onTimeUpdate(t);
+        if (onTimeUpdate) {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            onTimeUpdate(t);
+          });
+        }
       });
 
       ws.on("error", (err) => {
@@ -126,9 +132,9 @@ export default function WaveformPanel({
     seekToFlaw(flaws[nextIndex]);
   };
 
-  // Assign lanes to overlapping flaw regions
-  const lanedFlaws = assignLanes(flaws);
-  const maxLane = lanedFlaws.reduce((max, f) => Math.max(max, f.lane || 0), 0);
+  // Assign lanes to overlapping flaw regions (memoized)
+  const lanedFlaws = useMemo(() => assignLanes(flaws), [flaws]);
+  const maxLane = useMemo(() => lanedFlaws.reduce((max, f) => Math.max(max, f.lane || 0), 0), [lanedFlaws]);
   const overlayHeight = Math.max(34, (maxLane + 1) * 30);
 
   return (

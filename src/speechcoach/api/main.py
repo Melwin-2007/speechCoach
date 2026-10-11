@@ -153,10 +153,12 @@ async def analyze_speech(
 
     try:
         result_dict = None
-        # Run real speechcoach pipeline
+        # Run real speechcoach pipeline in a threadpool so event loop remains unblocked
         try:
+            from starlette.concurrency import run_in_threadpool
             from speechcoach.analyze import analyze as pipeline_analyze
-            raw_result = pipeline_analyze(
+            raw_result = await run_in_threadpool(
+                pipeline_analyze,
                 audio_path=tmp_path,
                 transcript=clean_transcript,
                 baseline_id=baseline_id,
@@ -168,11 +170,22 @@ async def analyze_speech(
             result_dict = adapt_pipeline_result(raw_result, mode, baseline_id, dur)
         except HTTPException:
             raise
+        except ModuleNotFoundError as me:
+            logger.error(f"Speech analysis missing module: {me}", exc_info=True)
+            raise HTTPException(
+                status_code=500,
+                detail=f"Server environment missing required ML library: {me}. Please wait for package installation to finish."
+            )
         except Exception as pe:
             logger.error(f"Speech analysis pipeline failed: {pe}", exc_info=True)
+            err_msg = str(pe)
+            if "align" in err_msg.lower() or "score" in err_msg.lower() or "target" in err_msg.lower():
+                detail_msg = "Speech analysis failed: unable to align the recording with the provided transcript. Please ensure the audio is audible and matches the text."
+            else:
+                detail_msg = f"Speech analysis error: {err_msg}"
             raise HTTPException(
                 status_code=400,
-                detail="Speech analysis failed: unable to align or process the recording with the provided transcript. Please ensure the audio is clear and matches the text."
+                detail=detail_msg
             )
 
         # Save to cache
@@ -284,8 +297,9 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
         last_w = matching_words[-1] if matching_words else (len(words) - 1 if words else 0)
         
         dev_peak = float(r.get("dev_peak", 2.0))
-        severity = round(min(1.0, max(0.0, (abs(dev_peak) - 1.5) / 4.5)), 2) if dev_peak > 1.5 else 0.25
-        band = "major" if dev_peak >= 4.0 else ("moderate" if dev_peak >= 2.5 else "minor")
+        abs_dev = abs(dev_peak)
+        severity = round(min(1.0, max(0.2, (abs_dev - 1.0) / 4.0)), 2)
+        band = "major" if abs_dev >= 3.5 else ("moderate" if abs_dev >= 2.0 else "minor")
         
         exp_val = r.get("explanation", "")
         if isinstance(exp_val, dict):
@@ -317,28 +331,50 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
             "explanation": explanation_obj
         })
 
+    # Ensure flaws are strictly sorted by start time and non-decreasing
+    flaws.sort(key=lambda x: (x["start"], x["end"]))
+    for idx, f in enumerate(flaws, 1):
+        f["id"] = idx
+
     soft = raw.get("soft_features", {})
     
-    # Meaningful dimensional scoring based on true feature measurements
+    # Calculate dimensional penalties based on detected flaws
+    def get_flaw_penalty(flaw_list, target_types):
+        penalty = 0.0
+        for f in flaw_list:
+            if f["type"] in target_types:
+                sev = f.get("severity", 0.5)
+                b = f.get("band", "minor")
+                base_w = 26.0 if b == "major" else (15.0 if b == "moderate" else 8.0)
+                penalty += base_w * sev
+        return penalty
+
+    # Meaningful dimensional scoring based on true feature measurements & detected flaws
     pace_err = abs(float(np.mean(grid_sps[grid_sps > 0])) - med_pace) if len(grid_sps) and np.any(grid_sps > 0) else 0.0
-    pacing_sc = max(35.0, min(100.0, round(100.0 - pace_err * 12.0 - (soft.get("PACE_FAST_area", 0) + soft.get("PACE_SLOW_area", 0)) * 20.0, 1)))
+    pace_pen = get_flaw_penalty(flaws, ["PACE_FAST", "PACE_SLOW"])
+    pacing_sc = max(25.0, min(100.0, round(100.0 - pace_err * 8.0 - pace_pen, 1)))
 
     mean_pitch_var = float(np.mean(grid_pitch[grid_pitch > 0])) if len(grid_pitch) and np.any(grid_pitch > 0) else med_pitch
     pitch_err = max(0.0, med_pitch - mean_pitch_var)
-    pitch_sc = max(35.0, min(100.0, round(100.0 - pitch_err * 14.0 - (soft.get("PITCH_FLAT_area", 0) + soft.get("PITCH_ERRATIC_area", 0)) * 20.0, 1)))
+    pitch_pen = get_flaw_penalty(flaws, ["MONOTONE", "PITCH_FLAT", "PITCH_ERRATIC"])
+    pitch_sc = max(25.0, min(100.0, round(100.0 - pitch_err * 10.0 - pitch_pen, 1)))
 
-    energy_sc = max(40.0, min(100.0, round(100.0 - (soft.get("ENERGY_LOW_area", 0) + soft.get("ENERGY_FLAT_area", 0)) * 20.0, 1)))
-    pausing_sc = max(40.0, min(100.0, round(100.0 - (soft.get("PAUSE_LONG_area", 0) + soft.get("PAUSE_MISSING_area", 0)) * 20.0, 1)))
-    fluency_sc = max(40.0, min(100.0, round(100.0 - soft.get("PAUSE_LONG_area", 0) * 15.0, 1)))
+    energy_pen = get_flaw_penalty(flaws, ["ENERGY_LOW", "ENERGY_FLAT", "FLAT_ENERGY", "VOLUME_DROP"])
+    energy_sc = max(25.0, min(100.0, round(100.0 - energy_pen, 1)))
+
+    pause_pen = get_flaw_penalty(flaws, ["PAUSE_LONG", "PAUSE_MISSING"])
+    pausing_sc = max(25.0, min(100.0, round(100.0 - pause_pen, 1)))
+
+    fluency_sc = max(25.0, min(100.0, round(100.0 - pause_pen * 0.7 - pace_pen * 0.3, 1)))
     clarity_sc = 92.0
-    emphasis_sc = 88.0
+    emphasis_sc = max(35.0, min(100.0, round(100.0 - energy_pen * 0.4 - pitch_pen * 0.4, 1)))
 
     overall_score = float(raw.get("score", 0.0))
     if overall_score <= 0.0 or abs(overall_score - 76.6) < 0.1:
         dim_vals = [pacing_sc, pausing_sc, pitch_sc, energy_sc, clarity_sc, emphasis_sc, fluency_sc]
         overall_score = round(float(np.mean(dim_vals)), 1)
     if flaws:
-        overall_score = max(10.0, min(overall_score, round(100.0 - len(flaws) * 12.0, 1)))
+        overall_score = max(10.0, min(overall_score, round(100.0 - len(flaws) * 10.0, 1)))
 
     scores = {
         "overall": round(overall_score, 1),
@@ -376,8 +412,12 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
                 "pitch_st": [round(b_pitch_val, 2)] * n_pts,
                 "pitch_lo": [round(b_pitch_val - 2.0, 2)] * n_pts,
                 "pitch_hi": [round(b_pitch_val + 2.0, 2)] * n_pts,
-                "energy_db": [0.0] * n_pts,
-                "rate_sps": [round(b_pace_val, 2)] * n_pts
+                "energy_db": [-12.0] * n_pts,
+                "energy_lo": [-18.0] * n_pts,
+                "energy_hi": [-6.0] * n_pts,
+                "rate_sps": [round(b_pace_val, 2)] * n_pts,
+                "rate_lo": [round(max(0.5, b_pace_val - 1.0), 2)] * n_pts,
+                "rate_hi": [round(b_pace_val + 1.0, 2)] * n_pts
             }
         }
     else:

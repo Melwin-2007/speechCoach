@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { scaleLinear } from "d3-scale";
 import { line as d3Line, area as d3Area, curveMonotoneX } from "d3-shape";
 import { fmtNum, fmtTime } from "../../lib/format";
 import styles from "./ChartStack.module.css";
 
-export default function TimeChart({
+function TimeChart({
   title,
   unit,
   unitAbbr = "",
@@ -49,70 +49,81 @@ export default function TimeChart({
 
   if (!t || t.length === 0) return null;
 
-  const totalDuration = duration || (t.length > 0 ? t[t.length - 1] : 58.4);
-
-  // Scales
-  const innerWidth = Math.max(50, width - padding.left - padding.right);
-  const innerHeight = Math.max(30, height - padding.top - padding.bottom);
-
-  const xScale = scaleLinear().domain([0, totalDuration]).range([padding.left, width - padding.right]);
+  const totalDuration = useMemo(
+    () => duration || (t.length > 0 ? t[t.length - 1] : 58.4),
+    [duration, t]
+  );
 
   // Compute Y domain
-  let computedMin = minY;
-  let computedMax = maxY;
+  const { computedMin, computedMax } = useMemo(() => {
+    let minV = minY;
+    let maxV = maxY;
+    if (minV === undefined || maxV === undefined) {
+      const validPart = participantData.filter((v) => v != null && !isNaN(v));
+      const validBase = baselineData ? baselineData.filter((v) => v != null && !isNaN(v)) : [];
+      const allVals = [...validPart, ...validBase];
+      if (baselineLo) allVals.push(...baselineLo.filter((v) => v != null));
+      if (baselineHi) allVals.push(...baselineHi.filter((v) => v != null));
 
-  if (computedMin === undefined || computedMax === undefined) {
-    const validPart = participantData.filter((v) => v != null && !isNaN(v));
-    const validBase = baselineData ? baselineData.filter((v) => v != null && !isNaN(v)) : [];
-    const allVals = [...validPart, ...validBase];
-    if (baselineLo) allVals.push(...baselineLo.filter((v) => v != null));
-    if (baselineHi) allVals.push(...baselineHi.filter((v) => v != null));
-
-    if (allVals.length > 0) {
-      const minVal = Math.min(...allVals);
-      const maxVal = Math.max(...allVals);
-      const span = Math.max(1, maxVal - minVal);
-      computedMin = minVal - span * 0.15;
-      computedMax = maxVal + span * 0.15;
-    } else {
-      computedMin = 0;
-      computedMax = 10;
+      if (allVals.length > 0) {
+        const minVal = Math.min(...allVals);
+        const maxVal = Math.max(...allVals);
+        const span = Math.max(1, maxVal - minVal);
+        minV = minVal - span * 0.15;
+        maxV = maxVal + span * 0.15;
+      } else {
+        minV = 0;
+        maxV = 10;
+      }
     }
-  }
+    return { computedMin: minV, computedMax: maxV };
+  }, [minY, maxY, participantData, baselineData, baselineLo, baselineHi]);
 
-  const yScale = scaleLinear().domain([computedMin, computedMax]).range([height - padding.bottom, padding.top]);
+  // Scales & dimensions
+  const { xScale, yScale, innerWidth, innerHeight } = useMemo(() => {
+    const innerW = Math.max(50, width - padding.left - padding.right);
+    const innerH = Math.max(30, height - padding.top - padding.bottom);
+    const x = scaleLinear().domain([0, totalDuration]).range([padding.left, width - padding.right]);
+    const y = scaleLinear().domain([computedMin, computedMax]).range([height - padding.bottom, padding.top]);
+    return { xScale: x, yScale: y, innerWidth: innerW, innerHeight: innerH };
+  }, [width, height, totalDuration, computedMin, computedMax, padding.left, padding.right, padding.top, padding.bottom]);
 
-  // Generators
-  const lineGen = d3Line()
-    .defined((d) => d.val != null && !isNaN(d.val))
-    .x((d) => xScale(d.t))
-    .y((d) => yScale(d.val))
-    .curve(curveMonotoneX);
-
-  const partPoints = t.map((timePt, i) => ({ t: timePt, val: participantData[i] }));
-  const basePoints = baselineData ? t.map((timePt, i) => ({ t: timePt, val: baselineData[i] })) : [];
-
-  let areaPath = null;
-  if (baselineLo && baselineHi) {
-    const areaGen = d3Area()
+  // Memoized SVG path generation (recalculated ONLY when data or width changes, NOT during audio playback)
+  const { participantPath, baselinePath, areaPath } = useMemo(() => {
+    const lineGen = d3Line()
+      .defined((d) => d.val != null && !isNaN(d.val))
       .x((d) => xScale(d.t))
-      .y0((d) => yScale(d.lo))
-      .y1((d) => yScale(d.hi))
+      .y((d) => yScale(d.val))
       .curve(curveMonotoneX);
 
-    const areaPoints = t.map((timePt, i) => ({
-      t: timePt,
-      lo: baselineLo[i],
-      hi: baselineHi[i],
-    }));
-    areaPath = areaGen(areaPoints);
-  }
+    const partPoints = t.map((timePt, i) => ({ t: timePt, val: participantData[i] }));
+    const basePoints = baselineData ? t.map((timePt, i) => ({ t: timePt, val: baselineData[i] })) : [];
 
-  const participantPath = lineGen(partPoints);
-  const baselinePath = baselineData ? lineGen(basePoints) : null;
+    let aPath = null;
+    if (baselineLo && baselineHi) {
+      const areaGen = d3Area()
+        .x((d) => xScale(d.t))
+        .y0((d) => yScale(d.lo))
+        .y1((d) => yScale(d.hi))
+        .curve(curveMonotoneX);
+
+      const areaPoints = t.map((timePt, i) => ({
+        t: timePt,
+        lo: baselineLo[i],
+        hi: baselineHi[i],
+      }));
+      aPath = areaGen(areaPoints);
+    }
+
+    return {
+      participantPath: lineGen(partPoints),
+      baselinePath: baselineData ? lineGen(basePoints) : null,
+      areaPath: aPath,
+    };
+  }, [xScale, yScale, t, participantData, baselineData, baselineLo, baselineHi]);
 
   // Grid ticks
-  const yTicks = yScale.ticks(4);
+  const yTicks = useMemo(() => yScale.ticks(4), [yScale]);
 
   // Live Playhead & Value Lookup
   let liveInfo = null;
@@ -336,4 +347,6 @@ export default function TimeChart({
     </div>
   );
 }
+
+export default React.memo(TimeChart);
 

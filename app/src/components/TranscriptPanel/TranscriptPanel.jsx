@@ -1,29 +1,31 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { wordBand, fmtTime } from "../../lib/format";
 import styles from "./TranscriptPanel.module.css";
 
-
-export default function TranscriptPanel({
+function TranscriptPanel({
   words = [],
   currentTime = 0,
   selectedFlaw,
   onWordClick,
 }) {
-  if (!words || words.length === 0) return null;
+  // Memoize phrase grouping by punctuation to avoid recalculating on playback ticks
+  const phrases = useMemo(() => {
+    if (!words || words.length === 0) return [];
+    const result = [];
+    let currentPhrase = [];
 
-  // Group words into phrases by breaking after punctuation.
-  const phrases = [];
-  let currentPhrase = [];
-  
-  words.forEach((word) => {
-    currentPhrase.push(word);
-    // Break phrase on punctuation to create "lyric lines"
-    if (word.punct && word.punct.match(/[.,?!;:]/)) {
-      phrases.push(currentPhrase);
-      currentPhrase = [];
-    }
-  });
-  if (currentPhrase.length > 0) phrases.push(currentPhrase);
+    words.forEach((word) => {
+      currentPhrase.push(word);
+      if (word.punct && word.punct.match(/[.,?!;:]/)) {
+        result.push(currentPhrase);
+        currentPhrase = [];
+      }
+    });
+    if (currentPhrase.length > 0) result.push(currentPhrase);
+    return result;
+  }, [words]);
+
+  if (!words || words.length === 0) return null;
 
   return (
     <div className={styles.transcriptCard}>
@@ -74,3 +76,5 @@ export default function TranscriptPanel({
     </div>
   );
 }
+
+export default React.memo(TranscriptPanel);

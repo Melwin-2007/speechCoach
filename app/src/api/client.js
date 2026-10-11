@@ -212,8 +212,8 @@ export async function analyze({ file, transcript, baselineId = "auto", mode = "a
       let errorMsg = `Server error (HTTP ${res.status})`;
       try {
         const errorJson = await res.json();
-        if (errorJson && errorJson.error) {
-          errorMsg = errorJson.error;
+        if (errorJson) {
+          errorMsg = errorJson.error || errorJson.detail || errorMsg;
         }
       } catch {
         // Fall back to default errorMsg

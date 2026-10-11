@@ -26,7 +26,7 @@ const ICON_MAP = {
   Mic,
 };
 
-export default function ExplanationCard({
+function ExplanationCard({
   flaw,
   onPlayFlaw,
 }) {
@@ -158,3 +158,5 @@ export default function ExplanationCard({
     </div>
   );
 }
+
+export default React.memo(ExplanationCard);

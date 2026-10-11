@@ -320,3 +320,20 @@ Format: `[date] who: issue, how to reproduce, status`
 
 
 
+### [2026-10-12 03:00] Member C (Task C8: UI Performance, Live Playback Sync & Flaw Scoring)
+- **Goal**: Optimize audio playback rendering performance with memoization and RAF debouncing, add baseline confidence corridors for energy and rate, and ensure accurate flaw penalty scoring and ordering.
+- **Files changed**:
+  - src/speechcoach/api/main.py: Offloaded analysis pipeline execution to threadpool; added flaw penalty score deductions, strict chronological flaw sorting, and energy/rate baseline envelopes.
+  - src/speechcoach/api/models.py: Added energy_lo, energy_hi, 
+ate_lo, 
+ate_hi fields to SeriesBaseline.
+  - 	ests/test_api_analyze.py: Added test verifying flaw penalties, negative deviation major banding, and sorted flaws.
+  - pp/src/components/Charts/TimeChart.jsx, ChartStack.jsx, RadarCard.jsx, WaveformPanel.jsx, WordRibbon.jsx, TranscriptPanel.jsx, ScoreCard.jsx, FlawList.jsx, ExplanationCard.jsx: Wrapped in React.memo and memoized D3 path computations, phrase partitioning, and wave lane assignments; added 
+equestAnimationFrame debouncing on audio 	imeupdate.
+  - pp/src/lib/colors.js: Expanded flaw type mappings for energy, pitch, and pause variants.
+  - pp/vite.config.js: Increased /analyze proxy timeout and bound proxy target to 127.0.0.1.
+- **Status**: Completed. All 43 pytest tests pass, design linter passes with 0 violations, and Vite production build succeeds.
+- **How to verify**: Run .venv\Scripts\pytest, 
+pm.cmd run lint:design, and 
+pm.cmd run build from pp/.
+- **Requests**: None.
