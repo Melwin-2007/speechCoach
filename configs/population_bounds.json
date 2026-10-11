@@ -1,8 +1,8 @@
 {
   "db_mad": {
-    "mad": 1.0639,
-    "median": 6.3375,
-    "n": 448
+    "mad": 1.0979,
+    "median": 6.2606,
+    "n": 644
   },
   "floor_sigma": {
     "db_mad": 1.0,
@@ -16,45 +16,45 @@
     "st_range": 2.0,
     "st_std": 0.6
   },
-  "n_speakers": 4,
+  "n_speakers": 5,
   "pause_s": {
     "comma": {
-      "mad": 0.19,
-      "median": 0.3905,
-      "n": 212
+      "mad": 0.14,
+      "median": 0.38,
+      "n": 271
     },
     "mid": {
-      "mad": 0.12,
+      "mad": 0.1,
       "median": 0.38,
-      "n": 234
+      "n": 283
     },
     "terminal": {
-      "mad": 0.2595,
-      "median": 1.02,
-      "n": 172
+      "mad": 0.2495,
+      "median": 0.9305,
+      "n": 232
     }
   },
   "sps": {
-    "mad": 0.6672,
-    "median": 5.9266,
-    "n": 448
+    "mad": 0.6579,
+    "median": 5.9453,
+    "n": 644
   },
   "st_range": {
-    "mad": 2.7776,
-    "median": 9.9236,
-    "n": 448
+    "mad": 2.78,
+    "median": 10.5317,
+    "n": 644
   },
   "st_std": {
-    "mad": 0.6419,
-    "median": 2.1679,
-    "n": 448
+    "mad": 0.6616,
+    "median": 2.3798,
+    "n": 644
   },
   "within_spk_mad": {
-    "db_mad": 1.1246,
-    "db_rel": 1.2423,
-    "sps": 0.5873,
-    "sps_rel": 0.0869,
-    "st_range": 1.5829,
-    "st_std": 0.3769
+    "db_mad": 1.0985,
+    "db_rel": 1.2543,
+    "sps": 0.5612,
+    "sps_rel": 0.0855,
+    "st_range": 1.6198,
+    "st_std": 0.4499
   }
 }

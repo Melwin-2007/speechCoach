@@ -19,7 +19,12 @@ def grid_for(audio_path, transcript):
     y = load_audio(Path(audio_path), sr=16000, target_lufs=-23.0)
     duration_s = float(len(y) / 16000.0)
     raw_words = parse_transcript(transcript)
-    words = align_words(y, raw_words)
+    file_id = Path(audio_path).stem
+    align_file = Path("e:/SpeechCoach/dataset/alignments/good") / f"{file_id}.json"
+    if align_file.exists():
+        words = json.loads(align_file.read_text(encoding="utf-8"))["words"]
+    else:
+        words = align_words(y, raw_words)
     g = frame_features(y)
     w_table = word_table(words, g)
     phrases = group_phrases(w_table)
@@ -119,4 +124,20 @@ def main(out="configs/population_bounds.json", exclude_spk=None):
     print("sha256:", hashlib.sha256(body.encode()).hexdigest()[:12])
 
 if __name__ == "__main__":
-    main()
+    print("Fitting global population bounds...")
+    main("configs/population_bounds.json")
+    
+    import csv
+    recordings_csv = Path("e:/SpeechCoach/dataset/metadata/recordings.csv")
+    speakers = set()
+    if recordings_csv.exists():
+        with open(recordings_csv, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("quality") == "GOOD":
+                    speakers.add(row["speaker_id"])
+                    
+    for spk in sorted(speakers):
+        loo_path = f"configs/population_bounds_loo_{spk}.json"
+        print(f"Fitting LOO bounds for {spk} -> {loo_path}...")
+        main(out=loo_path, exclude_spk=spk)

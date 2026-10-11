@@ -27,7 +27,13 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Model weights (downloaded at runtime)
+# Model weights (downloaded or trained locally)
 *.pt
 *.bin
 *.onnx
+*.pkl
+src/speechcoach/models/weights/
+
+# Temporary and cache files
+result.json
+*cache.json

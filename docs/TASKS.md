@@ -79,7 +79,7 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 
 ### Day 14
 - [ ] **A:** Review false positives on GOOD recordings.
-- [ ] **B:** Add severity scoring and explanation metrics.
+- [x] **B:** Add severity scoring and explanation metrics. (RidgeCV + Isotonic calibrated scoring model deployed).
 - [ ] **C:** Build reference/no-reference mode indicators.
 
 ### Day 15

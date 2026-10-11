@@ -43,10 +43,19 @@ def extract_features():
         all_flaws = json.load(f)
         
     severity_map = {}
+    seen_flaws = set()
     for f in all_flaws:
         fid = f["file_id"]
         # Max severity if multiple
         severity_map[fid] = max(severity_map.get(fid, 0), f["severity"])
+        if fid not in seen_flaws:
+            seen_flaws.add(fid)
+            reader_rows.append({
+                "file_id": fid,
+                "speaker_id": f["speaker_id"],
+                "text_id": f["text_id"],
+                "quality": "FLAWED"
+            })
         
     features = []
     
@@ -105,19 +114,24 @@ def train_and_eval(features):
         X_train, y_train = X[train_idx], y[train_idx]
         X_test, y_test = X[test_idx], y[test_idx]
         
+        # Balanced class weights for holdout training
+        n_good_tr = np.sum(y_train == 0)
+        n_flawed_tr = np.sum(y_train > 0)
+        w_tr: Any = np.where(y_train == 0, n_flawed_tr / max(n_good_tr, 1), 1.0)
+        
         scaler = StandardScaler()
         X_train_s: Any = scaler.fit_transform(X_train)
         X_test_s: Any = scaler.transform(X_test)
         
         ridge = RidgeCV(alphas=alphas)
-        ridge.fit(X_train_s, y_train)
+        ridge.fit(X_train_s, y_train, sample_weight=w_tr)
         
         raw_pred_train: Any = ridge.predict(X_train_s)
         raw_pred_test: Any = ridge.predict(X_test_s)
         
         score_target_train: Any = 100 - y_train * 25
-        iso = IsotonicRegression(y_min=0, y_max=100, out_of_bounds='clip')
-        iso.fit(raw_pred_train, score_target_train)
+        iso = IsotonicRegression(increasing=False, y_min=0, y_max=100, out_of_bounds='clip')
+        iso.fit(raw_pred_train, score_target_train, sample_weight=w_tr)
         
         scores_test = iso.predict(raw_pred_test)
         
@@ -128,18 +142,22 @@ def train_and_eval(features):
         correlations[holdout] = abs(corr)
         print(f"Speaker {holdout} Spearman: {abs(corr):.3f}")
         
-    # Finally, train on all data (or S01-S03) to produce the final model
-    print("\nTraining final model on all data...")
+    # Finally, train on all data with balanced sample weights
+    print("\nTraining final model on all data with class balancing...")
+    n_good_all = np.sum(y == 0)
+    n_flawed_all = np.sum(y > 0)
+    w_all: Any = np.where(y == 0, n_flawed_all / max(n_good_all, 1), 1.0)
+    
     scaler = StandardScaler()
     X_s: Any = scaler.fit_transform(X)
     
     ridge = RidgeCV(alphas=alphas)
-    ridge.fit(X_s, y)
+    ridge.fit(X_s, y, sample_weight=w_all)
     
     raw_pred: Any = ridge.predict(X_s)
     score_target: Any = 100 - y * 25
-    iso = IsotonicRegression(y_min=0, y_max=100, out_of_bounds='clip')
-    iso.fit(raw_pred, score_target)
+    iso = IsotonicRegression(increasing=False, y_min=0, y_max=100, out_of_bounds='clip')
+    iso.fit(raw_pred, score_target, sample_weight=w_all)
     
     feature_names = []
     for name in CHANNELS:

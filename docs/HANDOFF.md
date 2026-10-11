@@ -257,4 +257,17 @@ Format: `[date] who: issue, how to reproduce, status`
   - Parameters frozen to `results/frozen.json` (git commit `93369be3923492ef378d03be5b2d33d6a85e8b4e`).
   - S04 evaluation run exactly once. No parameters touched post-run.
 - **How to verify**: Run `.venv\Scripts\python scripts/freeze_parameters.py` and inspect `results/frozen.json` and `results/eval_report_s04.md`.
-- **Requests**: Member A to update legacy dataset tests in `tests/test_dataset_prep.py` to match the new nested folder layout. Member C can use `results/frozen.json` and pipeline outputs for Phase 7 UI integration.
+- **Requests**: Member A to update legacy dataset tests in tests/test_dataset_prep.py to match the new nested folder layout. Member C can use results/frozen.json and pipeline outputs for Phase 7 UI integration.
+
+### [2026-10-11 17:05] Member B & Member A (Task B14 / Phase 6)
+- **Goal**: Ingest newly recorded audio for S04 (T06-T08) and S05 (T01-T08), re-fit population bounds and calibration parameters, and train the Phase 6 composite scoring model.
+- **Files changed**: `scripts/ingest_new_recordings.py`, `scripts/fit_population_bounds.py`, `scripts/train_score_model.py`, `scripts/test_analyze.py`, `dataset/metadata/recordings.csv`, `dataset/alignments/good/*.json`, `configs/population_bounds*.json`, `configs/sigma.json`, `configs/tau.json`, `.gitignore`.
+- **Status**: Completed.
+  - Ingested 11 new recordings from `data/interim` into `dataset/raw/good` (35 recordings total).
+  - Aligned all 11 files with Torchaudio MMS_FA to `dataset/alignments/good`.
+  - Re-fit global population bounds (`configs/population_bounds.json`) and leave-one-out bounds for S01–S05.
+  - Re-calibrated leave-one-out sigmas and taus (`configs/sigma.json`, `configs/tau.json`).
+  - Trained composite scoring model (`RidgeCV` + monotonic `IsotonicRegression` with balanced class weights) across 467 recordings. Saved model hash `f68ddd05`.
+  - Fixed Pyright linter errors in `scripts/train_score_model.py`.
+- **How to verify**: Run `.venv\Scripts\python scripts/test_analyze.py`.
+- **Next**: App dev server / full frontend end-to-end testing with Member C (Phase 7).
