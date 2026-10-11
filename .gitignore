@@ -2,6 +2,9 @@
 .venv/
 __pycache__/
 *.pyc
+*.log
+.cache/
+scratch/
 
 # Data (large files, not committed)
 data/

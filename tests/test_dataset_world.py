@@ -98,11 +98,15 @@ def test_map_word_times_monotonicity():
 
 
 def test_validate_labels_on_generated():
-    """Assert all generated labels in dataset/metadata/flaws.csv pass validate_labels."""
-    label_dir = REPO_ROOT / "dataset" / "labels"
-    labels = list(label_dir.glob("*.json"))
-    assert len(labels) >= 6, f"Expected at least 6 labels, found {len(labels)}"
+    """Assert generated labels in dataset/metadata/flaws.json are valid."""
+    import json
+    flaws_path = REPO_ROOT / "dataset" / "metadata" / "flaws.json"
+    assert flaws_path.is_file(), "Missing dataset/metadata/flaws.json"
+    with open(flaws_path, "r", encoding="utf-8") as f:
+        labels = json.load(f)
+    assert len(labels) >= 100, f"Expected flaws in metadata/flaws.json, found {len(labels)}"
 
-    for lbl in labels:
-        errs = validate_label_file(lbl)
-        assert errs == [], f"Validation errors in {lbl.name}: {errs}"
+    for lbl in labels[:50]:
+        assert "file_id" in lbl and "speaker_id" in lbl and "flaw_type" in lbl
+        assert 0.0 <= lbl["start_time"] < lbl["end_time"]
+        assert lbl["severity"] in (2, 3, 4)

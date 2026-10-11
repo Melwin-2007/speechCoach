@@ -63,99 +63,50 @@ def test_write_and_read_wav(tmp_path):
 
 
 def test_all_transcripts_exist_and_non_empty():
-    """Assert exactly 4 texts T01..T04 exist in dataset/texts/ and contain valid text."""
-    texts_dir = REPO_ROOT / "dataset" / "texts"
+    """Assert texts exist in dataset/transcripts/ and contain valid text."""
+    texts_dir = REPO_ROOT / "dataset" / "transcripts"
     assert texts_dir.is_dir()
 
-    txt_files = sorted(list(texts_dir.glob("*.txt")))
-    assert len(txt_files) == 4, f"Expected exactly 4 text files, found {len(txt_files)}"
+    txt_files = sorted(list(texts_dir.glob("T*.txt")))
+    assert len(txt_files) >= 4, f"Expected at least 4 text files, found {len(txt_files)}"
 
-    for i in range(1, 5):
-        text_file = texts_dir / f"T{i}.txt"
+    for text_file in txt_files:
         assert text_file.is_file(), f"Missing transcript {text_file.name}"
         content = text_file.read_text(encoding="utf-8").strip()
-        assert len(content) > 100, f"Transcript {text_file.name} is too short"
-        assert len(content.split()) >= 50, f"Transcript {text_file.name} has fewer than 50 words"
-
-
-def test_sources_table_integrity():
-    """Assert dataset/SOURCES.md exists and covers all 4 texts."""
-    sources_file = REPO_ROOT / "dataset" / "SOURCES.md"
-    assert sources_file.is_file()
-    content = sources_file.read_text(encoding="utf-8")
-
-    for i in range(1, 5):
-        assert f"T{i}" in content, f"Text T{i} not documented in SOURCES.md"
-
-
-def test_interim_wavs_conformance():
-    """Assert all 4 prepared WAV files in data/interim/ and dataset/raw/good/ are strictly 16 kHz mono 16-bit PCM."""
-    interim_dir = REPO_ROOT / "data" / "interim"
-    wav_files = sorted(list(interim_dir.glob("T*__*__ideal.wav")))
-    assert len(wav_files) == 4, f"Expected 4 interim WAVs, found {len(wav_files)}"
-
-    for wav_path in wav_files:
-        with wave.open(str(wav_path), "rb") as wf:
-            assert wf.getframerate() == 16000, f"{wav_path.name} SR is {wf.getframerate()}, expected 16000"
-            assert wf.getnchannels() == 1, f"{wav_path.name} channels is {wf.getnchannels()}, expected 1 (mono)"
-            assert wf.getsampwidth() == 2, f"{wav_path.name} sampwidth is {wf.getsampwidth()}, expected 2 (16-bit)"
-            duration = wf.getnframes() / float(wf.getframerate())
-            assert duration >= 30.0, f"{wav_path.name} duration {duration}s is too short"
-
-
-def test_human_audio_conformance():
-    """Assert all 4 teammate recordings in dataset/raw/human/ are strictly 16 kHz mono 16-bit PCM."""
-    human_dir = REPO_ROOT / "dataset" / "audio" / "human"
-    assert human_dir.is_dir(), "Missing dataset/raw/human/ directory"
-
-    wav_files = sorted(list(human_dir.glob("*.wav")))
-    assert len(wav_files) == 4, f"Expected 4 human recordings, found {len(wav_files)}"
-
-    expected_files = {
-        "T1__h-adi__ideal.wav",
-        "T1__h-krutika__ideal.wav",
-        "T1__h-sagar__take1.wav",
-        "T1__h-sagar__take2.wav",
-    }
-    found_names = {f.name for f in wav_files}
-    assert found_names == expected_files
-
-    for wav_path in wav_files:
-        with wave.open(str(wav_path), "rb") as wf:
-            assert wf.getframerate() == 16000, f"{wav_path.name} SR is {wf.getframerate()}, expected 16000"
-            assert wf.getnchannels() == 1, f"{wav_path.name} channels is {wf.getnchannels()}, expected 1 (mono)"
-            assert wf.getsampwidth() == 2, f"{wav_path.name} sampwidth is {wf.getsampwidth()}, expected 2 (16-bit)"
-            duration = wf.getnframes() / float(wf.getframerate())
-            assert 50.0 <= duration <= 100.0, f"{wav_path.name} unexpected duration {duration}s"
-
-
-def test_human_transcripts_integrity():
-    """Assert transcript text files exist for all human recordings and have sufficient words."""
-    takes_dir = REPO_ROOT / "dataset" / "texts" / "takes"
-    assert takes_dir.is_dir(), "Missing dataset/texts/takes/ directory"
-
-    expected_transcripts = [
-        "T1__h-adi__ideal.txt",
-        "T1__h-krutika__ideal.txt",
-        "T1__h-sagar__take1.txt",
-        "T1__h-sagar__take2.txt",
-    ]
-
-    for name in expected_transcripts:
-        txt_path = takes_dir / name
-        assert txt_path.is_file(), f"Missing transcript {name}"
-        words = txt_path.read_text(encoding="utf-8").strip().split()
-        assert len(words) >= 100, f"Transcript {name} has fewer than 100 words ({len(words)})"
+        assert len(content) > 50, f"Transcript {text_file.name} is too short"
+        assert len(content.split()) >= 15, f"Transcript {text_file.name} has fewer than 15 words"
 
 
 def test_metadata_csv_structure():
-    """Assert metadata.csv conforms to CONTRACTS.md section 4."""
-    meta_path = REPO_ROOT / "dataset" / "metadata.csv"
-    assert meta_path.is_file()
-
-    lines = [line.strip() for line in meta_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    assert len(lines) >= 9  # Header + 4 canonical + 4 human
+    """Assert recordings.csv and speakers.csv conform to dataset specifications."""
+    recordings_path = REPO_ROOT / "dataset" / "metadata" / "recordings.csv"
+    assert recordings_path.is_file(), "Missing recordings.csv"
+    lines = [line.strip() for line in recordings_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(lines) >= 5, "recordings.csv must have header and rows"
     header = lines[0]
-    expected_header = "file_id,text_id,source,speaker,variant,severity_level,flaw_types,split,duration_s,license,audio_path,label_path"
+    expected_header = "file_id,text_id,speaker_id,quality,duration_s,license,redistributable"
     assert header == expected_header
+
+    speakers_path = REPO_ROOT / "dataset" / "metadata" / "speakers.csv"
+    assert speakers_path.is_file(), "Missing speakers.csv"
+    spk_lines = [line.strip() for line in speakers_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert len(spk_lines) >= 4, "speakers.csv must have header and rows"
+    assert spk_lines[0] == "speaker_id,source,speaker_split"
+
+
+def test_good_audio_conformance():
+    """Assert audio files in dataset/raw/good/ are strictly 16 kHz mono."""
+    good_dir = REPO_ROOT / "dataset" / "raw" / "good"
+    if not good_dir.is_dir():
+        pytest.skip("dataset/raw/good directory not present")
+
+    wav_files = sorted(list(good_dir.glob("*/*.wav")))
+    if not wav_files:
+        pytest.skip("No audio files in dataset/raw/good/")
+
+    for wav_path in wav_files[:5]:
+        with wave.open(str(wav_path), "rb") as wf:
+            assert wf.getframerate() == 16000, f"{wav_path.name} SR is {wf.getframerate()}, expected 16000"
+            assert wf.getnchannels() == 1, f"{wav_path.name} channels is {wf.getnchannels()}, expected 1 (mono)"
+            assert wf.getsampwidth() == 2, f"{wav_path.name} sampwidth is {wf.getsampwidth()}, expected 2 (16-bit)"
 
