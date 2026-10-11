@@ -87,13 +87,13 @@ def test_map_word_times_monotonicity():
     assert len(mapped) == 4
     prev_end = 0.0
     for w in mapped:
-        assert w["start"] <= w["end"]
-        assert w["start"] >= prev_end - 0.001
-        prev_end = w["end"]
+        assert float(w["start"]) <= float(w["end"])
+        assert float(w["start"]) >= prev_end - 0.001
+        prev_end = float(w["end"])
 
     # Word 1 and 2 inside region should have shorter duration
-    orig_dur_w1 = words[1]["end"] - words[1]["start"]
-    mapped_dur_w1 = mapped[1]["end"] - mapped[1]["start"]
+    orig_dur_w1 = float(words[1]["end"]) - float(words[1]["start"])
+    mapped_dur_w1 = float(mapped[1]["end"]) - float(mapped[1]["start"])
     assert mapped_dur_w1 < orig_dur_w1
 
 
