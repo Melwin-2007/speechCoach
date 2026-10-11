@@ -14,7 +14,7 @@ const DIMENSION_ORDER = [
   "fluency",
 ];
 
-export default function RadarCard({ scores }) {
+function RadarCard({ scores }) {
   const [hoveredIdx, setHoveredIdx] = useState(null);
   const expansion = useCountUp(1, { duration: 900 });
 
@@ -151,4 +151,6 @@ export default function RadarCard({ scores }) {
     </div>
   );
 }
+
+export default React.memo(RadarCard);
 

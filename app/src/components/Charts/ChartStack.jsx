@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Activity, Volume2, Gauge } from "lucide-react";
 import TimeChart from "./TimeChart";
 import styles from "./ChartStack.module.css";
 
-export default function ChartStack({ series, meta, flaws = [], currentTime = 0, onSeek }) {
+function ChartStack({ series, meta, flaws = [], currentTime = 0, onSeek }) {
   const [hoverTime, setHoverTime] = useState(null);
 
   if (!series || !series.t) return null;
@@ -11,10 +11,37 @@ export default function ChartStack({ series, meta, flaws = [], currentTime = 0, 
   const t = series.t;
   const duration = meta?.duration_s || (t.length > 0 ? t[t.length - 1] : 58.4);
 
-  // Group flaws by chart dimension
-  const pitchFlaws = flaws.filter((f) => ["MONOTONE", "PITCH_ERRATIC"].includes(f.type));
-  const energyFlaws = flaws.filter((f) => ["VOLUME_DROP", "FLAT_ENERGY"].includes(f.type));
-  const pacingFlaws = flaws.filter((f) => ["PACE_FAST", "PACE_SLOW"].includes(f.type));
+  // Group flaws by chart dimension with comprehensive coverage
+  const pitchFlaws = useMemo(
+    () => flaws.filter((f) => ["MONOTONE", "PITCH_FLAT", "PITCH_ERRATIC"].includes(f.type)),
+    [flaws]
+  );
+  const energyFlaws = useMemo(
+    () => flaws.filter((f) => ["VOLUME_DROP", "ENERGY_LOW", "FLAT_ENERGY", "ENERGY_FLAT"].includes(f.type)),
+    [flaws]
+  );
+  const pacingFlaws = useMemo(
+    () => flaws.filter((f) => ["PACE_FAST", "PACE_SLOW", "PAUSE_LONG", "PAUSE_MISSING"].includes(f.type)),
+    [flaws]
+  );
+
+  // Dynamic baseline corridor fallbacks for full visual parity
+  const energyLo = useMemo(
+    () => series.baseline.energy_lo || (series.baseline.energy_db ? series.baseline.energy_db.map((v) => (v != null ? v - 6.0 : -18.0)) : null),
+    [series.baseline]
+  );
+  const energyHi = useMemo(
+    () => series.baseline.energy_hi || (series.baseline.energy_db ? series.baseline.energy_db.map((v) => (v != null ? v + 6.0 : -6.0)) : null),
+    [series.baseline]
+  );
+  const rateLo = useMemo(
+    () => series.baseline.rate_lo || (series.baseline.rate_sps ? series.baseline.rate_sps.map((v) => (v != null ? Math.max(0.5, v - 1.0) : 3.0)) : null),
+    [series.baseline]
+  );
+  const rateHi = useMemo(
+    () => series.baseline.rate_hi || (series.baseline.rate_sps ? series.baseline.rate_sps.map((v) => (v != null ? v + 1.0 : 5.0)) : null),
+    [series.baseline]
+  );
 
   return (
     <div className={styles.chartStackCard}>
@@ -75,6 +102,8 @@ export default function ChartStack({ series, meta, flaws = [], currentTime = 0, 
           duration={duration}
           participantData={series.participant.energy_db}
           baselineData={series.baseline.energy_db}
+          baselineLo={energyLo}
+          baselineHi={energyHi}
           flaws={energyFlaws}
           currentTime={currentTime}
           onSeek={onSeek}
@@ -95,6 +124,8 @@ export default function ChartStack({ series, meta, flaws = [], currentTime = 0, 
           duration={duration}
           participantData={series.participant.rate_sps}
           baselineData={series.baseline.rate_sps}
+          baselineLo={rateLo}
+          baselineHi={rateHi}
           flaws={pacingFlaws}
           currentTime={currentTime}
           onSeek={onSeek}
@@ -107,3 +138,5 @@ export default function ChartStack({ series, meta, flaws = [], currentTime = 0, 
     </div>
   );
 }
+
+export default React.memo(ChartStack);

@@ -60,11 +60,15 @@ export default function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [showCTA, setShowCTA] = useState(false);
 
-  const handleSeek = (timeSec) => {
+  const handleSeek = React.useCallback((timeSec) => {
     const t = Math.max(0, Number(timeSec) || 0);
     setCurrentTime(t);
     setSeekTarget({ time: t, id: Date.now() });
-  };
+  }, []);
+
+  const handleSelectFlaw = React.useCallback((id) => {
+    setSelectedFlawId(id);
+  }, []);
 
   // Recording state
   const [isRecording, setIsRecording] = useState(false);
@@ -349,6 +353,9 @@ export default function App() {
     setError(null);
 
     const controller = new AbortController();
+    const safetyTimeout = setTimeout(() => {
+      try { controller.abort(); } catch {}
+    }, 120000);
     abortControllerRef.current = controller;
 
     if (activeTab === "sample") {
@@ -392,7 +399,6 @@ export default function App() {
       } else {
         setSelectedFlawId(null);
       }
-      setLoading(false);
       setTimeout(() => {
         const insightsEl = document.getElementById("insights");
         if (insightsEl) {
@@ -405,6 +411,8 @@ export default function App() {
       } else {
         setError(err);
       }
+    } finally {
+      clearTimeout(safetyTimeout);
       setLoading(false);
     }
   };
@@ -420,7 +428,10 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const selectedFlaw = data?.flaws?.find((f) => f.id === selectedFlawId) || null;
+  const selectedFlaw = React.useMemo(
+    () => data?.flaws?.find((f) => f.id === selectedFlawId) || null,
+    [data?.flaws, selectedFlawId]
+  );
   const wordCount = transcript.trim() ? transcript.trim().split(/\s+/).length : 0;
   const isAnalyzeDisabled = activeTab === "upload" ? (!file || wordCount < 5) : false;
 
@@ -827,7 +838,7 @@ export default function App() {
                   duration={data.meta.duration_s}
                   flaws={data.flaws}
                   selectedFlawId={selectedFlawId}
-                  onSelectFlaw={(id) => setSelectedFlawId(id)}
+                  onSelectFlaw={handleSelectFlaw}
                   onTimeUpdate={(t) => setCurrentTime(t)}
                   seekTarget={seekTarget}
                 />
@@ -864,7 +875,7 @@ export default function App() {
                 <FlawList
                   flaws={data.flaws}
                   selectedFlawId={selectedFlawId}
-                  onSelectFlaw={(id) => setSelectedFlawId(id)}
+                  onSelectFlaw={handleSelectFlaw}
                 />
                 <ExplanationCard
                   flaw={selectedFlaw}

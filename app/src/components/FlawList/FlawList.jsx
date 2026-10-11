@@ -29,7 +29,7 @@ const SEVERITY_COLORS = {
   major: "var(--bad)",
 };
 
-export default function FlawList({
+function FlawList({
   flaws = [],
   selectedFlawId,
   onSelectFlaw,
@@ -112,3 +112,5 @@ export default function FlawList({
     </div>
   );
 }
+
+export default React.memo(FlawList);

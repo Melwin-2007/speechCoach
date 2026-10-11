@@ -34,7 +34,11 @@ class SeriesBaseline(BaseModel):
     pitch_lo: List[Optional[float]] = []
     pitch_hi: List[Optional[float]] = []
     energy_db: List[Optional[float]] = []
+    energy_lo: List[Optional[float]] = []
+    energy_hi: List[Optional[float]] = []
     rate_sps: List[Optional[float]] = []
+    rate_lo: List[Optional[float]] = []
+    rate_hi: List[Optional[float]] = []
 
 class SeriesData(BaseModel):
     t: List[float] = []
