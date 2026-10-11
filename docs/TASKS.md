@@ -84,12 +84,12 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 
 ### Day 15
 - [ ] **A:** Finish dataset README and label documentation.
-- [ ] **B:** Evaluate on validation speakers; tune thresholds.
+- [x] **B:** Evaluate on validation speakers; tune thresholds.
 - [ ] **C:** Integrate error handling and processing progress.
 
 ### Day 16
 - [ ] **A:** Run final dataset integrity checks.
-- [ ] **B:** Test unseen speakers and unseen texts; record metrics.
+- [x] **B:** Test unseen speakers and unseen texts; record metrics.
 - [ ] **C:** Run end-to-end tests using actual audio.
 
 ### Day 17
