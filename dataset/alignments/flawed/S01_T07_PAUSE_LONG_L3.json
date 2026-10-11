@@ -1,0 +1,1088 @@
+{
+  "file_id": "S01_T07_PAUSE_LONG_L3",
+  "text_id": "T07",
+  "sr": 16000,
+  "duration_s": 77.424,
+  "words": [
+    {
+      "i": 0,
+      "raw": "Good",
+      "norm": "good",
+      "punct": "",
+      "start": 0.62,
+      "end": 0.82,
+      "conf": -0.002
+    },
+    {
+      "i": 1,
+      "raw": "teamwork",
+      "norm": "teamwork",
+      "punct": "",
+      "start": 0.94,
+      "end": 1.52,
+      "conf": -0.097
+    },
+    {
+      "i": 2,
+      "raw": "is",
+      "norm": "is",
+      "punct": "",
+      "start": 1.681,
+      "end": 1.781,
+      "conf": -0.004
+    },
+    {
+      "i": 3,
+      "raw": "not",
+      "norm": "not",
+      "punct": "",
+      "start": 1.901,
+      "end": 2.121,
+      "conf": -0.002
+    },
+    {
+      "i": 4,
+      "raw": "simply",
+      "norm": "simply",
+      "punct": "",
+      "start": 2.201,
+      "end": 2.661,
+      "conf": -0.018
+    },
+    {
+      "i": 5,
+      "raw": "a",
+      "norm": "a",
+      "punct": "",
+      "start": 2.901,
+      "end": 2.921,
+      "conf": -0.005
+    },
+    {
+      "i": 6,
+      "raw": "group",
+      "norm": "group",
+      "punct": "",
+      "start": 3.081,
+      "end": 3.321,
+      "conf": -0.066
+    },
+    {
+      "i": 7,
+      "raw": "of",
+      "norm": "of",
+      "punct": "",
+      "start": 3.421,
+      "end": 3.501,
+      "conf": -0.005
+    },
+    {
+      "i": 8,
+      "raw": "people",
+      "norm": "people",
+      "punct": "",
+      "start": 3.621,
+      "end": 4.061,
+      "conf": -0.086
+    },
+    {
+      "i": 9,
+      "raw": "working",
+      "norm": "working",
+      "punct": "",
+      "start": 4.441,
+      "end": 4.862,
+      "conf": -0.004
+    },
+    {
+      "i": 10,
+      "raw": "on",
+      "norm": "on",
+      "punct": "",
+      "start": 4.902,
+      "end": 4.982,
+      "conf": -0.008
+    },
+    {
+      "i": 11,
+      "raw": "the",
+      "norm": "the",
+      "punct": "",
+      "start": 5.002,
+      "end": 5.082,
+      "conf": -0.019
+    },
+    {
+      "i": 12,
+      "raw": "same",
+      "norm": "same",
+      "punct": "",
+      "start": 5.182,
+      "end": 5.442,
+      "conf": -0.034
+    },
+    {
+      "i": 13,
+      "raw": "task.",
+      "norm": "task",
+      "punct": ".",
+      "start": 5.502,
+      "end": 5.842,
+      "conf": -0.002
+    },
+    {
+      "i": 14,
+      "raw": "It",
+      "norm": "it",
+      "punct": "",
+      "start": 6.682,
+      "end": 6.782,
+      "conf": -0.017
+    },
+    {
+      "i": 15,
+      "raw": "requires",
+      "norm": "requires",
+      "punct": "",
+      "start": 6.862,
+      "end": 7.482,
+      "conf": -0.012
+    },
+    {
+      "i": 16,
+      "raw": "communication,",
+      "norm": "communication",
+      "punct": ",",
+      "start": 7.582,
+      "end": 8.323,
+      "conf": -0.761
+    },
+    {
+      "i": 17,
+      "raw": "responsibility,",
+      "norm": "responsibility",
+      "punct": ",",
+      "start": 9.083,
+      "end": 9.963,
+      "conf": -0.049
+    },
+    {
+      "i": 18,
+      "raw": "and",
+      "norm": "and",
+      "punct": "",
+      "start": 10.263,
+      "end": 10.403,
+      "conf": -0.079
+    },
+    {
+      "i": 19,
+      "raw": "trust.",
+      "norm": "trust",
+      "punct": ".",
+      "start": 10.443,
+      "end": 10.783,
+      "conf": -0.086
+    },
+    {
+      "i": 20,
+      "raw": "Each",
+      "norm": "each",
+      "punct": "",
+      "start": 12.004,
+      "end": 12.324,
+      "conf": -0.383
+    },
+    {
+      "i": 21,
+      "raw": "person",
+      "norm": "person",
+      "punct": "",
+      "start": 12.464,
+      "end": 12.944,
+      "conf": -0.005
+    },
+    {
+      "i": 22,
+      "raw": "should",
+      "norm": "should",
+      "punct": "",
+      "start": 15.544,
+      "end": 15.764,
+      "conf": -0.034
+    },
+    {
+      "i": 23,
+      "raw": "understand",
+      "norm": "understand",
+      "punct": "",
+      "start": 15.844,
+      "end": 16.385,
+      "conf": -0.036
+    },
+    {
+      "i": 24,
+      "raw": "their",
+      "norm": "their",
+      "punct": "",
+      "start": 16.445,
+      "end": 16.605,
+      "conf": -0.047
+    },
+    {
+      "i": 25,
+      "raw": "role",
+      "norm": "role",
+      "punct": "",
+      "start": 16.685,
+      "end": 16.925,
+      "conf": -0.221
+    },
+    {
+      "i": 26,
+      "raw": "while",
+      "norm": "while",
+      "punct": "",
+      "start": 17.625,
+      "end": 17.845,
+      "conf": -0.23
+    },
+    {
+      "i": 27,
+      "raw": "also",
+      "norm": "also",
+      "punct": "",
+      "start": 17.925,
+      "end": 18.265,
+      "conf": -0.004
+    },
+    {
+      "i": 28,
+      "raw": "understanding",
+      "norm": "understanding",
+      "punct": "",
+      "start": 18.465,
+      "end": 19.165,
+      "conf": -0.026
+    },
+    {
+      "i": 29,
+      "raw": "the",
+      "norm": "the",
+      "punct": "",
+      "start": 19.225,
+      "end": 19.325,
+      "conf": -0.08
+    },
+    {
+      "i": 30,
+      "raw": "larger",
+      "norm": "larger",
+      "punct": "",
+      "start": 19.485,
+      "end": 19.926,
+      "conf": -0.122
+    },
+    {
+      "i": 31,
+      "raw": "goal",
+      "norm": "goal",
+      "punct": "",
+      "start": 20.046,
+      "end": 20.266,
+      "conf": -0.267
+    },
+    {
+      "i": 32,
+      "raw": "of",
+      "norm": "of",
+      "punct": "",
+      "start": 20.326,
+      "end": 20.386,
+      "conf": -0.031
+    },
+    {
+      "i": 33,
+      "raw": "the",
+      "norm": "the",
+      "punct": "",
+      "start": 20.406,
+      "end": 20.486,
+      "conf": -0.202
+    },
+    {
+      "i": 34,
+      "raw": "team.",
+      "norm": "team",
+      "punct": ".",
+      "start": 20.566,
+      "end": 20.726,
+      "conf": -0.098
+    },
+    {
+      "i": 35,
+      "raw": "When",
+      "norm": "when",
+      "punct": "",
+      "start": 21.706,
+      "end": 21.866,
+      "conf": -0.129
+    },
+    {
+      "i": 36,
+      "raw": "problems",
+      "norm": "problems",
+      "punct": "",
+      "start": 21.986,
+      "end": 22.526,
+      "conf": -0.168
+    },
+    {
+      "i": 37,
+      "raw": "appear,",
+      "norm": "appear",
+      "punct": ",",
+      "start": 22.646,
+      "end": 23.067,
+      "conf": -0.14
+    },
+    {
+      "i": 38,
+      "raw": "blaming",
+      "norm": "blaming",
+      "punct": "",
+      "start": 23.967,
+      "end": 24.407,
+      "conf": -0.007
+    },
+    {
+      "i": 39,
+      "raw": "individuals",
+      "norm": "individuals",
+      "punct": "",
+      "start": 24.467,
+      "end": 25.227,
+      "conf": -0.011
+    },
+    {
+      "i": 40,
+      "raw": "rarely",
+      "norm": "rarely",
+      "punct": "",
+      "start": 25.547,
+      "end": 26.028,
+      "conf": -0.667
+    },
+    {
+      "i": 41,
+      "raw": "solves",
+      "norm": "solves",
+      "punct": "",
+      "start": 26.308,
+      "end": 26.608,
+      "conf": -0.234
+    },
+    {
+      "i": 42,
+      "raw": "them.",
+      "norm": "them",
+      "punct": ".",
+      "start": 26.668,
+      "end": 26.828,
+      "conf": -0.54
+    },
+    {
+      "i": 43,
+      "raw": "A",
+      "norm": "a",
+      "punct": "",
+      "start": 28.048,
+      "end": 28.068,
+      "conf": -0.03
+    },
+    {
+      "i": 44,
+      "raw": "better",
+      "norm": "better",
+      "punct": "",
+      "start": 28.188,
+      "end": 28.568,
+      "conf": -0.006
+    },
+    {
+      "i": 45,
+      "raw": "approach",
+      "norm": "approach",
+      "punct": "",
+      "start": 28.688,
+      "end": 29.169,
+      "conf": -0.062
+    },
+    {
+      "i": 46,
+      "raw": "is",
+      "norm": "is",
+      "punct": "",
+      "start": 29.449,
+      "end": 29.549,
+      "conf": -0.009
+    },
+    {
+      "i": 47,
+      "raw": "to",
+      "norm": "to",
+      "punct": "",
+      "start": 29.629,
+      "end": 29.709,
+      "conf": -0.006
+    },
+    {
+      "i": 48,
+      "raw": "identify",
+      "norm": "identify",
+      "punct": "",
+      "start": 29.889,
+      "end": 30.469,
+      "conf": -0.052
+    },
+    {
+      "i": 49,
+      "raw": "what",
+      "norm": "what",
+      "punct": "",
+      "start": 30.649,
+      "end": 30.869,
+      "conf": -0.19
+    },
+    {
+      "i": 50,
+      "raw": "happened,",
+      "norm": "happened",
+      "punct": ",",
+      "start": 30.949,
+      "end": 31.369,
+      "conf": -1.413
+    },
+    {
+      "i": 51,
+      "raw": "communicate",
+      "norm": "communicate",
+      "punct": "",
+      "start": 32.229,
+      "end": 32.83,
+      "conf": -0.051
+    },
+    {
+      "i": 52,
+      "raw": "clearly,",
+      "norm": "clearly",
+      "punct": ",",
+      "start": 32.85,
+      "end": 33.39,
+      "conf": -0.05
+    },
+    {
+      "i": 53,
+      "raw": "and",
+      "norm": "and",
+      "punct": "",
+      "start": 34.03,
+      "end": 34.15,
+      "conf": -0.01
+    },
+    {
+      "i": 54,
+      "raw": "decide",
+      "norm": "decide",
+      "punct": "",
+      "start": 34.21,
+      "end": 34.65,
+      "conf": -0.061
+    },
+    {
+      "i": 55,
+      "raw": "what",
+      "norm": "what",
+      "punct": "",
+      "start": 35.611,
+      "end": 35.871,
+      "conf": -0.214
+    },
+    {
+      "i": 56,
+      "raw": "should",
+      "norm": "should",
+      "punct": "",
+      "start": 35.991,
+      "end": 36.191,
+      "conf": -0.051
+    },
+    {
+      "i": 57,
+      "raw": "happen",
+      "norm": "happen",
+      "punct": "",
+      "start": 36.251,
+      "end": 36.551,
+      "conf": -0.026
+    },
+    {
+      "i": 58,
+      "raw": "next.",
+      "norm": "next",
+      "punct": ".",
+      "start": 36.611,
+      "end": 36.971,
+      "conf": -0.022
+    },
+    {
+      "i": 59,
+      "raw": "Different",
+      "norm": "different",
+      "punct": "",
+      "start": 38.331,
+      "end": 38.771,
+      "conf": -0.013
+    },
+    {
+      "i": 60,
+      "raw": "people",
+      "norm": "people",
+      "punct": "",
+      "start": 38.832,
+      "end": 39.252,
+      "conf": -0.143
+    },
+    {
+      "i": 61,
+      "raw": "also",
+      "norm": "also",
+      "punct": "",
+      "start": 39.472,
+      "end": 39.792,
+      "conf": -0.004
+    },
+    {
+      "i": 62,
+      "raw": "bring",
+      "norm": "bring",
+      "punct": "",
+      "start": 39.972,
+      "end": 40.232,
+      "conf": -0.046
+    },
+    {
+      "i": 63,
+      "raw": "different",
+      "norm": "different",
+      "punct": "",
+      "start": 40.512,
+      "end": 40.932,
+      "conf": -0.216
+    },
+    {
+      "i": 64,
+      "raw": "strengths.",
+      "norm": "strengths",
+      "punct": ".",
+      "start": 40.952,
+      "end": 41.412,
+      "conf": -1.804
+    },
+    {
+      "i": 65,
+      "raw": "One",
+      "norm": "one",
+      "punct": "",
+      "start": 43.173,
+      "end": 43.333,
+      "conf": -0.006
+    },
+    {
+      "i": 66,
+      "raw": "person",
+      "norm": "person",
+      "punct": "",
+      "start": 43.413,
+      "end": 43.953,
+      "conf": -0.004
+    },
+    {
+      "i": 67,
+      "raw": "may",
+      "norm": "may",
+      "punct": "",
+      "start": 44.373,
+      "end": 44.553,
+      "conf": -0.003
+    },
+    {
+      "i": 68,
+      "raw": "be",
+      "norm": "be",
+      "punct": "",
+      "start": 44.653,
+      "end": 44.733,
+      "conf": -0.004
+    },
+    {
+      "i": 69,
+      "raw": "good",
+      "norm": "good",
+      "punct": "",
+      "start": 44.873,
+      "end": 45.053,
+      "conf": -0.007
+    },
+    {
+      "i": 70,
+      "raw": "at",
+      "norm": "at",
+      "punct": "",
+      "start": 45.133,
+      "end": 45.254,
+      "conf": -2.286
+    },
+    {
+      "i": 71,
+      "raw": "explaining",
+      "norm": "explaining",
+      "punct": "",
+      "start": 45.314,
+      "end": 45.834,
+      "conf": -0.161
+    },
+    {
+      "i": 72,
+      "raw": "ideas,",
+      "norm": "ideas",
+      "punct": ",",
+      "start": 45.974,
+      "end": 46.314,
+      "conf": -0.008
+    },
+    {
+      "i": 73,
+      "raw": "another",
+      "norm": "another",
+      "punct": "",
+      "start": 47.094,
+      "end": 47.414,
+      "conf": -2.17
+    },
+    {
+      "i": 74,
+      "raw": "at",
+      "norm": "at",
+      "punct": "",
+      "start": 47.494,
+      "end": 47.614,
+      "conf": -0.019
+    },
+    {
+      "i": 75,
+      "raw": "organizing",
+      "norm": "organizing",
+      "punct": "",
+      "start": 47.734,
+      "end": 48.274,
+      "conf": -0.21
+    },
+    {
+      "i": 76,
+      "raw": "information,",
+      "norm": "information",
+      "punct": ",",
+      "start": 48.314,
+      "end": 48.955,
+      "conf": -0.015
+    },
+    {
+      "i": 77,
+      "raw": "and",
+      "norm": "and",
+      "punct": "",
+      "start": 49.775,
+      "end": 49.895,
+      "conf": -0.015
+    },
+    {
+      "i": 78,
+      "raw": "another",
+      "norm": "another",
+      "punct": "",
+      "start": 49.915,
+      "end": 50.215,
+      "conf": -1.952
+    },
+    {
+      "i": 79,
+      "raw": "at",
+      "norm": "at",
+      "punct": "",
+      "start": 50.275,
+      "end": 50.395,
+      "conf": -0.025
+    },
+    {
+      "i": 80,
+      "raw": "solving",
+      "norm": "solving",
+      "punct": "",
+      "start": 50.475,
+      "end": 50.955,
+      "conf": -1.502
+    },
+    {
+      "i": 81,
+      "raw": "technical",
+      "norm": "technical",
+      "punct": "",
+      "start": 51.495,
+      "end": 51.956,
+      "conf": -0.052
+    },
+    {
+      "i": 82,
+      "raw": "problems.",
+      "norm": "problems",
+      "punct": ".",
+      "start": 51.996,
+      "end": 52.496,
+      "conf": -0.005
+    },
+    {
+      "i": 83,
+      "raw": "Strong",
+      "norm": "strong",
+      "punct": "",
+      "start": 53.796,
+      "end": 54.216,
+      "conf": -0.084
+    },
+    {
+      "i": 84,
+      "raw": "teams",
+      "norm": "teams",
+      "punct": "",
+      "start": 54.336,
+      "end": 54.656,
+      "conf": -0.105
+    },
+    {
+      "i": 85,
+      "raw": "use",
+      "norm": "use",
+      "punct": "",
+      "start": 55.357,
+      "end": 55.637,
+      "conf": -0.01
+    },
+    {
+      "i": 86,
+      "raw": "these",
+      "norm": "these",
+      "punct": "",
+      "start": 55.737,
+      "end": 55.997,
+      "conf": -2.199
+    },
+    {
+      "i": 87,
+      "raw": "differences",
+      "norm": "differences",
+      "punct": "",
+      "start": 56.197,
+      "end": 56.957,
+      "conf": -0.031
+    },
+    {
+      "i": 88,
+      "raw": "rather",
+      "norm": "rather",
+      "punct": "",
+      "start": 57.657,
+      "end": 58.037,
+      "conf": -0.02
+    },
+    {
+      "i": 89,
+      "raw": "than",
+      "norm": "than",
+      "punct": "",
+      "start": 58.118,
+      "end": 58.278,
+      "conf": -0.079
+    },
+    {
+      "i": 90,
+      "raw": "expecting",
+      "norm": "expecting",
+      "punct": "",
+      "start": 58.378,
+      "end": 58.958,
+      "conf": -0.029
+    },
+    {
+      "i": 91,
+      "raw": "everyone",
+      "norm": "everyone",
+      "punct": "",
+      "start": 59.078,
+      "end": 59.578,
+      "conf": -0.25
+    },
+    {
+      "i": 92,
+      "raw": "to",
+      "norm": "to",
+      "punct": "",
+      "start": 60.698,
+      "end": 60.778,
+      "conf": -0.015
+    },
+    {
+      "i": 93,
+      "raw": "work",
+      "norm": "work",
+      "punct": "",
+      "start": 60.978,
+      "end": 61.318,
+      "conf": -0.026
+    },
+    {
+      "i": 94,
+      "raw": "in",
+      "norm": "in",
+      "punct": "",
+      "start": 61.379,
+      "end": 61.479,
+      "conf": -0.014
+    },
+    {
+      "i": 95,
+      "raw": "exactly",
+      "norm": "exactly",
+      "punct": "",
+      "start": 61.639,
+      "end": 62.879,
+      "conf": -0.041
+    },
+    {
+      "i": 96,
+      "raw": "the",
+      "norm": "the",
+      "punct": "",
+      "start": 63.159,
+      "end": 63.239,
+      "conf": -0.056
+    },
+    {
+      "i": 97,
+      "raw": "same",
+      "norm": "same",
+      "punct": "",
+      "start": 63.379,
+      "end": 63.639,
+      "conf": -0.011
+    },
+    {
+      "i": 98,
+      "raw": "way.",
+      "norm": "way",
+      "punct": ".",
+      "start": 63.699,
+      "end": 63.839,
+      "conf": -2.033
+    },
+    {
+      "i": 99,
+      "raw": "When",
+      "norm": "when",
+      "punct": "",
+      "start": 65.0,
+      "end": 65.14,
+      "conf": -0.007
+    },
+    {
+      "i": 100,
+      "raw": "people",
+      "norm": "people",
+      "punct": "",
+      "start": 65.26,
+      "end": 65.68,
+      "conf": -0.055
+    },
+    {
+      "i": 101,
+      "raw": "communicate",
+      "norm": "communicate",
+      "punct": "",
+      "start": 65.74,
+      "end": 66.34,
+      "conf": -0.046
+    },
+    {
+      "i": 102,
+      "raw": "openly",
+      "norm": "openly",
+      "punct": "",
+      "start": 66.42,
+      "end": 66.9,
+      "conf": -0.004
+    },
+    {
+      "i": 103,
+      "raw": "and",
+      "norm": "and",
+      "punct": "",
+      "start": 67.26,
+      "end": 67.38,
+      "conf": -0.005
+    },
+    {
+      "i": 104,
+      "raw": "take",
+      "norm": "take",
+      "punct": "",
+      "start": 67.46,
+      "end": 67.66,
+      "conf": -0.002
+    },
+    {
+      "i": 105,
+      "raw": "responsibility",
+      "norm": "responsibility",
+      "punct": "",
+      "start": 67.7,
+      "end": 68.621,
+      "conf": -0.022
+    },
+    {
+      "i": 106,
+      "raw": "for",
+      "norm": "for",
+      "punct": "",
+      "start": 69.501,
+      "end": 69.741,
+      "conf": -0.006
+    },
+    {
+      "i": 107,
+      "raw": "their",
+      "norm": "their",
+      "punct": "",
+      "start": 69.821,
+      "end": 70.021,
+      "conf": -0.034
+    },
+    {
+      "i": 108,
+      "raw": "work,",
+      "norm": "work",
+      "punct": ",",
+      "start": 70.121,
+      "end": 70.401,
+      "conf": -0.006
+    },
+    {
+      "i": 109,
+      "raw": "a",
+      "norm": "a",
+      "punct": "",
+      "start": 71.002,
+      "end": 71.022,
+      "conf": -0.03
+    },
+    {
+      "i": 110,
+      "raw": "team",
+      "norm": "team",
+      "punct": "",
+      "start": 71.262,
+      "end": 71.502,
+      "conf": -0.054
+    },
+    {
+      "i": 111,
+      "raw": "can",
+      "norm": "can",
+      "punct": "",
+      "start": 71.602,
+      "end": 71.782,
+      "conf": -0.001
+    },
+    {
+      "i": 112,
+      "raw": "achieve",
+      "norm": "achieve",
+      "punct": "",
+      "start": 71.902,
+      "end": 72.382,
+      "conf": -0.436
+    },
+    {
+      "i": 113,
+      "raw": "more",
+      "norm": "more",
+      "punct": "",
+      "start": 72.682,
+      "end": 73.002,
+      "conf": -0.006
+    },
+    {
+      "i": 114,
+      "raw": "than",
+      "norm": "than",
+      "punct": "",
+      "start": 73.102,
+      "end": 73.282,
+      "conf": -0.02
+    },
+    {
+      "i": 115,
+      "raw": "its",
+      "norm": "its",
+      "punct": "",
+      "start": 73.462,
+      "end": 73.642,
+      "conf": -0.01
+    },
+    {
+      "i": 116,
+      "raw": "individual",
+      "norm": "individual",
+      "punct": "",
+      "start": 73.782,
+      "end": 74.523,
+      "conf": -0.003
+    },
+    {
+      "i": 117,
+      "raw": "members",
+      "norm": "members",
+      "punct": "",
+      "start": 74.643,
+      "end": 75.123,
+      "conf": -0.004
+    },
+    {
+      "i": 118,
+      "raw": "working",
+      "norm": "working",
+      "punct": "",
+      "start": 75.423,
+      "end": 75.783,
+      "conf": -0.003
+    },
+    {
+      "i": 119,
+      "raw": "separately.",
+      "norm": "separately",
+      "punct": ".",
+      "start": 75.903,
+      "end": 76.383,
+      "conf": -0.527
+    }
+  ]
+}

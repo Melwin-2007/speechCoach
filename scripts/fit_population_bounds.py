@@ -1,4 +1,5 @@
 import json, hashlib, sys
+from typing import Any
 from pathlib import Path
 import numpy as np
 
@@ -38,7 +39,7 @@ def stat(x):
     med = float(np.median(x))
     return {"median": round(med, 4),
             "mad": round(float(np.median(np.abs(x - med))), 4),
-            "n": int(len(x))}
+            "n": len(x)}
 
 def main(out="configs/population_bounds.json", exclude_spk=None):
     import csv
@@ -86,7 +87,7 @@ def main(out="configs/population_bounds.json", exclude_spk=None):
             if typ != "none" and typ in pauses:
                 pauses[typ].append(s)
                 
-    B = {k: stat(v) for k, v in pooled.items()}
+    B: dict[str, Any] = {k: stat(v) for k, v in pooled.items()}
     B["pause_s"] = {t: stat(v) for t, v in pauses.items() if len(v)}
     
     # Compute within_spk_mad

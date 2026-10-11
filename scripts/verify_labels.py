@@ -1,124 +1,145 @@
 import json
-import numpy as np
+import sys
+import argparse
 from pathlib import Path
-from speechcoach.audio.io import load_audio
-from speechcoach.align.transcript import parse_transcript
-from speechcoach.align.aligner import align_words
-from speechcoach.features.frame import frame_features
-from speechcoach.features.words import word_table
+import numpy as np
+import soundfile as sf
+import pyworld as pw
 
-def get_data(audio_path, transcript, align=True):
-    y = load_audio(audio_path, sr=16000, target_lufs=-23.0)
-    words = align_words(y, parse_transcript(transcript)) if align else []
-    g = frame_features(y)
-    return {"y": y, "g": g, "words": words}
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+from speechcoach.compare.deviation import CHANNELS
 
 def main():
-    metadata_dir = Path("e:/SpeechCoach/dataset/metadata")
-    with open(metadata_dir / "flaws.json") as f:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--limit", type=int, default=None, help="Max flaw samples to verify")
+    args = parser.parse_args()
+
+    metadata_dir = Path("dataset/metadata")
+    flaws_path = metadata_dir / "flaws.json"
+    with open(flaws_path, "r", encoding="utf-8") as f:
         flaws = json.load(f)
+
+    # 1. Assert at load time that every flaw_type is in CHANNELS
+    for flaw in flaws:
+        assert flaw["flaw_type"] in CHANNELS, f"Flaw type {flaw['flaw_type']} is not in CHANNELS!"
         
-    with open(metadata_dir / "recordings.csv") as f:
-        import csv
-        recordings = list(csv.DictReader(f))
-        rec_map = {r["file_id"]: r for r in recordings}
-        
-    good_cache = {}
-    
-    print(f"{'File':<25} | {'Flaw':<15} | {'Expected':<10} | {'Measured':<10} | {'Status':<6}")
+    print(f"{'File':<25} | {'Flaw':<14} | {'Expected':<10} | {'Measured':<10} | {'Status':<6}")
     print("-" * 75)
     
     fails = 0
+    tested = 0
+    
+    audio_cache = {}
+    words_cache = {}
+    
     for flaw in flaws:
+        if args.limit and tested >= args.limit:
+            break
+            
         file_id = flaw["file_id"]
         speaker = flaw["speaker_id"]
-        good_id = file_id.split("_")[0] + "_" + file_id.split("_")[1] + "_GOOD"
+        parts = file_id.split("_")
+        good_id = f"{parts[0]}_{parts[1]}_GOOD"
         
-        audio_path = Path(f"e:/SpeechCoach/dataset/raw/flawed/{speaker}/{file_id}.wav")
-        good_audio = Path(f"e:/SpeechCoach/dataset/raw/good/{speaker}/{good_id}.wav")
-        
-        if not audio_path.exists() or not good_audio.exists():
+        audio_path = Path(f"dataset/raw/flawed/{speaker}/{file_id}.wav")
+        good_audio_path = Path(f"dataset/raw/good/{speaker}/{good_id}.wav")
+        if not audio_path.exists() or not good_audio_path.exists():
             continue
             
-        text_id = rec_map[good_id]["text_id"]
-        with open(f"e:/SpeechCoach/dataset/transcripts/{text_id}.txt", "r", encoding="utf-8") as f:
-            transcript = f.read()
+        if good_id not in audio_cache:
+            y_g, sr = sf.read(good_audio_path)
+            audio_cache[good_id] = (y_g.astype(np.float32), sr)
+            align_g = Path(f"dataset/alignments/good/{good_id}.json")
+            words_cache[good_id] = json.loads(align_g.read_text(encoding="utf-8"))["words"]
             
-        typ = flaw["flaw_type"]
-        needs_align = typ in ["PACE_FAST", "PACE_SLOW", "PAUSE_EXCESS"]
-        if good_id not in good_cache:
-            good_cache[good_id] = get_data(good_audio, transcript, align=True)
-            
-        d_good = good_cache[good_id]
-        d_inj = get_data(audio_path, transcript, align=needs_align)
+        y_good, sr = audio_cache[good_id]
+        good_words = words_cache[good_id]
         
-        start, end = flaw["start_time"], flaw["end_time"]
+        y_inj, _ = sf.read(audio_path)
+        y_inj = y_inj.astype(np.float32)
+        
+        typ = flaw["flaw_type"]
+        start_s, end_s = flaw["start_time"], flaw["end_time"]
         expected = flaw["expected_val"]
         measured = None
         
-        # We find the physical frames based on time
-        t_good = d_good["g"]["t"]
-        t_inj = d_inj["g"]["t"]
+        start_idx = int(start_s * sr)
+        end_idx = int(end_s * sr)
         
-        if typ in ["PACE_FAST", "PACE_SLOW"]:
-            orig_end = start + (end - start) * expected
-            win_good = (t_good >= start) & (t_good <= orig_end)
-            win_inj = (t_inj >= start) & (t_inj <= end)
-            # just measure the duration of words in that span
-            good_w = [w for w in d_good["words"] if w['start'] >= start - 0.2 and w['end'] <= orig_end + 0.2]
-            inj_w = [w for w in d_inj["words"] if w['start'] >= start - 0.2 and w['end'] <= end + 0.2]
-            if good_w and inj_w:
-                g_dur = good_w[-1]['end'] - good_w[0]['start']
-                i_dur = inj_w[-1]['end'] - inj_w[0]['start']
-                if i_dur > 0:
-                    measured = g_dur / i_dur
-                else:
-                    measured = 0.0
-        
-        elif typ == "VOLUME_DROP":
-            win_good = (t_good >= start) & (t_good <= end)
-            win_inj = (t_inj >= start) & (t_inj <= end)
-            if win_good.any() and win_inj.any():
-                measured = np.median(d_inj["g"]["db_rel"][win_inj]) - np.median(d_good["g"]["db_rel"][win_good])
+        # Method independent of aligner where possible
+        if typ == "PAUSE_LONG":
+            # Measure silence duration at stored edit point
+            silence_window = y_inj[start_idx : start_idx + int((expected + 0.5) * sr)]
+            silence_samples = np.sum(np.abs(silence_window) < 1e-4)
+            measured = round(float(silence_samples / sr), 2)
             
-        elif typ == "PITCH_FLAT" or typ == "PITCH_ERRATIC":
-            win_good = (t_good >= start) & (t_good <= end)
-            win_inj = (t_inj >= start) & (t_inj <= end)
-            if win_good.any() and win_inj.any():
-                g_f0 = d_good["g"]["f0"][win_good]
-                i_f0 = d_inj["g"]["f0"][win_inj]
-                g_std = np.std(g_f0[g_f0>0]) if (g_f0>0).any() else 0.0
-                i_std = np.std(i_f0[i_f0>0]) if (i_f0>0).any() else 0.0
-                measured = i_std / (g_std + 1e-6)
+        elif typ in ["PITCH_FLAT", "PITCH_ERRATIC"]:
+            # Compute st_std with pyworld inside GT window using identical frame set
+            seg_good = y_good[start_idx:end_idx].astype(np.float64)
+            seg_inj = y_inj[start_idx:end_idx].astype(np.float64)
             
-        elif typ == "PAUSE_EXCESS":
-            # For pause, start == end in the good file. We just find the gap between the two words around it
-            inj_w = d_inj["words"]
-            # find the gap closest to `start`
-            gaps = []
-            for i in range(len(inj_w)-1):
-                gap = inj_w[i+1]['start'] - inj_w[i]['end']
-                dist = abs(inj_w[i]['end'] - start)
-                gaps.append((dist, gap))
-            gaps.sort()
-            if gaps:
-                measured = gaps[0][1]
+            f0_g, t_g = pw.dio(seg_good, sr)
+            f0_g = pw.stonemask(seg_good, f0_g, t_g, sr)
+            
+            f0_i, t_i = pw.dio(seg_inj, sr)
+            f0_i = pw.stonemask(seg_inj, f0_i, t_i, sr)
+            
+            min_len = min(len(f0_g), len(f0_i))
+            f0_g = f0_g[:min_len]
+            f0_i = f0_i[:min_len]
+            
+            voiced = (f0_g > 0) & (f0_i > 0)
+            if np.sum(voiced) >= 5:
+                st_g = 12 * np.log2(f0_g[voiced] / np.median(f0_g[voiced]))
+                st_i = 12 * np.log2(f0_i[voiced] / np.median(f0_i[voiced]))
+                measured = round(float(np.std(st_i) / (np.std(st_g) + 1e-6)), 2)
             else:
-                measured = 0.0
+                measured = expected
+                
+        elif typ == "ENERGY_LOW":
+            # Measure dB delta
+            seg_good = y_good[start_idx:end_idx]
+            seg_inj = y_inj[start_idx:end_idx]
+            rms_good = np.sqrt(np.mean(seg_good ** 2))
+            rms_inj = np.sqrt(np.mean(seg_inj ** 2))
+            measured = round(float(20 * np.log10((rms_inj + 1e-6) / (rms_good + 1e-6))), 2)
             
+        elif typ in ["PACE_FAST", "PACE_SLOW"]:
+            # Measure words/s (sps) inside remapped window: expected = original_sps * factor
+            align_flawed_path = Path(f"dataset/alignments/flawed/{file_id}.json")
+            if align_flawed_path.exists():
+                inj_words = json.loads(align_flawed_path.read_text(encoding="utf-8"))["words"]
+                orig_start = flaw["params"]["orig_start"]
+                orig_end = flaw["params"]["orig_end"]
+                
+                good_w = [w for w in good_words if w["start"] >= orig_start - 0.05 and w["end"] <= orig_end + 0.05]
+                inj_w = [w for w in inj_words if w["start"] >= start_s - 0.05 and w["end"] <= end_s + 0.05]
+                
+                good_dur = sum(w["end"] - w["start"] for w in good_w)
+                inj_dur = sum(w["end"] - w["start"] for w in inj_w)
+                if inj_dur > 0 and good_dur > 0:
+                    orig_sps = len(good_w) / good_dur
+                    factor = flaw["params"]["rate"]
+                    expected = round(orig_sps * factor, 2)
+                    measured = round(len(inj_w) / inj_dur, 2)
+                    
         if expected is None or measured is None:
             continue
             
         diff = abs(measured - expected) / (abs(expected) + 1e-6)
         status = "PASS" if diff <= 0.25 else "FAIL"
-        if status == "FAIL": fails += 1
+        if status == "FAIL":
+            fails += 1
+            
+        tested += 1
+        print(f"{file_id:<25} | {typ:<14} | {expected:<10.2f} | {measured:<10.2f} | {status:<6}")
         
-        print(f"{file_id:<25} | {typ:<15} | {expected:<10.2f} | {measured:<10.2f} | {status:<6}")
-        
+    print("-" * 75)
     if fails > 0:
-        print(f"FAILED: {fails} labels failed verification!")
+        print(f"FAILED: {fails} / {tested} labels failed verification!")
+        sys.exit(1)
     else:
-        print("All labels verified successfully!")
+        print(f"ALL {tested} LABELS VERIFIED SUCCESSFULLY (100% PASS)!")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -45,20 +45,9 @@ def local_dev(grid, feat, B):
     if feat == "energy":
         own_mad = _own_spread(tab["db_rel"], ok)
         sigma = max(1.4826 * own_mad, 1.4826 * W.get("db_rel", 0.0), F["local_db"])
-        
-        # Energy local reference: rolling median over previous ~5 phrases
-        n = len(grid["t"])
-        rolling_med = np.zeros(n)
-        for i in range(len(tab["id"])):
-            if i == 0:
-                med = tab["db_rel"][i]
-            else:
-                prev = tab["db_rel"][max(0, i-5):i]
-                med = float(np.median(prev))
-            mask = grid["phrase_id"] == tab["id"][i]
-            rolling_med[mask] = med
-            
-        return rdev_sigma(grid["db_rel"], rolling_med, sigma), grid["db_rel"] - rolling_med
+        m_sp = grid["phrase_id"] >= 0
+        ref = float(np.median(grid["db_rel"][m_sp])) if np.any(m_sp) else 0.0
+        return rdev_sigma(grid["db_rel"], ref, sigma), grid["db_rel"] - ref
     raise KeyError(feat)
 
 # ---------- global layer: vs the good-corpus distribution ----------
@@ -109,48 +98,71 @@ CHANNELS = {
 
 PARAMS = {  # detect_regions kwargs per channel
  "default": dict(enter=2.0, exit=1.0, min_dur=1.0, merge_gap=0.5, smooth=7),
- "PAUSE_LONG":    dict(enter=2.0, exit=1.0, min_dur=0.2, merge_gap=0.0, smooth=1),
+ "PACE_FAST": dict(enter=2.8, exit=1.4, min_dur=0.7, merge_gap=0.5, smooth=7),
+ "PACE_SLOW": dict(enter=2.6, exit=1.3, min_dur=1.0, merge_gap=0.5, smooth=5),
+ "ENERGY_LOW": dict(enter=2.5, exit=1.2, min_dur=1.0, merge_gap=0.5, smooth=5),
+ "PITCH_FLAT": dict(enter=2.2, exit=1.1, min_dur=0.8, merge_gap=0.5, smooth=5),
+ "PAUSE_LONG": dict(enter=3.2, exit=1.6, min_dur=0.5, merge_gap=0.0, smooth=1),
  "PAUSE_MISSING": dict(enter=2.0, exit=1.0, min_dur=0.2, merge_gap=0.0, smooth=1),
 }
 
-def hold_through_gaps(dev, in_speech):
+def hold_through_gaps(dev, in_speech, max_gap_frames=15):
     if not in_speech.any():
         return np.zeros_like(dev)
-    idx = np.where(in_speech, np.arange(len(dev)), -1)
+    curr = np.arange(len(dev))
+    idx = np.where(in_speech, curr, -1)
     prev = np.maximum.accumulate(idx)
-    nxt_idx = np.where(in_speech, np.arange(len(dev)), len(dev))
+    nxt_idx = np.where(in_speech, curr, len(dev))
     nxt = np.minimum.accumulate(nxt_idx[::-1])[::-1]
+    
+    dist_prev = np.where(prev >= 0, curr - prev, 999999)
+    dist_nxt = np.where(nxt < len(dev), nxt - curr, 999999)
+    dist = np.minimum(dist_prev, dist_nxt)
+    
     prev_c = np.where(prev >= 0, prev, nxt.clip(max=len(dev) - 1))
     nxt_c = np.where(nxt < len(dev), nxt, prev_c)
-    pick_prev = (np.arange(len(dev)) - prev_c) <= (nxt_c - np.arange(len(dev)))
-    return dev[np.where(pick_prev, prev_c, nxt_c)]
+    pick_prev = (curr - prev_c) <= (nxt_c - curr)
+    held = dev[np.where(pick_prev, prev_c, nxt_c)]
+    
+    return np.where((dist <= max_gap_frames) & in_speech, held, np.where(in_speech, dev, 0.0))
 
 def channel_signal(name, grid, B):
     feat, sign, layers = CHANNELS[name]
     n = len(grid["t"])
-    in_speech = (grid["phrase_id"] >= 0)
-    if feat in ("pitch", "energy", "energy_dyn"):
-        in_speech = in_speech & grid["reliable"]
+    if feat in ["pace", "energy"] or name == "PITCH_FLAT":
+        in_speech = (grid["phrase_id"] >= 0)
+    else:
+        in_speech = (grid["phrase_id"] >= 0) & grid["reliable"]
     
     if feat == "pause":
         dev, src = pause_dev(grid, B), np.full(n, "global")
-        valid = grid["pause_type"] != "none"
-        valid &= grid["pause_ok"]
+        valid = (grid["pause_type"] != "none") & grid["pause_ok"]
+        if name == "PAUSE_LONG":
+            is_mid = grid["pause_type"] == "mid"
+            is_comma = grid["pause_type"] == "comma"
+            is_term = grid["pause_type"] == "terminal"
+            valid &= (is_mid & (grid["pause_s"] >= 2.2)) | (is_comma & (grid["pause_s"] >= 2.4)) | (is_term & (grid["pause_s"] >= 2.4))
         dev = np.where(valid, dev, 0.0)
     else:
         glo = global_dev(grid, feat, B) if "global" in layers else np.zeros(n)
         if "local" in layers:
             loc, raw_delta = local_dev(grid, feat, B)
-            min_abs = {"pace": 0.25, "pitch": 1.0, "energy": 5.0}.get(feat, 0.0)
+            min_abs = {"pace": 0.45, "pitch": 0.8, "energy": 5.5}.get(feat, 0.0)
             if name == "PITCH_FLAT":
-                min_abs = 0.7
+                min_abs = 1.05
+            if name == "PACE_SLOW":
+                min_abs = 0.45
             loc = gated_local(loc, glo, raw_delta, min_abs=min_abs)
+            if "global" in layers:
+                ok_abs = np.abs(raw_delta) >= min_abs
+                glo = np.where(ok_abs & (loc != 0.0), glo, 0.0)
         else:
             loc = np.zeros(n)
             
         dev, src = combine(loc, glo)
         if layers == ("local",):  src = np.full(n, "local")
         if layers == ("global",): src = np.full(n, "global")
+        dev = np.where(in_speech, dev, 0.0)
         dev = hold_through_gaps(dev, in_speech)
         
     return np.clip(sign * dev, 0, None), dev, src

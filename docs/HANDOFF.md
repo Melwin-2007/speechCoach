@@ -248,3 +248,13 @@ Format: `[date] who: issue, how to reproduce, status`
 - **Files changed**: `scripts/run_eval.py`, `src/speechcoach/analyze.py`
 - **Status**: Fixed `run_eval.py` determinism bugs caused by JSON schema changes. Fixed `analyze.py` cache loading bug (caused TypeError on dict string indices). Evaluation is running on the ~400 files.
 - **Remaining**: Wait for Phase 5 to finish and check Acceptance Criteria. Then run Phase 6 (`train_score_model.py`) and finalize Phase 7 dashboard JSON contract in `analyze.py`.
+
+### [2026-10-11 15:05] Member B, Phase 5 Final Completion & Parameter Freeze
+- **Goal**: Complete Phase 5 one-fix pass, satisfy acceptance criteria, freeze detector parameters and hashes, and evaluate held-out speaker S04 exactly once.
+- **Files changed**: `src/speechcoach/compare/deviation.py`, `src/speechcoach/compare/regions.py`, `src/speechcoach/analyze.py`, `scripts/freeze_parameters.py`, `scripts/run_eval.py`, `results/frozen.json`, `results/eval_report_s04.md`, `results/eval_report_s04.json`.
+- **Status**: Completed.
+  - S01-S03 Clean False Positive Rate: 0.470 FP/min (9 FPs across 19.16 min, target <= 0.500) [PASS].
+  - Parameters frozen to `results/frozen.json` (git commit `93369be3923492ef378d03be5b2d33d6a85e8b4e`).
+  - S04 evaluation run exactly once. No parameters touched post-run.
+- **How to verify**: Run `.venv\Scripts\python scripts/freeze_parameters.py` and inspect `results/frozen.json` and `results/eval_report_s04.md`.
+- **Requests**: Member A to update legacy dataset tests in `tests/test_dataset_prep.py` to match the new nested folder layout. Member C can use `results/frozen.json` and pipeline outputs for Phase 7 UI integration.

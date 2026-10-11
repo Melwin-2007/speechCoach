@@ -85,17 +85,42 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
             start_s = float(grid["t"][s_idx])
             end_s = float(grid["t"][e_idx])
             
+            if name == "PAUSE_LONG":
+                mid_point = (start_s + end_s) / 2.0
+                prev_words = [w for w in words if float(w["end"]) <= mid_point]
+                next_words = [w for w in words if float(w["start"]) >= mid_point]
+                if prev_words and next_words:
+                    prev_w = max(prev_words, key=lambda w: float(w["end"]))
+                    next_w = min(next_words, key=lambda w: float(w["start"]))
+                    start_s = float(prev_w["end"])
+                    end_s = float(next_w["start"])
+            
             src_mode = src[s_idx]
             dev_peak = float(np.max(dev[s_idx:e_idx+1]))
             dev_mean = float(np.mean(dev[s_idx:e_idx+1]))
             
+            pids = np.unique(grid["phrase_id"][s_idx:e_idx+1])
+            pids = [int(p) for p in pids if p >= 0]
+            matched_phrases = [p for p in p_feats if p["id"] in pids]
+            if matched_phrases:
+                p_dur = sum(p.get("dur", p["end"] - p["start"]) for p in matched_phrases)
+                p_sylls = sum(p.get("syllables", 0) for p in matched_phrases)
+                p_vf = float(np.mean([p.get("voiced_frac", 0.0) for p in matched_phrases]))
+                p_rel = all(p.get("reliable", False) for p in matched_phrases)
+            else:
+                p_dur, p_sylls, p_vf, p_rel = round(end_s - start_s, 2), 0, 0.0, False
+                
             evidence = {
                 "flaw": name,
                 "start": round(start_s, 2),
                 "end": round(end_s, 2),
                 "source": str(src_mode),
                 "dev_peak": round(dev_peak, 2),
-                "dev_mean": round(dev_mean, 2)
+                "dev_mean": round(dev_mean, 2),
+                "phrase_dur": round(float(p_dur), 2),
+                "syllable_count": int(p_sylls),
+                "voiced_frac": round(float(p_vf), 2),
+                "reliable": bool(p_rel)
             }
             
             # Additional context for specific flaws
@@ -133,6 +158,10 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 "source": str(src_mode),
                 "value": evidence.get("value", 0.0),
                 "baseline": evidence.get("baseline", 0.0),
+                "phrase_dur": evidence["phrase_dur"],
+                "syllable_count": evidence["syllable_count"],
+                "voiced_frac": evidence["voiced_frac"],
+                "reliable": evidence["reliable"],
                 "band": "unknown",
                 "dev_peak": round(dev_peak, 2),
                 "dev_mean": round(dev_mean, 2),

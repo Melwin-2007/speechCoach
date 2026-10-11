@@ -40,9 +40,18 @@ def match_flaw(true_flaw, pred_flaws):
             if abs(p["start"] - t_start) <= 1.0 and abs(p["end"] - t_end) <= 1.0:
                 best_time_match = p
                 
-    return best_iou_match is not None and best_iou >= 0.5, best_time_match is not None, best_iou
+    iou_pass = best_iou_match is not None and best_iou >= 0.5
+    time_pass = best_time_match is not None
+    p_len = (best_iou_match["end"] - best_iou_match["start"]) if best_iou_match else 0.0
+    return iou_pass, time_pass, best_iou, p_len, t_dur
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--limit", type=int, default=None, help="Limit number of flawed files to evaluate")
+    parser.add_argument("--s04_only", action="store_true", help="Evaluate held-out speaker S04 only")
+    parser.add_argument("--all_speakers", action="store_true", help="Evaluate all speakers")
+    args = parser.parse_args()
+
     # Precompute LOO bounds
     print("Precomputing LOO bounds...", flush=True)
     from scripts.fit_population_bounds import main as fit_bounds
@@ -82,9 +91,10 @@ def main():
     for row in reader_rows:
         fid = row["file_id"]
         spk = row["speaker_id"]
-        # Skip S04 for tuning unless doing final test
-        if spk == "S04":
-            continue # For tuning phase
+        if args.s04_only:
+            if spk != "S04": continue
+        elif not args.all_speakers:
+            if spk == "S04": continue # Skip S04 for tuning
             
         if row.get('quality') == 'GOOD':
             good_files.append((fid, row["speaker_id"], row["text_id"]))
@@ -92,13 +102,19 @@ def main():
     for fid, flaws in flaw_map.items():
         spk = fid.split("_")[0]
         text_id = fid.split("_")[1]
-        if spk == "S04": continue
+        if args.s04_only:
+            if spk != "S04": continue
+        elif not args.all_speakers:
+            if spk == "S04": continue
         eval_files.append((fid, {
             "file_id": fid,
             "speaker": spk,
             "text_id": text_id,
             "flaws": flaws
         }))
+            
+    if args.limit:
+        eval_files = eval_files[:args.limit]
             
     print(f"\nEvaluating {len(eval_files)} flawed files and {len(good_files)} good files (S01-S03)")
     
@@ -111,6 +127,7 @@ def main():
     # Recall tracking
     # (channel, severity) -> {"iou_pass": int, "time_pass": int, "total": int}
     recall_stats = defaultdict(lambda: {"iou": 0, "time": 0, "total": 0})
+    discrepancies = []
     
     # Determinism test on first file
     det_file = eval_files[0] if eval_files else None
@@ -167,15 +184,21 @@ def main():
                 sev = t["severity"]
                 key = f"{typ}_L{sev}"
                 
-                iou_pass, time_pass, best_iou = match_flaw(t, pred_flaws)
+                iou_pass, time_pass, best_iou, p_len, gt_len = match_flaw(t, pred_flaws)
                 
                 recall_stats[key]["total"] += 1
                 if iou_pass: recall_stats[key]["iou"] += 1
                 if time_pass: recall_stats[key]["time"] += 1
                 
-                if not iou_pass and typ == "PACE_FAST" and sev == 4:
-                    # Diagnostic
-                    print(f"[DIAGNOSTIC] Missed PACE_FAST L4 in {fid}. Best IoU: {best_iou:.2f}", flush=True)
+                if iou_pass and not time_pass:
+                    discrepancies.append({
+                        "file_id": fid,
+                        "type": typ,
+                        "severity": sev,
+                        "iou": round(best_iou, 2),
+                        "pred_len": round(p_len, 2),
+                        "gt_len": round(gt_len, 2)
+                    })
         except Exception as e:
             import traceback
             print(f"Error on flawed file {fid}: {e}\n{traceback.format_exc()}", flush=True)
@@ -204,17 +227,29 @@ def main():
         if n == 0: continue
         iou_r = stats["iou"] / n
         time_r = stats["time"] / n
-        flaw, sev = key.split("_L")
+        flaw, sev = key.rsplit("_L", 1)
         report.append(f"| {flaw} | L{sev} | {iou_r*100:.1f}% ({stats['iou']}/{n}) | {time_r*100:.1f}% ({stats['time']}/{n}) |")
+        
+    report.append("")
+    report.append("### Region Lengths vs GT Lengths (IoU >= 0.5 but +-1.0s Low)")
+    if discrepancies:
+        report.append("| File | Channel | Severity | IoU | Pred Len (s) | GT Len (s) | Diff (s) |")
+        report.append("|---|---|---|---|---|---|---|")
+        for d in discrepancies:
+            diff_len = round(abs(d["pred_len"] - d["gt_len"]), 2)
+            report.append(f"| {d['file_id']} | {d['type']} | L{d['severity']} | {d['iou']} | {d['pred_len']} | {d['gt_len']} | {diff_len} |")
+    else:
+        report.append("None (all high-IoU detections satisfied +-1.0s tolerance).")
         
     md_report = "\n".join(report)
     print(md_report)
     
     os.makedirs("results", exist_ok=True)
-    with open("results/eval_report.md", "w") as f:
+    out_stem = "results/eval_report_s04" if args.s04_only else "results/eval_report"
+    with open(f"{out_stem}.md", "w") as f:
         f.write(md_report)
         
-    with open("results/eval_report.json", "w") as f:
+    with open(f"{out_stem}.json", "w") as f:
         json.dump({
             "fp_per_min": total_fp_min,
             "fp_by_type": fp_by_type,

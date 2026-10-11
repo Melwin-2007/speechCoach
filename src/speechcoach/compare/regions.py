@@ -125,18 +125,34 @@ def detect_regions(dev: np.ndarray, t: np.ndarray, enter: float = 2.0, exit: flo
     else:
         dev_smooth = dev
         
-    # 2. Hysteresis detection
+    # 2. Hysteresis detection: enter on smoothed signal, exit on unsmoothed signal
+    abs_dev = np.abs(dev)
+    abs_smooth = np.abs(dev_smooth)
+    n = len(dev)
+    
     regions = []
     active = None
-    for i, d in enumerate(np.abs(dev_smooth)):
-        if active is None and d > enter:
-            active = i
-        elif active is not None and d < exit:
-            regions.append((active, i))
-            active = None
+    for i in range(n):
+        if active is None:
+            if abs_smooth[i] >= enter:
+                active = i
+        else:
+            if abs_smooth[i] < exit:
+                regions.append((active, max(active, i - 1)))
+                active = None
             
     if active is not None:
-        regions.append((active, len(dev_smooth) - 1))
+        regions.append((active, n - 1))
+        
+    # Extend outward on unsmoothed signal while |dev| >= exit
+    extended = []
+    for s, e in regions:
+        while s > 0 and abs_dev[s - 1] >= exit:
+            s -= 1
+        while e < n - 1 and abs_dev[e + 1] >= exit:
+            e += 1
+        extended.append((s, e))
+    regions = extended
         
     # 3. Merge close regions
     merged = []

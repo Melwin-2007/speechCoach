@@ -46,7 +46,7 @@ def speaker_normalization(g: dict, phrases: list[list[dict]]) -> dict:
     phrase_rates = []
     for p in phrases:
         if not p: continue
-        dur = p[-1]['end'] - p[0]['start']
+        dur = sum(w['end'] - w['start'] for w in p)
         if dur > 0:
             syllables = sum(count_syllables(w.get('norm', w.get('raw', ''))) for w in p)
             phrase_rates.append(syllables / dur)
@@ -83,10 +83,11 @@ def phrase_features(phrases: list[list[dict]], g: dict, norms: dict) -> list[dic
             prev_end = phrases[i-1][-1]['end']
             pause_before = start - prev_end
             
-        dur = end - start
+        # Speaking time duration excluding pauses
+        dur = sum(w['end'] - w['start'] for w in p)
         sps = 0.0
+        syllables = sum(count_syllables(w.get('norm', w.get('raw', ''))) for w in p)
         if dur > 0:
-            syllables = sum(count_syllables(w.get('norm', w.get('raw', ''))) for w in p)
             sps = syllables / dur
             
         # Acoustic features within the phrase
@@ -113,9 +114,9 @@ def phrase_features(phrases: list[list[dict]], g: dict, norms: dict) -> list[dic
         confs = [w.get("score", 1.0) for w in p]
         min_conf = min(confs) if confs else 1.0
         
-        # Voiced fraction and duration constraints
-        voiced_frac = float(np.sum(mask_f0[mask])) / float(np.sum(mask)) if np.sum(mask) > 0 else 0.0
-        is_reliable = min_conf > 0.6 and voiced_frac >= 0.4 and dur >= 0.8 and (sps * dur >= 3.0)
+        # Voiced fraction and duration constraints (against all frames in phrase)
+        voiced_frac = float(np.sum(mask_f0[mask_all])) / float(np.sum(mask_all)) if np.sum(mask_all) > 0 else 0.0
+        is_reliable = min_conf > 0.6 and voiced_frac >= 0.4 and dur >= 0.8 and (syllables >= 3)
         
         res.append({
             "id": i,
@@ -130,6 +131,9 @@ def phrase_features(phrases: list[list[dict]], g: dict, norms: dict) -> list[dic
             "st_range": st_range,
             "db_rel": db_rel_phrase,
             "db_mad": db_mad,
+            "dur": float(dur),
+            "syllables": int(syllables),
+            "voiced_frac": float(voiced_frac),
             "reliable": is_reliable
         })
         
@@ -166,17 +170,18 @@ def interpolate_to_grid(phrase_feats: list[dict], duration_s: float, hop_s: floa
         grid["db_mad"][mask] = p["db_mad"]
         grid["reliable"][mask] = p["reliable"]
         
-        # Attribute pause_before to the beginning of the phrase (e.g. 0.2s window)
-        pause_mask = (t_grid >= p['start']) & (t_grid < p['start'] + 0.2)
-        grid["pause_s"][pause_mask] = p["pause_before"]
-        grid["pause_type"][pause_mask] = p["pause_type"]
-        
-        # Determine if pause is assessable (both neighboring phrases are reliable)
-        if i > 0:
+        # Attribute pause_before to the actual pause duration window between phrases
+        if i > 0 and p['pause_before'] > 0:
+            prev_end = phrase_feats[i-1]["end"]
+            pause_mask = (t_grid >= prev_end) & (t_grid < p['start'])
+            grid["pause_s"][pause_mask] = p["pause_before"]
+            grid["pause_type"][pause_mask] = p["pause_type"]
             prev_reliable = phrase_feats[i-1]["reliable"]
-            grid["pause_ok"][pause_mask] = prev_reliable and p["reliable"]
+            grid["pause_ok"][pause_mask] = prev_reliable or p["reliable"]
         else:
-            # First pause is just leading silence
+            pause_mask = (t_grid < p['start'])
+            grid["pause_s"][pause_mask] = p["pause_before"]
+            grid["pause_type"][pause_mask] = "none"
             grid["pause_ok"][pause_mask] = False
             
     gap_frames = grid["phrase_id"] < 0

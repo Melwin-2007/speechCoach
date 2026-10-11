@@ -1,0 +1,128 @@
+{
+  "frozen": true,
+  "phase": 5,
+  "git_commit": "93369be3923492ef378d03be5b2d33d6a85e8b4e",
+  "hashes": {
+    "configs/population_bounds.json": "cfa58adb99319bc06bb4a925b28485fd131dd83f0303f33217e20125c5cac8b6",
+    "configs/population_bounds_loo_S01.json": "8ce28d2acd91f57301bdad9278754b2b3b6be5990f539cc9f5d63f51ed1a00e4",
+    "configs/population_bounds_loo_S02.json": "6f3fbe73d27b3898721e78f468ccb3702f4617bd5359ce91db0f97e330cfb62f",
+    "configs/population_bounds_loo_S03.json": "b388b0290a681d7d6f89dbb39c9beab0a695e692cda7702243abf0681192536d",
+    "configs/population_bounds_loo_S04.json": "42ba03dfdfc14f954ede2061d4f8a0365f27d921281e8fab9fdea04c159cb592",
+    "src/speechcoach/compare/deviation.py": "cf99d9b3a95079f722667438b5b2e80c14d08b8b1f2492260ef3e38987946a8e",
+    "src/speechcoach/compare/regions.py": "4e83c8dc5a59e2cba0d5ea4104e7fa4972f581b5e35040a91453bbf370eb6d38",
+    "src/speechcoach/analyze.py": "3f622ac62abe967aa251f14aab684613155b437900d2cf9fa319a22723c63230"
+  },
+  "params": {
+    "default": {
+      "enter": 2.0,
+      "exit": 1.0,
+      "min_dur": 1.0,
+      "merge_gap": 0.5,
+      "smooth": 7
+    },
+    "PACE_FAST": {
+      "enter": 2.8,
+      "exit": 1.4,
+      "min_dur": 0.7,
+      "merge_gap": 0.5,
+      "smooth": 7
+    },
+    "PACE_SLOW": {
+      "enter": 2.6,
+      "exit": 1.3,
+      "min_dur": 1.0,
+      "merge_gap": 0.5,
+      "smooth": 5
+    },
+    "ENERGY_LOW": {
+      "enter": 2.5,
+      "exit": 1.2,
+      "min_dur": 1.0,
+      "merge_gap": 0.5,
+      "smooth": 5
+    },
+    "PITCH_FLAT": {
+      "enter": 2.2,
+      "exit": 1.1,
+      "min_dur": 0.8,
+      "merge_gap": 0.5,
+      "smooth": 5
+    },
+    "PAUSE_LONG": {
+      "enter": 3.2,
+      "exit": 1.6,
+      "min_dur": 0.5,
+      "merge_gap": 0.0,
+      "smooth": 1
+    },
+    "PAUSE_MISSING": {
+      "enter": 2.0,
+      "exit": 1.0,
+      "min_dur": 0.2,
+      "merge_gap": 0.0,
+      "smooth": 1
+    }
+  },
+  "channels": {
+    "PACE_FAST": [
+      "pace",
+      1,
+      [
+        "local",
+        "global"
+      ]
+    ],
+    "PACE_SLOW": [
+      "pace",
+      -1,
+      [
+        "local",
+        "global"
+      ]
+    ],
+    "PITCH_ERRATIC": [
+      "pitch",
+      1,
+      [
+        "local",
+        "global"
+      ]
+    ],
+    "PITCH_FLAT": [
+      "pitch",
+      -1,
+      [
+        "local",
+        "global"
+      ]
+    ],
+    "ENERGY_LOW": [
+      "energy",
+      -1,
+      [
+        "local"
+      ]
+    ],
+    "ENERGY_FLAT": [
+      "energy_dyn",
+      -1,
+      [
+        "global"
+      ]
+    ],
+    "PAUSE_LONG": [
+      "pause",
+      1,
+      [
+        "global"
+      ]
+    ],
+    "PAUSE_MISSING": [
+      "pause",
+      -1,
+      [
+        "global"
+      ]
+    ]
+  }
+}
