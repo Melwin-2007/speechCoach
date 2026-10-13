@@ -378,3 +378,28 @@ pm.cmd run build from pp/.
   - Test preset buttons ("Ideal", "Almost", "Botched") or analyze `data/interim/S05/T01-S05.ogg` to verify score count-up, green pulse, waveform slider bands, and 5-field explanations.
 - **Requests**: None.
 
+### [2026-10-13 21:00] Member C (Redesign Waveform Flaw Badges & Highlight Bands)
+- **Goal**: Elevate waveform flaw badges from squished truncated buttons into spacious, state-of-the-art interactive pills and refine acoustic interval highlights.
+- **Files changed**:
+  - `app/src/lib/lanes.js`: Updated `assignLanes` to reserve a visual duration footprint (~13% timeline space per badge), preventing horizontal collisions and multi-badge stacking overlap.
+  - `app/src/components/WaveformPanel/WaveformPanel.jsx`:
+    - Replaced squished width-bound buttons with spacious floating badge pills (`.flawBadge`) featuring a severity color dot, Lucide dimension icon, complete flaw title, and start timestamp pill.
+    - Upgraded on-waveform acoustic bands to translucent luminous spotlight zones with 3px solid top accents, removing cramped truncated text labels from inside narrow waveform bars.
+  - `app/src/components/WaveformPanel/WaveformPanel.module.css`: Added pill badge styling, elevation shadows, hover/selected states, and translucent interval band styles.
+  - `app/src/styles/tokens.css`: Added `--t-fast` and `--t-base` transition helper tokens.
+- **Status**: Completed. All tests pass, design linter passes with 0 violations, and Vite build succeeds cleanly.
+- **How to verify**: Open `http://localhost:5173/`, load "Almost" or "Botched", and inspect the waveform panel. Badges display full names ("Dragging", "Volume Drop", "Rushed Tempo") with icons and timestamps, without truncation or visual overlap.
+- **Requests**: None.
+
+### [2026-10-13 21:15] Member C (Auto-scroll to Processing/Loading Section upon Analysis)
+- **Goal**: Automatically and smoothly scroll the viewport down to the `<LoadingCard />` processing equalizer section immediately when the user clicks "Analyze recording" or loads a benchmark sample.
+- **Files changed**:
+  - `app/src/App.jsx`:
+    - Added immediate smooth scrolling (`scrollIntoView({ behavior: "smooth", block: "center" })`) inside `handleAnalyze()` targeted to `#loading-section`.
+    - Added `id="loading-section"` and `id="error-banner"` with a 90px `scrollMarginTop` to account for the sticky header navigation bar.
+- **Status**: Completed. All tests pass, design linter passes with 0 violations, and Vite build succeeds cleanly.
+- **How to verify**: At `http://localhost:5173/`, upload an audio or pick a benchmark sample and click "Analyze recording". The page smoothly scrolls down to center the loading card with the dynamic 5-bar equalizer and 7-stage pipeline progress tracker.
+- **Requests**: None.
+
+
+

@@ -89,4 +89,6 @@
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --ease-in-out: cubic-bezier(.65, 0, .35, 1);
   --ease-soft: cubic-bezier(.34, 1.25, .64, 1);
+  --t-fast: 140ms cubic-bezier(.22, 1, .36, 1);
+  --t-base: 240ms cubic-bezier(.22, 1, .36, 1);
 }

@@ -74,6 +74,7 @@
 .flawOverlayLayer {
   position: relative;
   width: 100%;
+  margin-bottom: var(--s-1);
 }
 
 .noFlawsBanner {
@@ -99,38 +100,68 @@
   flex-shrink: 0;
 }
 
-.flawRegionBtn {
+.flawBadgeWrapper {
   position: absolute;
-  height: 24px;
-  border-radius: var(--r-sm);
+  z-index: 3;
+}
+
+.flawBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
   border: 1.5px solid;
   cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  font-family: var(--font-body);
+}
+
+.flawBadge:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  z-index: 10;
+}
+
+.flawBadgeSelected {
+  box-shadow: 0 0 0 2px var(--ink), var(--shadow-2);
+  transform: translateY(-1px);
+  z-index: 12;
+}
+
+.badgeSeverityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+}
+
+.badgeIcon {
   display: flex;
   align-items: center;
-  padding: 0 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  transition: transform var(--t-fast), box-shadow var(--t-fast);
-  z-index: 2;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.flawRegionBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-1);
-  z-index: 5;
-}
-
-.flawRegionSelected {
-  box-shadow: 0 0 0 2px var(--ink);
-  z-index: 6;
-}
-
-.regionLabel {
+.badgeLabel {
   font-size: 11px;
   font-weight: 700;
+  letter-spacing: -0.01em;
   text-transform: capitalize;
-  pointer-events: none;
+}
+
+.badgeTime {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  background-color: var(--paper);
+  padding: 1px 6px;
+  border-radius: var(--r-xs);
+  margin-left: 2px;
 }
 
 .waveformCanvasWrap {
@@ -159,44 +190,30 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  border-left: 2px solid;
-  border-right: 2px solid;
-  opacity: 0.8;
-  transition: opacity var(--t-fast);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 2px;
+  border-top: 3px solid;
+  border-left: 1px dashed;
+  border-right: 1px dashed;
+  border-radius: var(--r-xs) var(--r-xs) 0 0;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+  overflow: hidden;
 }
 
 .waveformFlawBand:hover {
-  opacity: 1;
+  box-shadow: 0 0 10px rgba(18, 48, 43, 0.1);
 }
 
 .waveformFlawBandSelected {
-  opacity: 1;
+  border-left: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
   box-shadow: inset 0 0 0 1px var(--ink);
 }
 
-.waveformFlawTag {
-  pointer-events: auto;
-  cursor: pointer;
-  font-size: 10px;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  background-color: var(--card);
-  padding: 2px 6px;
-  border-radius: var(--r-xs);
-  box-shadow: var(--shadow-1);
-  width: fit-content;
-  max-width: 100%;
-  transition: transform var(--t-fast);
-}
-
-.waveformFlawTag:hover {
-  transform: translateY(-1px);
+.bandTopAccent {
+  width: 100%;
+  height: 3px;
+  border-radius: var(--r-xs) var(--r-xs) 0 0;
 }
 
 .controlsRow {

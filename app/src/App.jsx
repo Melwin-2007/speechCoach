@@ -352,6 +352,14 @@ export default function App() {
     setLoading(true);
     setError(null);
 
+    // Scroll down to the loading/processing section immediately
+    setTimeout(() => {
+      const loadingEl = document.getElementById("loading-section");
+      if (loadingEl) {
+        loadingEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 50);
+
     const controller = new AbortController();
     const safetyTimeout = setTimeout(() => {
       try { controller.abort(); } catch {}
@@ -747,7 +755,7 @@ export default function App() {
 
         {/* Error message */}
         {error && (
-          <div style={{ marginBottom: "var(--s-6)" }}>
+          <div id="error-banner" style={{ marginBottom: "var(--s-6)", scrollMarginTop: "90px" }}>
             <ErrorBanner
               error={error}
               onRetry={handleAnalyze}
@@ -758,7 +766,7 @@ export default function App() {
 
         {/* Loading state */}
         {loading && (
-          <div style={{ marginTop: "var(--s-8)" }}>
+          <div id="loading-section" style={{ marginTop: "var(--s-8)", scrollMarginTop: "90px" }}>
             <LoadingCard onCancel={handleCancel} />
           </div>
         )}

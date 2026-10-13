@@ -1,10 +1,32 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import WaveSurfer from "wavesurfer.js";
-import { Play, Pause, SkipBack, SkipForward, AlertCircle } from "lucide-react";
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  AlertCircle,
+  Gauge,
+  Activity,
+  Volume2,
+  Target,
+  Ear,
+  Mic,
+} from "lucide-react";
 import { DIMENSIONS, getFlawMeta } from "../../lib/colors";
 import { fmtTime, fmtNum } from "../../lib/format";
 import { assignLanes } from "../../lib/lanes";
 import styles from "./WaveformPanel.module.css";
+
+const ICON_MAP = {
+  pacing: Gauge,
+  pausing: Pause,
+  pitch: Activity,
+  energy: Volume2,
+  emphasis: Target,
+  clarity: Ear,
+  fluency: Mic,
+};
 
 export default function WaveformPanel({
   audioUrl,
@@ -132,10 +154,10 @@ export default function WaveformPanel({
     seekToFlaw(flaws[nextIndex]);
   };
 
-  // Assign lanes to overlapping flaw regions (memoized)
-  const lanedFlaws = useMemo(() => assignLanes(flaws), [flaws]);
+  // Assign lanes to overlapping flaw regions with visual duration footprint (memoized)
+  const lanedFlaws = useMemo(() => assignLanes(flaws, 0.5, duration), [flaws, duration]);
   const maxLane = useMemo(() => lanedFlaws.reduce((max, f) => Math.max(max, f.lane || 0), 0), [lanedFlaws]);
-  const overlayHeight = Math.max(34, (maxLane + 1) * 30);
+  const overlayHeight = Math.max(38, (maxLane + 1) * 36);
 
   return (
     <div className={styles.waveformCard} ref={containerRef}>
@@ -163,7 +185,10 @@ export default function WaveformPanel({
       {/* Main Waveform + Overlay Box */}
       <div className={styles.waveformStage}>
         {/* Flaw region badges overlay layer */}
-        <div className={styles.flawOverlayLayer} style={{ height: flaws.length === 0 ? "38px" : `${overlayHeight}px` }}>
+        <div
+          className={styles.flawOverlayLayer}
+          style={{ height: flaws.length === 0 ? "38px" : `${overlayHeight}px` }}
+        >
           {flaws.length === 0 ? (
             <div className={styles.noFlawsBanner}>
               <span className={styles.noFlawsIndicator} />
@@ -173,37 +198,60 @@ export default function WaveformPanel({
             lanedFlaws.map((flaw) => {
               const meta = getFlawMeta(flaw.type);
               const dim = DIMENSIONS[meta.dimension] || DIMENSIONS.pacing;
-              const leftPct = Math.max(0, (flaw.start / duration) * 100);
-              const widthPct = Math.max(1.5, ((flaw.end - flaw.start) / duration) * 100);
-              const topPx = flaw.lane * 28;
+              const IconComp = ICON_MAP[meta.dimension] || Gauge;
+              const rawLeftPct = (flaw.start / duration) * 100;
+              const safeLeftPct = Math.max(0, Math.min(84, rawLeftPct));
+              const topPx = flaw.lane * 36;
               const isSelected = flaw.id === selectedFlawId;
 
               return (
-                <button
+                <div
                   key={flaw.id}
-                  type="button"
-                  className={`${styles.flawRegionBtn} ${isSelected ? styles.flawRegionSelected : ""}`}
+                  className={styles.flawBadgeWrapper}
                   style={{
-                    left: `${leftPct}%`,
-                    width: `${widthPct}%`,
+                    left: `${safeLeftPct}%`,
                     top: `${topPx}px`,
-                    backgroundColor: dim.tint,
-                    borderColor: dim.color,
                   }}
-                  onClick={() => seekToFlaw(flaw)}
-                  title={`${meta.label} (${flaw.band}): ${fmtTime(flaw.start)} – ${fmtTime(flaw.end)}`}
-                  aria-label={`${meta.label} flaw from ${fmtTime(flaw.start)} to ${fmtTime(flaw.end)}`}
                 >
-                  <span className={styles.regionLabel} style={{ color: dim.color }}>
-                    {meta.label}
-                  </span>
-                </button>
+                  <button
+                    type="button"
+                    className={`${styles.flawBadge} ${isSelected ? styles.flawBadgeSelected : ""}`}
+                    style={{
+                      borderColor: isSelected ? "var(--ink)" : dim.color,
+                      backgroundColor: isSelected ? "var(--card)" : dim.tint,
+                    }}
+                    onClick={() => seekToFlaw(flaw)}
+                    title={`${meta.label} (${flaw.band}): ${fmtTime(flaw.start)} – ${fmtTime(flaw.end)} (Click to jump)`}
+                    aria-label={`${meta.label} flaw from ${fmtTime(flaw.start)} to ${fmtTime(flaw.end)}`}
+                  >
+                    <span
+                      className={styles.badgeSeverityDot}
+                      style={{
+                        backgroundColor:
+                          flaw.band === "major"
+                            ? "var(--bad)"
+                            : flaw.band === "moderate"
+                            ? "var(--warn)"
+                            : "var(--butter)",
+                      }}
+                    />
+                    <span className={styles.badgeIcon} style={{ color: dim.color }}>
+                      <IconComp size={13} strokeWidth={2.4} />
+                    </span>
+                    <span className={styles.badgeLabel} style={{ color: "var(--ink)" }}>
+                      {meta.label}
+                    </span>
+                    <span className={styles.badgeTime}>
+                      {fmtTime(flaw.start)}
+                    </span>
+                  </button>
+                </div>
               );
             })
           )}
         </div>
 
-        {/* Waveform Canvas container + direct flaw bands on the audio slider */}
+        {/* Waveform Canvas container + direct flaw highlight intervals on audio slider */}
         <div className={styles.waveformCanvasWrap}>
           <div ref={waveformRef} className={styles.waveformContainer} />
           {flaws.length > 0 && (
@@ -212,7 +260,7 @@ export default function WaveformPanel({
                 const meta = getFlawMeta(flaw.type);
                 const dim = DIMENSIONS[meta.dimension] || DIMENSIONS.pacing;
                 const leftPct = Math.max(0, (flaw.start / duration) * 100);
-                const widthPct = Math.max(1.5, ((flaw.end - flaw.start) / duration) * 100);
+                const widthPct = Math.max(1.2, ((flaw.end - flaw.start) / duration) * 100);
                 const isSelected = flaw.id === selectedFlawId;
 
                 return (
@@ -222,18 +270,23 @@ export default function WaveformPanel({
                     style={{
                       left: `${leftPct}%`,
                       width: `${widthPct}%`,
-                      backgroundColor: dim.tint,
-                      borderColor: dim.color,
+                      backgroundColor: isSelected
+                        ? `color-mix(in srgb, ${dim.color} 25%, transparent)`
+                        : `color-mix(in srgb, ${dim.color} 14%, transparent)`,
+                      borderTopColor: dim.color,
+                      borderLeftColor: `color-mix(in srgb, ${dim.color} 45%, transparent)`,
+                      borderRightColor: `color-mix(in srgb, ${dim.color} 45%, transparent)`,
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
                       seekToFlaw(flaw);
                     }}
-                    title={`${meta.label} (${flaw.band}): ${fmtTime(flaw.start)} – ${fmtTime(flaw.end)}`}
+                    title={`${meta.label} (${flaw.band}): ${fmtTime(flaw.start)} – ${fmtTime(flaw.end)} (Click to jump)`}
                   >
-                    <span className={styles.waveformFlawTag} style={{ color: dim.color }}>
-                      {meta.label}
-                    </span>
+                    <div
+                      className={styles.bandTopAccent}
+                      style={{ backgroundColor: dim.color }}
+                    />
                   </div>
                 );
               })}
