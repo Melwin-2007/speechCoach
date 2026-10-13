@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.ndimage import median_filter  # type: ignore
 
 def find_regions(z: np.ndarray, words: list[dict], sign: int, cfg: dict, event_mode: bool = False) -> list[dict]:
     """
@@ -118,7 +119,6 @@ def detect_regions(dev: np.ndarray, t: np.ndarray, enter: float = 2.0, exit: flo
         dev: signed deviation per 0.1s frame for one feature.
         t: array of time values (e.g. 0.1s grid).
     """
-    from scipy.ndimage import median_filter
     # 1. Median filtering
     if smooth > 1:
         dev_smooth = median_filter(dev, size=smooth)
@@ -171,7 +171,7 @@ def detect_regions(dev: np.ndarray, t: np.ndarray, enter: float = 2.0, exit: flo
     final_regions = []
     for r in merged:
         start_idx, end_idx = r
-        if t[end_idx] - t[start_idx] >= min_dur:
+        if round(float(t[end_idx] - t[start_idx]), 2) >= min_dur:
             final_regions.append((start_idx, end_idx))
             
     return final_regions

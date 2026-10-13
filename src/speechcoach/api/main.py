@@ -33,6 +33,41 @@ CACHE_DIR = REPO_ROOT / ".cache" / "analyses"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 PUBLIC_DIR = REPO_ROOT / "app" / "public"
 
+WHY_FIX_CATALOG = {
+    "PACE_FAST": {
+        "why": "Speaking too quickly reduces articulatory precision and leaves listeners unable to absorb key ideas.",
+        "fix": "Slow down your delivery rate, articulate unstressed syllables deliberately, and insert intentional micro-pauses at commas."
+    },
+    "PACE_SLOW": {
+        "why": "Dragging out phrases slows narrative momentum and can make delivery sound hesitant or low energy.",
+        "fix": "Sustain a brisk, engaging conversational cadence through connecting phrases without lingering on small function words."
+    },
+    "PITCH_FLAT": {
+        "why": "Monotone delivery with minimal pitch variance leads to cognitive fatigue and causes the audience to tune out.",
+        "fix": "Vary your intonation across phrases—raise pitch slightly on transition points and allow it to fall naturally at period closures."
+    },
+    "PITCH_ERRATIC": {
+        "why": "Unpredictable vocal pitch jitter creates an unstable, nervous vocal quality that undermines speaker authority.",
+        "fix": "Anchor your voice in your lower chest resonance and support steady breath flow to stabilize pitch contours."
+    },
+    "ENERGY_LOW": {
+        "why": "Dropping vocal volume causes key words to be swallowed and makes speech difficult to follow.",
+        "fix": "Maintain diaphragm support through the final words of each sentence to prevent vocal fade."
+    },
+    "ENERGY_FLAT": {
+        "why": "Uniform dynamic energy creates an unexpressive, mechanical sound lacking emotional punch.",
+        "fix": "Emphasize important nouns and verbs by increasing vocal projection on critical message words."
+    },
+    "PAUSE_LONG": {
+        "why": "Excessive silence breaks listener engagement and creates awkward pauses that feel like hesitation.",
+        "fix": "Limit phrase breaks to 0.4s–0.8s and sentence breaks to under 1.2s to maintain continuous narrative flow."
+    },
+    "PAUSE_MISSING": {
+        "why": "Rushing through punctuation boundaries without breathing creates a run-on delivery that overwhelms listeners.",
+        "fix": "Pause for at least 0.3s at commas and 0.6s at periods to allow listeners to process the thought."
+    }
+}
+
 # Global custom error handler to guarantee {"error": "..."} without leaking stack traces
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
@@ -205,6 +240,54 @@ async def analyze_speech(
                 pass
 
 
+EXPLANATION_CATALOG = {
+    "PACE_FAST": {
+        "why": "Rushing through phrases crowds words together, impairing syllable clarity and making the delivery sound tense or hurried to listeners.",
+        "fix": "Lengthen stressed vowel durations, breathe deeply, and insert deliberate micro-pauses before key ideas to give your audience time to absorb information."
+    },
+    "PACE_SLOW": {
+        "why": "Dragging out speech rate drains momentum and can cause listener attention to drift away from the core message.",
+        "fix": "Increase rhythmic drive by transitioning briskly between unstressed syllables and maintaining vocal forward momentum across phrases."
+    },
+    "PITCH_FLAT": {
+        "why": "A lack of melodic variation flattens expressiveness, sounding monotone or disengaged even if the content is compelling.",
+        "fix": "Vary pitch contours naturally: step pitch upward on primary focus words and allow pitch to drop cleanly at sentence terminals."
+    },
+    "MONOTONE": {
+        "why": "A lack of melodic variation flattens expressiveness, sounding monotone or disengaged even if the content is compelling.",
+        "fix": "Vary pitch contours naturally: step pitch upward on primary focus words and allow pitch to drop cleanly at sentence terminals."
+    },
+    "PITCH_ERRATIC": {
+        "why": "Abrupt and unpredictable pitch excursions create an unsettled impression, sounding melodically unnatural or unsteady.",
+        "fix": "Anchor your vocal pitch around your natural speaking register, reserving pitch inflections for deliberate emphasis."
+    },
+    "ENERGY_LOW": {
+        "why": "Vocal volume drops noticeably below projection baseline, risking audience strain and conveying hesitation or lack of conviction.",
+        "fix": "Engage diaphragmatic breath support to keep air pressure consistent, projecting clearly through to the final syllable of each phrase."
+    },
+    "VOLUME_DROP": {
+        "why": "Vocal volume drops noticeably below projection baseline, risking audience strain and conveying hesitation or lack of conviction.",
+        "fix": "Engage diaphragmatic breath support to keep air pressure consistent, projecting clearly through to the final syllable of each phrase."
+    },
+    "ENERGY_FLAT": {
+        "why": "Uniform acoustic intensity without dynamic contrasts causes all words to blend together without natural hierarchy.",
+        "fix": "Add dynamic contrast by leaning into key words with slightly greater vocal punch and tapering back on transitional phrases."
+    },
+    "PAUSE_LONG": {
+        "why": "Excessive silence halts the natural flow of thought, leading listeners to question whether you lost your train of thought.",
+        "fix": "Limit mid-sentence pauses to under 0.5s; use brief tactical silences only at clause boundaries or major thematic shifts."
+    },
+    "PAUSE_MISSING": {
+        "why": "Running through punctuation without pausing denies the audience the cognitive breather needed to process complex thoughts.",
+        "fix": "Insert a distinct 0.3s–0.5s tactical pause at commas and sentence endings to establish clear thought boundaries."
+    },
+    "FILLERS": {
+        "why": "Vocalized fillers ('um', 'uh') disrupt phrase flow and can dilute perceived confidence.",
+        "fix": "Replace vocalized fillers with silent pauses when gathering your next thought."
+    }
+}
+
+
 def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], duration_s: float) -> dict:
     """Adapt raw speechcoach pipeline output to match AnalysisResult schema."""
     warnings = []
@@ -227,9 +310,8 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
     grid_pause = np.array(grid.get("pause_s", []))
 
     med_pace = float(grid.get("baseline_pace", [4.1])[0]) if grid.get("baseline_pace") else 4.1
-    med_pitch = float(grid.get("baseline_pitch", [2.5])[0]) if grid.get("baseline_pitch") else 2.5
-    if med_pitch <= 0.1:
-        med_pitch = 2.5
+    b_pitch = float(grid.get("baseline_pitch", [2.38])[0]) if grid.get("baseline_pitch") else 2.38
+    med_pitch = b_pitch if 0.1 <= b_pitch <= 15.0 else 2.38
 
     words = []
     raw_words = raw.get("words", [])
@@ -255,20 +337,20 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
             if np.any(m):
                 w_sps = float(np.mean(grid_sps[m]))
                 if w_sps > 0:
-                    z_pace = round((w_sps - med_pace) / 0.75, 2)
+                    z_pace = round(max(-5.0, min(5.0, (w_sps - med_pace) / 0.75)), 2)
                 
                 w_pitch = float(np.mean(grid_pitch[m]))
                 if w_pitch > 0:
-                    z_pitch = round((w_pitch - med_pitch) / 0.85, 2)
+                    z_pitch = round(max(-5.0, min(5.0, (w_pitch - med_pitch) / 0.65)), 2)
                 
                 w_energy = float(np.mean(grid_energy[m]))
-                z_energy = round(w_energy / 4.0, 2)
+                z_energy = round(max(-5.0, min(5.0, w_energy / 4.0)), 2)
             
             m_pre = (grid_t >= max(0.0, st - 0.4)) & (grid_t < st)
             if np.any(m_pre):
                 w_pause = float(np.max(grid_pause[m_pre]))
                 if w_pause > 0.35:
-                    z_pause = round((w_pause - 0.35) / 0.4, 2)
+                    z_pause = round(max(-5.0, min(5.0, (w_pause - 0.35) / 0.4)), 2)
 
         words.append({
             "i": idx,
@@ -291,6 +373,7 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
     for r in raw_regions:
         flaw_start = float(r["start"])
         flaw_end = float(r["end"])
+        flaw_type = str(r["type"])
         
         matching_words = [w["i"] for w in words if w["end"] >= flaw_start and w["start"] <= flaw_end]
         first_w = matching_words[0] if matching_words else 0
@@ -301,21 +384,61 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
         severity = round(min(1.0, max(0.2, (abs_dev - 1.0) / 4.0)), 2)
         band = "major" if abs_dev >= 3.5 else ("moderate" if abs_dev >= 2.0 else "minor")
         
-        exp_val = r.get("explanation", "")
-        if isinstance(exp_val, dict):
-            explanation_obj = exp_val
+        cat = EXPLANATION_CATALOG.get(flaw_type, {
+            "why": str(r.get("explanation", "Delivery deviated from baseline cadence.")),
+            "fix": "Focus on deliberate vocal dynamics and follow the baseline cadence."
+        })
+
+        val = float(r.get("value", 0.0))
+        base = float(r.get("baseline", 0.0))
+        unit = str(r.get("unit", ""))
+
+        if "PACE_FAST" in flaw_type:
+            obs = f"Speaking rate reached {val:.1f} {unit} (baseline {base:.1f} {unit})"
+        elif "PACE_SLOW" in flaw_type:
+            obs = f"Speaking rate dropped to {val:.1f} {unit} (baseline {base:.1f} {unit})"
+        elif "PITCH_FLAT" in flaw_type or "MONOTONE" in flaw_type:
+            obs = f"Pitch variability fell to {val:.1f} {unit} (baseline {base:.1f} {unit})"
+        elif "PITCH_ERRATIC" in flaw_type:
+            obs = f"Pitch variability spiked to {val:.1f} {unit} (baseline {base:.1f} {unit})"
+        elif "ENERGY_LOW" in flaw_type or "VOLUME_DROP" in flaw_type:
+            obs = f"Relative loudness dropped to {val:.1f} {unit}"
+        elif "ENERGY_FLAT" in flaw_type:
+            obs = f"Dynamic variability flat at {val:.1f} {unit}"
+        elif "PAUSE_LONG" in flaw_type:
+            obs = f"Pause duration extended to {val:.2f} s (typical < 0.50 s)"
+        elif "PAUSE_MISSING" in flaw_type:
+            obs = f"Pause between thoughts omitted (measured {val:.2f} s)"
+        elif val != 0.0 or base != 0.0:
+            obs = f"Measured {val:.1f} {unit} vs baseline {base:.1f} {unit}".strip()
         else:
-            explanation_obj = {
-                "observed": f"Observed {r.get('value', 0.0)} {r.get('unit', '')}".strip(),
-                "deviation": f"{dev_peak:+.1f}σ deviation from baseline",
-                "where": f"Between {flaw_start:.1f}s and {flaw_end:.1f}s",
-                "why": str(exp_val),
-                "fix": "Focus on deliberate vocal dynamics and follow the baseline cadence."
-            }
+            obs = f"Acoustic deviation of {dev_peak:+.1f}σ detected"
+
+        if base > 0 and val > 0:
+            pct = ((val - base) / base) * 100.0
+            dev_text = f"{dev_peak:+.1f}σ deviation ({pct:+.0f}% vs baseline)"
+        else:
+            dev_text = f"{dev_peak:+.1f}σ deviation from baseline"
+
+        if matching_words:
+            spoken_text = " ".join([words[wi]["w"] for wi in matching_words if wi < len(words)])
+            if len(spoken_text) > 42:
+                spoken_text = spoken_text[:39] + "..."
+            where_text = f"On '{spoken_text}' ({flaw_start:.1f}s – {flaw_end:.1f}s)"
+        else:
+            where_text = f"Between {flaw_start:.1f}s and {flaw_end:.1f}s"
+
+        explanation_obj = {
+            "observed": obs,
+            "deviation": dev_text,
+            "where": where_text,
+            "why": cat["why"],
+            "fix": cat["fix"]
+        }
             
         flaws.append({
             "id": int(r["id"]),
-            "type": str(r["type"]),
+            "type": flaw_type,
             "start": round(flaw_start, 2),
             "end": round(flaw_end, 2),
             "first_word": first_w,
@@ -355,9 +478,9 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
     pacing_sc = max(25.0, min(100.0, round(100.0 - pace_err * 8.0 - pace_pen, 1)))
 
     mean_pitch_var = float(np.mean(grid_pitch[grid_pitch > 0])) if len(grid_pitch) and np.any(grid_pitch > 0) else med_pitch
-    pitch_err = max(0.0, med_pitch - mean_pitch_var)
+    pitch_err = abs(med_pitch - mean_pitch_var)
     pitch_pen = get_flaw_penalty(flaws, ["MONOTONE", "PITCH_FLAT", "PITCH_ERRATIC"])
-    pitch_sc = max(25.0, min(100.0, round(100.0 - pitch_err * 10.0 - pitch_pen, 1)))
+    pitch_sc = max(25.0, min(100.0, round(100.0 - pitch_err * 8.0 - pitch_pen, 1)))
 
     energy_pen = get_flaw_penalty(flaws, ["ENERGY_LOW", "ENERGY_FLAT", "FLAT_ENERGY", "VOLUME_DROP"])
     energy_sc = max(25.0, min(100.0, round(100.0 - energy_pen, 1)))
@@ -366,15 +489,22 @@ def adapt_pipeline_result(raw: dict, mode: str, baseline_id: Optional[str], dura
     pausing_sc = max(25.0, min(100.0, round(100.0 - pause_pen, 1)))
 
     fluency_sc = max(25.0, min(100.0, round(100.0 - pause_pen * 0.7 - pace_pen * 0.3, 1)))
-    clarity_sc = 92.0
+    clarity_sc = 94.0
     emphasis_sc = max(35.0, min(100.0, round(100.0 - energy_pen * 0.4 - pitch_pen * 0.4, 1)))
 
-    overall_score = float(raw.get("score", 0.0))
-    if overall_score <= 0.0 or abs(overall_score - 76.6) < 0.1:
-        dim_vals = [pacing_sc, pausing_sc, pitch_sc, energy_sc, clarity_sc, emphasis_sc, fluency_sc]
-        overall_score = round(float(np.mean(dim_vals)), 1)
-    if flaws:
-        overall_score = max(10.0, min(overall_score, round(100.0 - len(flaws) * 10.0, 1)))
+    dim_vals = [pacing_sc, pausing_sc, pitch_sc, energy_sc, clarity_sc, emphasis_sc, fluency_sc]
+    composite_score = round(float(np.mean(dim_vals)), 1)
+
+    if not flaws:
+        overall_score = composite_score
+    else:
+        flaw_deductions = 0.0
+        for f in flaws:
+            b = f.get("band", "minor")
+            sev = f.get("severity", 0.5)
+            ded = 24.0 * sev if b == "major" else (14.0 * sev if b == "moderate" else 7.0 * sev)
+            flaw_deductions += ded
+        overall_score = max(15.0, min(92.0, round(composite_score - flaw_deductions * 0.6, 1)))
 
     scores = {
         "overall": round(overall_score, 1),

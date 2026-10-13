@@ -1,103 +1,87 @@
 {
-  "fp_per_min": 2.3489975218076142,
+  "fp_per_min": 0.8610177042085985,
   "fp_by_type": {
-    "PACE_SLOW": 13,
-    "PAUSE_LONG": 3,
-    "PITCH_FLAT": 13,
-    "PACE_FAST": 12,
-    "ENERGY_LOW": 3,
-    "PITCH_ERRATIC": 1
+    "PACE_SLOW": 9,
+    "PAUSE_LONG": 2,
+    "PACE_FAST": 3,
+    "ENERGY_LOW": 8,
+    "PITCH_FLAT": 1
   },
   "recall": {
     "PACE_FAST_L2": {
-      "iou": 4,
-      "time": 4,
-      "total": 19
+      "iou": 0,
+      "time": 0,
+      "total": 1
     },
     "PACE_FAST_L3": {
-      "iou": 7,
-      "time": 7,
-      "total": 19
+      "iou": 0,
+      "time": 0,
+      "total": 1
     },
     "PACE_FAST_L4": {
-      "iou": 15,
-      "time": 16,
-      "total": 19
+      "iou": 1,
+      "time": 1,
+      "total": 1
     },
     "PACE_SLOW_L2": {
-      "iou": 1,
+      "iou": 0,
       "time": 0,
-      "total": 19
+      "total": 1
     },
     "PACE_SLOW_L3": {
-      "iou": 7,
-      "time": 7,
-      "total": 19
+      "iou": 0,
+      "time": 0,
+      "total": 1
     },
     "PACE_SLOW_L4": {
-      "iou": 19,
-      "time": 17,
-      "total": 19
-    },
-    "PAUSE_LONG_L2": {
-      "iou": 4,
-      "time": 4,
-      "total": 19
-    },
-    "PAUSE_LONG_L3": {
-      "iou": 12,
-      "time": 9,
-      "total": 19
-    },
-    "PAUSE_LONG_L4": {
-      "iou": 16,
-      "time": 16,
-      "total": 19
-    },
-    "PITCH_FLAT_L2": {
-      "iou": 5,
-      "time": 4,
-      "total": 19
-    },
-    "PITCH_FLAT_L3": {
-      "iou": 9,
-      "time": 9,
-      "total": 19
-    },
-    "PITCH_FLAT_L4": {
-      "iou": 13,
-      "time": 13,
-      "total": 19
-    },
-    "PITCH_ERRATIC_L2": {
       "iou": 1,
       "time": 1,
-      "total": 19
+      "total": 1
+    },
+    "PAUSE_LONG_L2": {
+      "iou": 0,
+      "time": 0,
+      "total": 1
+    },
+    "PAUSE_LONG_L3": {
+      "iou": 1,
+      "time": 0,
+      "total": 1
+    },
+    "PAUSE_LONG_L4": {
+      "iou": 1,
+      "time": 1,
+      "total": 1
+    },
+    "PITCH_FLAT_L2": {
+      "iou": 0,
+      "time": 0,
+      "total": 1
+    },
+    "PITCH_FLAT_L3": {
+      "iou": 0,
+      "time": 0,
+      "total": 1
+    },
+    "PITCH_FLAT_L4": {
+      "iou": 0,
+      "time": 0,
+      "total": 1
+    },
+    "PITCH_ERRATIC_L2": {
+      "iou": 0,
+      "time": 0,
+      "total": 1
     },
     "PITCH_ERRATIC_L3": {
-      "iou": 3,
-      "time": 3,
-      "total": 19
+      "iou": 0,
+      "time": 0,
+      "total": 1
     },
     "PITCH_ERRATIC_L4": {
-      "iou": 4,
-      "time": 4,
-      "total": 19
-    },
-    "ENERGY_LOW_L2": {
-      "iou": 3,
+      "iou": 1,
       "time": 1,
-      "total": 19
-    },
-    "ENERGY_LOW_L3": {
-      "iou": 12,
-      "time": 13,
-      "total": 19
-    },
-    "ENERGY_LOW_L4": {
-      "iou": 18,
-      "time": 18,
-      "total": 19
+      "total": 1
     }
   }
 }

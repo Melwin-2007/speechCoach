@@ -133,7 +133,7 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 
             elif "PITCH" in name:
                 evidence["value"] = round(float(np.mean(grid["st_std"][s_idx:e_idx+1])), 1)
-                evidence["baseline"] = round(float(norms["median_f0"]), 1)
+                evidence["baseline"] = round(float(B.get("st_std", {}).get("median", 2.38)), 1)
                 evidence["unit"] = "semitones std"
                 
             elif "ENERGY" in name:
@@ -145,6 +145,11 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 evidence["value"] = round(float(np.mean(grid["pause_s"][s_idx:e_idx+1])), 2)
                 evidence["baseline"] = round(float(B.get("pause_s", {}).get("comma", {}).get("median", 0.3)), 2)
                 evidence["unit"] = "s"
+                
+            if any(k in name for k in ["SLOW", "LOW", "FLAT", "MISSING"]):
+                evidence["direction"] = "below"
+            else:
+                evidence["direction"] = "above"
                 
             tier = "flagged" if dev_peak >= p.get("enter", 2.0) else "minor"
             
@@ -158,6 +163,8 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 "source": str(src_mode),
                 "value": evidence.get("value", 0.0),
                 "baseline": evidence.get("baseline", 0.0),
+                "unit": evidence.get("unit", ""),
+                "direction": evidence.get("direction", "above"),
                 "phrase_dur": evidence["phrase_dur"],
                 "syllable_count": evidence["syllable_count"],
                 "voiced_frac": evidence["voiced_frac"],
@@ -168,11 +175,6 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 "text_span": "TODO",
                 "explanation": explain(evidence)
             }
-            
-            try:
-                flaw_dict["explanation"] = explain(evidence)
-            except Exception as e:
-                flaw_dict["explanation"] = f"Detected {name}."
                 
             regions.append(flaw_dict)
             flaw_id += 1
@@ -220,8 +222,9 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
             "pause_s": grid["pause_s"].tolist(),
             "f0_contour": g["f0"].tolist(),
             "energy_contour": g["db_rel"].tolist(),
-            "baseline_pace": np.full_like(grid["t"], norms.get("median_pace", 0.0)).tolist(),
-            "baseline_pitch": np.full_like(grid["t"], norms.get("median_f0", 0.0)).tolist()
+            "baseline_pace": np.full_like(grid["t"], norms.get("median_pace", 4.1)).tolist(),
+            "baseline_pitch": np.full_like(grid["t"], B.get("st_std", {}).get("median", 2.38)).tolist(),
+            "baseline_f0": np.full_like(grid["t"], norms.get("median_f0", 0.0)).tolist()
         },
         "regions": regions,
         "not_assessed": not_assessed,

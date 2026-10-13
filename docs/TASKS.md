@@ -60,27 +60,27 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 ### Day 10
 - [x] **A:** Create and label monotony/volume samples.
 - [x] **B:** Implement pitch and energy feature detectors.
-- [ ] **C:** Connect results JSON to UI.
+- [x] **C:** Connect results JSON to UI.
 
 ### Day 11
 - [x] **A:** Create and label clarity/emphasis samples.
 - [ ] **B:** Implement remaining detector prototypes.
-- [ ] **C:** Display flaw type, severity, timestamps and confidence.
+- [x] **C:** Display flaw type, severity, timestamps and confidence.
 
 ### Day 12
 - [ ] **A:** Audit flaw labels and severity balance.
 - [ ] **B:** Train baseline models using training speakers only.
-- [ ] **C:** Display observed values versus expected baseline.
+- [x] **C:** Display observed values versus expected baseline.
 
 ### Day 13
 - [ ] **A:** Create composite flaws and additional subtle cases.
 - [ ] **B:** Implement window smoothing and merge neighboring regions.
-- [ ] **C:** Clicking a flaw jumps playback to its timestamps.
+- [x] **C:** Clicking a flaw jumps playback to its timestamps.
 
 ### Day 14
 - [ ] **A:** Review false positives on GOOD recordings.
 - [x] **B:** Add severity scoring and explanation metrics. (RidgeCV + Isotonic calibrated scoring model deployed).
-- [ ] **C:** Build reference/no-reference mode indicators.
+- [x] **C:** Build reference/no-reference mode indicators.
 
 ### Day 15
 - [ ] **A:** Finish dataset README and label documentation.
@@ -90,7 +90,7 @@ Status: `[x]` done and verified, `[~]` partly done, `[ ]` open.
 ### Day 16
 - [ ] **A:** Run final dataset integrity checks.
 - [x] **B:** Test unseen speakers and unseen texts; record metrics.
-- [ ] **C:** Run end-to-end tests using actual audio.
+- [x] **C:** Run end-to-end tests using actual audio.
 
 ### Day 17
 - [ ] **A:** Review mislabeled or questionable regions with B.

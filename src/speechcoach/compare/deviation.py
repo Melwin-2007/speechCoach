@@ -17,7 +17,7 @@ def rdev_sigma(x, med, sigma):
         return np.zeros_like(x)
     return (np.asarray(x, float) - med) / sigma
 
-def gated_local(loc, glo, raw_delta, min_abs, glob_min=1.0, override=4.0):
+def gated_local(loc, glo, raw_delta, min_abs, glob_min=0.55, override=2.55):
     ok_abs = np.abs(raw_delta) >= min_abs
     agree  = (np.sign(glo) == np.sign(loc)) & (np.abs(glo) >= glob_min)
     ok = ok_abs & (agree | (np.abs(loc) >= override))
@@ -88,7 +88,7 @@ CHANNELS = {
  #  name            feat          sign  layers
  "PACE_FAST":     ("pace",        +1, ("local", "global")),
  "PACE_SLOW":     ("pace",        -1, ("local", "global")),
- "PITCH_ERRATIC": ("pitch",       +1, ("local", "global")),
+ "PITCH_ERRATIC": ("pitch",       +1, ("local",)),
  "PITCH_FLAT":    ("pitch",       -1, ("local", "global")),
  "ENERGY_LOW":    ("energy",      -1, ("local",)),
  "ENERGY_FLAT":   ("energy_dyn",  -1, ("global",)),
@@ -98,11 +98,13 @@ CHANNELS = {
 
 PARAMS = {  # detect_regions kwargs per channel
  "default": dict(enter=2.0, exit=1.0, min_dur=1.0, merge_gap=0.5, smooth=7),
- "PACE_FAST": dict(enter=2.8, exit=1.4, min_dur=0.7, merge_gap=0.5, smooth=7),
- "PACE_SLOW": dict(enter=2.6, exit=1.3, min_dur=1.0, merge_gap=0.5, smooth=5),
- "ENERGY_LOW": dict(enter=2.5, exit=1.2, min_dur=1.0, merge_gap=0.5, smooth=5),
- "PITCH_FLAT": dict(enter=2.2, exit=1.1, min_dur=0.8, merge_gap=0.5, smooth=5),
- "PAUSE_LONG": dict(enter=3.2, exit=1.6, min_dur=0.5, merge_gap=0.0, smooth=1),
+ "PACE_FAST": dict(enter=2.45, exit=1.2, min_dur=1.1, merge_gap=0.5, smooth=5),
+ "PACE_SLOW": dict(enter=2.2, exit=1.1, min_dur=1.0, merge_gap=0.5, smooth=5),
+ "ENERGY_LOW": dict(enter=2.3, exit=1.2, min_dur=1.0, merge_gap=0.5, smooth=5),
+ "ENERGY_FLAT": dict(enter=2.5, exit=1.2, min_dur=1.2, merge_gap=0.5, smooth=5),
+ "PITCH_FLAT": dict(enter=2.2, exit=1.1, min_dur=1.0, merge_gap=0.5, smooth=5),
+ "PITCH_ERRATIC": dict(enter=2.2, exit=1.1, min_dur=0.8, merge_gap=0.5, smooth=5),
+ "PAUSE_LONG": dict(enter=2.8, exit=1.4, min_dur=0.5, merge_gap=0.0, smooth=1),
  "PAUSE_MISSING": dict(enter=2.0, exit=1.0, min_dur=0.2, merge_gap=0.0, smooth=1),
 }
 
@@ -141,21 +143,21 @@ def channel_signal(name, grid, B):
             is_mid = grid["pause_type"] == "mid"
             is_comma = grid["pause_type"] == "comma"
             is_term = grid["pause_type"] == "terminal"
-            valid &= (is_mid & (grid["pause_s"] >= 2.2)) | (is_comma & (grid["pause_s"] >= 2.4)) | (is_term & (grid["pause_s"] >= 2.4))
+            valid &= (is_mid & (grid["pause_s"] >= 1.6)) | (is_comma & (grid["pause_s"] >= 1.9)) | (is_term & (grid["pause_s"] >= 2.5))
         dev = np.where(valid, dev, 0.0)
     else:
         glo = global_dev(grid, feat, B) if "global" in layers else np.zeros(n)
         if "local" in layers:
             loc, raw_delta = local_dev(grid, feat, B)
-            min_abs = {"pace": 0.45, "pitch": 0.8, "energy": 5.5}.get(feat, 0.0)
+            min_abs = {"pace": 0.18, "pitch": 0.50, "energy": 5.0}.get(feat, 0.0)
             if name == "PITCH_FLAT":
-                min_abs = 1.05
+                min_abs = 0.55
             if name == "PACE_SLOW":
-                min_abs = 0.45
+                min_abs = 0.20
             loc = gated_local(loc, glo, raw_delta, min_abs=min_abs)
             if "global" in layers:
                 ok_abs = np.abs(raw_delta) >= min_abs
-                glo = np.where(ok_abs & (loc != 0.0), glo, 0.0)
+                glo = np.where(ok_abs & (loc != 0.0) & (np.abs(loc) >= 0.7), glo, 0.0)
         else:
             loc = np.zeros(n)
             

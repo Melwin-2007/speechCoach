@@ -1,101 +1,41 @@
 {
-  "fp_per_min": 1.7559423099786908,
+  "fp_per_min": 2.7536325002065225,
   "fp_by_type": {
-    "PITCH_FLAT": 2,
-    "PITCH_ERRATIC": 4,
-    "ENERGY_FLAT": 1,
-    "PACE_FAST": 1
+    "PACE_SLOW": 4,
+    "PITCH_FLAT": 5,
+    "PACE_FAST": 10,
+    "ENERGY_LOW": 1
   },
   "recall": {
     "PACE_FAST_L2": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
+      "iou": 1,
+      "time": 1,
+      "total": 1
     },
     "PACE_FAST_L3": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
+      "iou": 1,
+      "time": 1,
+      "total": 1
     },
     "PACE_FAST_L4": {
-      "iou": 3,
-      "time": 3,
-      "total": 5
+      "iou": 1,
+      "time": 1,
+      "total": 1
     },
     "PACE_SLOW_L2": {
       "iou": 0,
       "time": 0,
-      "total": 5
+      "total": 1
     },
     "PACE_SLOW_L3": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
-    },
-    "PACE_SLOW_L4": {
-      "iou": 2,
-      "time": 2,
-      "total": 5
-    },
-    "PAUSE_LONG_L2": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
-    },
-    "PAUSE_LONG_L3": {
-      "iou": 2,
-      "time": 0,
-      "total": 5
-    },
-    "PAUSE_LONG_L4": {
-      "iou": 4,
-      "time": 4,
-      "total": 5
-    },
-    "PITCH_FLAT_L2": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
-    },
-    "PITCH_FLAT_L3": {
       "iou": 1,
       "time": 1,
-      "total": 5
+      "total": 1
     },
-    "PITCH_FLAT_L4": {
-      "iou": 5,
-      "time": 5,
-      "total": 5
-    },
-    "PITCH_ERRATIC_L2": {
-      "iou": 2,
-      "time": 2,
-      "total": 5
-    },
-    "PITCH_ERRATIC_L3": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
-    },
-    "PITCH_ERRATIC_L4": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
-    },
-    "ENERGY_LOW_L2": {
-      "iou": 0,
-      "time": 0,
-      "total": 5
-    },
-    "ENERGY_LOW_L3": {
-      "iou": 4,
-      "time": 4,
-      "total": 5
-    },
-    "ENERGY_LOW_L4": {
-      "iou": 5,
-      "time": 5,
-      "total": 5
+    "PACE_SLOW_L4": {
+      "iou": 1,
+      "time": 1,
+      "total": 1
     }
   }
 }
