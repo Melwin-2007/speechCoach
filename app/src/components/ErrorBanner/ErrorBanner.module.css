@@ -8,7 +8,8 @@
   align-items: flex-start;
   animation: fade-in var(--d-fast) var(--ease-out);
   max-width: 800px;
-  margin: var(--s-4) auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 @keyframes fade-in {

@@ -3,7 +3,7 @@
   border-radius: var(--r-card);
   padding: var(--s-6);
   box-shadow: var(--shadow-1);
-  margin-top: var(--s-6);
+  margin-top: 0;
 }
 
 .header {

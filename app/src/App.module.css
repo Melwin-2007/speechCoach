@@ -167,13 +167,13 @@
   max-width: var(--container);
   width: 100%;
   margin: 0 auto;
-  padding: var(--s-8) var(--gutter);
+  padding: var(--s-5) var(--gutter) var(--s-8);
 }
 
 .heroSection {
   text-align: center;
-  margin-bottom: var(--s-8);
-  margin-top: var(--s-6);
+  margin-bottom: var(--s-6);
+  margin-top: var(--s-4);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -188,7 +188,7 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  margin-bottom: var(--s-5);
+  margin-bottom: var(--s-4);
 }
 
 .heroTitle {
@@ -205,7 +205,7 @@
   font-size: clamp(16px, 2vw, 19px);
   color: var(--muted);
   max-width: 580px;
-  margin: var(--s-4) auto 0;
+  margin: var(--s-3) auto 0;
   line-height: 1.5;
 }
 
@@ -216,7 +216,8 @@
   padding: var(--s-6);
   box-shadow: var(--shadow-2);
   max-width: 880px;
-  margin: 0 auto var(--s-4);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .tabBar {
@@ -658,7 +659,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--s-5);
-  margin-bottom: var(--s-7);
+  margin-bottom: 0;
 }
 
 .tickItem {

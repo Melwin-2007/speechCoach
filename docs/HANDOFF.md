@@ -403,3 +403,20 @@ pm.cmd run build from pp/.
 
 
 
+
+### [2026-10-13 22:15] Member C (Clean UI Spacing & Layout Formatting)
+- **Goal**: Clean up redundant spacing, margin stacking, and formatting across the website without altering functions or logic.
+- **Files changed**:
+  - pp/src/App.module.css: Reduced excessive top padding in .mainContent to ar(--s-5) var(--gutter) var(--s-8); removed redundant margin-bottom: var(--s-4) from .inputCard and margin-bottom: var(--s-7) from .reassuranceRow.
+  - pp/src/App.jsx: Reduced outer container gap from ar(--s-8) to ar(--s-6); removed redundant marginTop / marginBottom on #error-banner, #loading-section, and #insights; formatted indentation and removed blank lines.
+  - pp/src/components/Charts/ChartStack.module.css: Removed margin-top: var(--s-6) from .chartStackCard to prevent double-spacing with parent flex container.
+  - pp/src/components/LoadingCard/LoadingCard.module.css: Set .loadingContainer margin to   auto (with width: 100%).
+  - pp/src/components/ErrorBanner/ErrorBanner.module.css: Set .banner margin to   auto (with width: 100%).
+  - pp/src/components/WarningsBanner/WarningsBanner.module.css: Removed margin-bottom: var(--s-4) from .banner.
+  - pp/src/components/TypewriterHero/TypewriterHero.module.css: Adjusted .heroSection padding from ar(--s-8) var(--s-4) var(--s-6) to ar(--s-3) var(--s-4) var(--s-5).
+  - pp/src/components/WaveformPanel/WaveformPanel.jsx & WaveformPanel.module.css: Tightened .waveformStage padding and removed min-height: 170px constraint; streamlined lane badge overlay height and right constraint.
+- **Status**: Completed. Build succeeds (
+pm run build), design linter passes with 0 violations (
+ode scripts/check-design.mjs), all API tests pass (10/10).
+- **How to verify**: Open http://localhost:5173/, verify clean vertical cadence and tight, balanced spacing across hero, input card, waveform, and results sections.
+- **Requests**: None.

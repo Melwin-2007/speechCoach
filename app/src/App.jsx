@@ -36,7 +36,6 @@ import { getBaselines, getDemo, analyze } from "./api/client";
 import { fmtTime } from "./lib/format";
 import styles from "./App.module.css";
 
-
 export default function App() {
   const [route, setRoute] = useState(window.location.hash || "#/");
   const [activeTab, setActiveTab] = useState("upload"); // 'upload' | 'sample'
@@ -482,7 +481,7 @@ export default function App() {
           pointerEvents: showCTA ? 'auto' : 'none',
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--s-8)',
+          gap: 'var(--s-6)',
           width: '100%'
         }}>
         {/* 1. Main Input Card */}
@@ -755,7 +754,7 @@ export default function App() {
 
         {/* Error message */}
         {error && (
-          <div id="error-banner" style={{ marginBottom: "var(--s-6)", scrollMarginTop: "90px" }}>
+          <div id="error-banner" style={{ scrollMarginTop: "90px" }}>
             <ErrorBanner
               error={error}
               onRetry={handleAnalyze}
@@ -766,14 +765,14 @@ export default function App() {
 
         {/* Loading state */}
         {loading && (
-          <div id="loading-section" style={{ marginTop: "var(--s-8)", scrollMarginTop: "90px" }}>
+          <div id="loading-section" style={{ scrollMarginTop: "90px" }}>
             <LoadingCard onCancel={handleCancel} />
           </div>
         )}
 
         {/* Results Section */}
         {data && !loading && (
-          <div id="insights" style={{ display: "flex", flexDirection: "column", gap: "var(--s-6)", marginTop: "var(--s-8)" }}>
+          <div id="insights" style={{ display: "flex", flexDirection: "column", gap: "var(--s-6)" }}>
             {/* Warnings Banner if meta.warnings is populated */}
             {data.meta?.warnings && data.meta.warnings.length > 0 && (
               <WarningsBanner warnings={data.meta.warnings} />
@@ -899,7 +898,7 @@ export default function App() {
       <footer id="about" className={styles.footer} style={{ color: 'var(--faint)', letterSpacing: '1.5px', fontSize: '12px', textTransform: 'uppercase' }}>
         CRAFTED WITH INTENTION
       </footer>
-      </div>
     </div>
-  );
+  </div>
+);
 }

@@ -157,7 +157,7 @@ export default function WaveformPanel({
   // Assign lanes to overlapping flaw regions with visual duration footprint (memoized)
   const lanedFlaws = useMemo(() => assignLanes(flaws, 0.5, duration), [flaws, duration]);
   const maxLane = useMemo(() => lanedFlaws.reduce((max, f) => Math.max(max, f.lane || 0), 0), [lanedFlaws]);
-  const overlayHeight = Math.max(38, (maxLane + 1) * 36);
+  const overlayHeight = flaws.length === 0 ? 34 : (maxLane + 1) * 34;
 
   return (
     <div className={styles.waveformCard} ref={containerRef}>
@@ -187,7 +187,7 @@ export default function WaveformPanel({
         {/* Flaw region badges overlay layer */}
         <div
           className={styles.flawOverlayLayer}
-          style={{ height: flaws.length === 0 ? "38px" : `${overlayHeight}px` }}
+          style={{ height: flaws.length === 0 ? "34px" : `${overlayHeight}px` }}
         >
           {flaws.length === 0 ? (
             <div className={styles.noFlawsBanner}>
@@ -200,8 +200,8 @@ export default function WaveformPanel({
               const dim = DIMENSIONS[meta.dimension] || DIMENSIONS.pacing;
               const IconComp = ICON_MAP[meta.dimension] || Gauge;
               const rawLeftPct = (flaw.start / duration) * 100;
-              const safeLeftPct = Math.max(0, Math.min(84, rawLeftPct));
-              const topPx = flaw.lane * 36;
+              const safeLeftPct = Math.max(0, Math.min(88, rawLeftPct));
+              const topPx = flaw.lane * 34;
               const isSelected = flaw.id === selectedFlawId;
 
               return (
