@@ -101,41 +101,21 @@ export default function Select({ value, onChange, options = DEFAULT_OPTIONS }) {
       }
     };
 
-    const handleKeyDown = (e) => {
-      if (!isOpen) {
-        if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
-          e.preventDefault();
-          setIsOpen(true);
-        }
-        return;
-      }
-
+    const handleGlobalKeyDown = (e) => {
       if (e.key === "Escape") {
-        e.preventDefault();
         setIsOpen(false);
-      } else if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setHighlightedIndex((prev) => (prev + 1) % options.length);
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setHighlightedIndex((prev) => (prev - 1 + options.length) % options.length);
-      } else if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        const opt = options[highlightedIndex];
-        if (opt) {
-          onChange(opt.id);
-          setIsOpen(false);
-        }
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleGlobalKeyDown);
+    }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleGlobalKeyDown);
     };
-  }, [isOpen, highlightedIndex, options, onChange]);
+  }, [isOpen]);
 
   // Ensure scroll is at top when opening
   useEffect(() => {
@@ -144,13 +124,45 @@ export default function Select({ value, onChange, options = DEFAULT_OPTIONS }) {
     }
   }, [isOpen]);
 
+  const handleKeyDown = (e) => {
+    if (!isOpen) {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setIsOpen(true);
+      }
+      return;
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setIsOpen(false);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev + 1) % options.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev - 1 + options.length) % options.length);
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      const opt = options[highlightedIndex];
+      if (opt) {
+        onChange(opt.id);
+        setIsOpen(false);
+      }
+    }
+  };
+
   const handleSelect = (id) => {
     onChange(id);
     setIsOpen(false);
   };
 
   return (
-    <div className={styles.selectContainer} ref={containerRef}>
+    <div
+      className={styles.selectContainer}
+      ref={containerRef}
+      onKeyDown={handleKeyDown}
+    >
       {/* Trigger Button */}
       <button
         type="button"

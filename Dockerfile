@@ -30,4 +30,4 @@ COPY --from=build-frontend /workspace/app/dist /workspace/app/dist
 EXPOSE 7860
 
 # Run Uvicorn server
-CMD ["python", "-m", "uvicorn", "--app-dir", "src", "speechcoach.api.main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["sh", "-c", "python -m uvicorn --app-dir src speechcoach.api.main:app --host 0.0.0.0 --port ${PORT:-7860}"]

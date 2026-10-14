@@ -449,3 +449,13 @@ pm run build). Dev servers active on ports 8000 & 5173.
 - **How to verify**: Open `http://localhost:5173/#/about` or click the 'About' link in the top navbar.
 - **Requests**: None.
 
+### [2026-10-14 15:48] Member C (Fix Spacebar Dropdown Trigger Bug)
+- **Goal**: Fix issue where pressing the space bar inside the transcript textarea caused the baseline select dropdown to pop open.
+- **Root Cause**: `Select.jsx` had attached a global `document.addEventListener("keydown", handleKeyDown)` listener that intercepted `e.key === " "` even when typing inside an input/textarea.
+- **Files changed**:
+  - `app/src/components/Select/Select.jsx`: Moved keyboard navigation onto the component container itself (`onKeyDown={handleKeyDown}`) and scoped the document listener strictly to closing with `Escape` when `isOpen` is true.
+- **Status**: Completed. Verified that typing spaces in `<textarea>` or text inputs works normally without opening the select menu. `npm run lint:design` passes with 0 violations.
+- **How to verify**: Focus on the transcript textarea on `http://localhost:5173/`, type spaces, and verify no dropdown appears.
+- **Requests**: None.
+
+
