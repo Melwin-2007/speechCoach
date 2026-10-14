@@ -13,12 +13,13 @@
 
 | Resource | Link / Path | Status |
 |---|---|---|
-| **Demo Video (YouTube)** | [TBD — Video Link](https://youtube.com) *(to be uploaded prior to final deadline)* | Pending Recording |
-| **Public Dataset** | [`dataset/`](dataset/) (467 audio files, 8 transcripts, word timestamps, flaws) | Complete & Verified (464.0 min) |
-| **Technical Document** | [`docs/technical_document/`](docs/) *(PDF export in progress)* | Drafted in Repo Docs |
 | **Live Dashboard** | [https://speechcoach-4wc1.onrender.com/#/](https://speechcoach-4wc1.onrender.com/#/) | Live on Render |
+| **Dataset Link (Drive)** | [Google Drive Dataset Folder](https://drive.google.com/drive/u/1/folders/1LPO0jZvqkh8POL28rh2k4KnQ_Kmvn_uj) · [`dataset/`](dataset/) | 467 WAV Files, Alignments & Metadata (464.0 min) |
+| **Dataset Documentation** | [Google Drive PDF](https://drive.google.com/file/d/1Ls4ereJI7CHkAZnZvz4HC-lWCeEfQIGs/view?usp=sharing) | Complete & Verified |
+| **Technical Documentation** | [Google Drive PDF](https://drive.google.com/file/d/1-cjG_0UyigmlwsyfyeKEpBD1WvO0JXki/view?usp=sharing) | Complete & Verified |
 | **Local Dashboard** | [http://localhost:5173](http://localhost:5173) (Vite Dev) / Port 7860 (Docker) | Fully Operational |
 | **API Documentation** | [http://localhost:8000/docs](http://localhost:8000/docs) (OpenAPI / Swagger) | Live on Active Server |
+| **Demo Video (YouTube)** | [TBD — Video Link](https://youtube.com) *(to be uploaded prior to final deadline)* | Pending Recording |
 
 <p align="center">
   <img src="docs/images/01_hero_upload.png" alt="SpeechCoach Hero Landing & Audio Upload" width="49%" />
@@ -60,13 +61,13 @@ Human speech adjudication (speech competitions, debate, declamation, and present
 | Deliverable | Description | Location in Repository | Verification Status |
 |---|---|---|---|
 | **Codebase** | End-to-end Python pipeline, alignment, feature extraction, scoring, API | [`src/speechcoach/`](src/speechcoach/) | Complete, 10/10 pytest pass |
-| **Contrastive Dataset** | 35 clean recordings + 432 synthetic flawed takes (464.0 min total) | [`dataset/raw/`](dataset/raw/), [`dataset/metadata/`](dataset/metadata/) | 100% verified (432/432 labels pass) |
+| **Contrastive Dataset** | 35 clean recordings + 432 synthetic flawed takes (464.0 min total) | [Google Drive Dataset](https://drive.google.com/drive/u/1/folders/1LPO0jZvqkh8POL28rh2k4KnQ_Kmvn_uj) · [`dataset/`](dataset/) | 100% verified (432/432 labels pass) |
 | **Alignment Labels** | MMS_FA character/word boundary JSONs for all 467 files | [`dataset/alignments/`](dataset/alignments/) | Complete |
 | **Interactive Dashboard** | React 19 + Vite + WaveSurfer.js + D3 time-series overlay | [`app/`](app/) | Complete (0 design lint violations) |
 | **REST API** | FastAPI backend with endpoints `/analyze`, `/baselines`, `/demo` | [`src/speechcoach/api/`](src/speechcoach/api/) | Active on port 8000 |
 | **Reproducibility Harness** | Frozen hashes, evaluation report, parameter verification scripts | [`results/frozen.json`](results/frozen.json), [`scripts/`](scripts/) | Fully frozen (commit `93369be3`) |
 | **Docker Container** | Two-stage Dockerfile bundling frontend build + Python runtime | [`Dockerfile`](Dockerfile) | Validated syntax (Port 7860) |
-| **Technical Document** | System specification and methodology report | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Formatted in markdown |
+| **Technical Document** | System specification and methodology report | [Technical Documentation (PDF)](https://drive.google.com/file/d/1-cjG_0UyigmlwsyfyeKEpBD1WvO0JXki/view?usp=sharing) · [Dataset Documentation (PDF)](https://drive.google.com/file/d/1Ls4ereJI7CHkAZnZvz4HC-lWCeEfQIGs/view?usp=sharing) | Complete |
 | **Demo Video** | 3–10 minute video demonstration of pipeline and dashboard | TBD *(Link will be placed here)* | Pending final recording |
 
 ---
@@ -319,6 +320,10 @@ The API returns a structured JSON payload strictly validated against Pydantic mo
 ---
 
 ## 5. Dataset (Data Engineering & Stress Testing — 30%)
+
+> 📁 **Dataset Link**: [Google Drive Dataset Folder](https://drive.google.com/drive/u/1/folders/1LPO0jZvqkh8POL28rh2k4KnQ_Kmvn_uj)  
+> 📄 **Dataset Documentation**: [Google Drive PDF](https://drive.google.com/file/d/1Ls4ereJI7CHkAZnZvz4HC-lWCeEfQIGs/view?usp=sharing)  
+> 📄 **Technical Documentation**: [Google Drive PDF](https://drive.google.com/file/d/1-cjG_0UyigmlwsyfyeKEpBD1WvO0JXki/view?usp=sharing)
 
 ### 5.1 Baseline Sourcing
 - **Texts (8 Canonical Texts)**:
