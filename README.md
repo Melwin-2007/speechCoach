@@ -83,7 +83,7 @@ run_speechcoach.bat
 
 **What it does automatically:**
 1. Detects Python on your system (3.10+ / 3.11).
-2. Automatically sets up the virtual environment (`.venv`) and installs dependencies if needed.
+2. Automatically sets up the virtual environment (`.venv`) and installs lightweight dependencies (`requirements-cpu.txt`, ~180 MB CPU PyTorch instead of the 5 GB CUDA wheel).
 3. Launches the unified SpeechCoach server on `http://localhost:7860`.
 4. Automatically opens your default web browser directly to the dashboard.
 *(No Node.js or npm installation required—uses pre-compiled production assets).*
@@ -101,10 +101,13 @@ cd speechCoach
 python -m venv .venv
 source .venv/bin/activate       # Windows PowerShell: .\.venv\Scripts\Activate.ps1
 
-# Install pinned Python dependencies
-pip install -r requirements.txt
+# Install lightweight dependencies (Recommended: ~180 MB CPU PyTorch)
+pip install -r requirements-cpu.txt
 
-# Install frontend dependencies
+# Or for NVIDIA GPU with CUDA 12.4 acceleration:
+# pip install -r requirements.txt
+
+# Install frontend dependencies (optional for dev)
 cd app && npm install && cd ..
 ```
 

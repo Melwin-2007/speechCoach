@@ -34,11 +34,12 @@ echo [*] Verifying dependencies...
 %PYTHON_EXE% -c "import fastapi, uvicorn, torch, torchaudio, librosa, parselmouth, soundfile" >nul 2>nul
 if not errorlevel 1 goto :check_frontend
 
-echo [*] Installing required packages from requirements.txt...
+echo [*] Installing lightweight dependencies (compact CPU PyTorch ~180MB instead of 5GB CUDA)...
 echo [*] This only happens on first launch. Please wait...
-.\.venv\Scripts\pip.exe install -r requirements.txt
+.\.venv\Scripts\pip.exe install --upgrade pip
+.\.venv\Scripts\pip.exe install -r requirements-cpu.txt
 if errorlevel 1 goto :pip_fail
-echo [*] Dependencies installed successfully.
+echo [*] Lightweight dependencies installed successfully.
 
 :check_frontend
 if exist "app\dist\index.html" goto :launch

@@ -18,7 +18,7 @@ if errorlevel 1 goto :no_python
 
 echo [*] Setting up virtual environment at .venv...
 python -m venv .venv
-.\.venv\Scripts\pip.exe install -r requirements.txt
+.\.venv\Scripts\pip.exe install -r requirements-cpu.txt
 if errorlevel 1 goto :pip_fail
 
 :check_npm
