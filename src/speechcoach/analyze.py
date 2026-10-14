@@ -237,3 +237,24 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
     }
     
     return result
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 3:
+        print("Usage: python -m speechcoach.analyze <audio_path> <transcript_path_or_text> [baseline_id]")
+        sys.exit(1)
+    _audio_file = sys.argv[1]
+    _transcript_arg = sys.argv[2]
+    if os.path.exists(_transcript_arg):
+        with open(_transcript_arg, "r", encoding="utf-8") as _f:
+            _text = _f.read().strip()
+    else:
+        _text = _transcript_arg
+    _baseline = sys.argv[3] if len(sys.argv) > 3 else None
+    _res = analyze(_audio_file, _text, baseline_id=_baseline)
+    print(f"Overall Delivery Score: {_res.get('score', 0.0)} / 100.0")
+    print(f"Flaws Detected: {len(_res.get('regions', []))}")
+    for _r in _res.get("regions", []):
+        print(f"  [{_r['start']}s - {_r['end']}s] {_r['type']} ({_r.get('tier', 'flaw')}): {_r.get('explanation')}")
+
