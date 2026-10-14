@@ -79,6 +79,16 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
     logger.error(f"Unhandled error processing request {request.url.path}: {exc}", exc_info=True)
     return JSONResponse(status_code=500, content={"error": "An internal server error occurred while processing the speech."})
 
+@app.on_event("startup")
+def warmup_model():
+    """Warm up MMS_FA model on boot so first request runs instantly from local memory."""
+    try:
+        from speechcoach.align.aligner import _get_model
+        _get_model()
+        logger.info("Forced alignment model warmed up on startup.")
+    except Exception as e:
+        logger.warning(f"Startup model warmup deferred: {e}")
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}

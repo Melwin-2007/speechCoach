@@ -195,7 +195,7 @@ export async function analyze({ file, transcript, baselineId = "auto", mode = "a
   let activeSignal = signal;
   if (!activeSignal) {
     const controller = new AbortController();
-    timeoutId = setTimeout(() => controller.abort(), 120000);
+    timeoutId = setTimeout(() => controller.abort(), 300000);
     activeSignal = controller.signal;
   }
 

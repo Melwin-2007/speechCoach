@@ -23,6 +23,9 @@ RUN pip install --no-cache-dir torch==2.5.1 torchaudio==2.5.1 --index-url https:
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pre-download and cache MMS_FA forced alignment model inside Docker image
+RUN python -c "import torchaudio; torchaudio.pipelines.MMS_FA.get_model()"
+
 # Copy source code (API and models)
 COPY . /workspace/
 

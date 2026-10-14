@@ -363,7 +363,7 @@ export default function App() {
     const controller = new AbortController();
     const safetyTimeout = setTimeout(() => {
       try { controller.abort(); } catch {}
-    }, 120000);
+    }, 300000);
     abortControllerRef.current = controller;
 
     if (activeTab === "sample") {

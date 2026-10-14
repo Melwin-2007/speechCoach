@@ -11,9 +11,15 @@ _DEVICE = None
 def _get_model():
     global _MODEL, _DICT, _DEVICE
     if _MODEL is None:
+        if not torch.cuda.is_available():
+            try:
+                torch.set_num_threads(max(1, min(4, os.cpu_count() or 1)))
+            except Exception:
+                pass
         _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         bundle = torchaudio.pipelines.MMS_FA
         _MODEL = bundle.get_model().to(_DEVICE)
+        _MODEL.eval()
         _DICT = bundle.get_dict()
     return _MODEL, _DICT, _DEVICE
 
