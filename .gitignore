@@ -13,7 +13,7 @@ dataset/raw/
 
 # Frontend build artifacts
 node_modules/
-app/dist/
+# app/dist/ (tracked for cloud deployment without Node/Docker)
 
 # OS files
 .DS_Store
