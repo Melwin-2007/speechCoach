@@ -92,6 +92,8 @@ def align_words(y: np.ndarray, words: list[dict]) -> list[dict]:
         })
         
     del waveform, emission, targets, alignments, scores, token_spans
+    import gc
+    gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
         
