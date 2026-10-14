@@ -16,7 +16,8 @@
 | **Demo Video (YouTube)** | [TBD — Video Link](https://youtube.com) *(to be uploaded prior to final deadline)* | Pending Recording |
 | **Public Dataset** | [`dataset/`](dataset/) (467 audio files, 8 transcripts, word timestamps, flaws) | Complete & Verified (464.0 min) |
 | **Technical Document** | [`docs/technical_document/`](docs/) *(PDF export in progress)* | Drafted in Repo Docs |
-| **Interactive Dashboard** | [http://localhost:5173](http://localhost:5173) (Local Dev) / Port 7860 (Docker) | Fully Operational |
+| **Live Dashboard** | [https://speechcoach-4wc1.onrender.com/#/](https://speechcoach-4wc1.onrender.com/#/) | Live on Render |
+| **Local Dashboard** | [http://localhost:5173](http://localhost:5173) (Vite Dev) / Port 7860 (Docker) | Fully Operational |
 | **API Documentation** | [http://localhost:8000/docs](http://localhost:8000/docs) (OpenAPI / Swagger) | Live on Active Server |
 
 <p align="center">
@@ -31,7 +32,7 @@
 > [!IMPORTANT]
 > ### 📢 Note for Evaluators & Judges: Cloud Demo vs. Local Execution
 > 
-> - **Interactive Pre-computed Demos (Instant)**: The live hosted web application includes three full-featured benchmark speech sessions (**Ideal Delivery**, **Almost Ideal**, and **Botched Multi-Flaw**). These run instantaneously with zero latency, showcasing the complete interactive dashboard: synchronized WaveSurfer audio waveforms, millisecond word alignments, acoustic contour graphs (pitch, energy, syllable rate), detected flaw bounding boxes, and deterministic 7-dimension rubric score breakdowns.
+> - **Interactive Pre-computed Demos (Instant)**: The live hosted web application ([https://speechcoach-4wc1.onrender.com/#/](https://speechcoach-4wc1.onrender.com/#/)) includes three full-featured benchmark speech sessions (**Ideal Delivery**, **Almost Ideal**, and **Botched Multi-Flaw**). These run instantaneously with zero latency, showcasing the complete interactive dashboard: synchronized WaveSurfer audio waveforms, millisecond word alignments, acoustic contour graphs (pitch, energy, syllable rate), detected flaw bounding boxes, and deterministic 7-dimension rubric score breakdowns.
 > - **Live Audio Alignment on Custom Uploads**: SpeechCoach's forced alignment pipeline utilizes the state-of-the-art `torchaudio` MMS_FA acoustic model (~315 million parameters, requiring ~1.2 GB of RAM). Free cloud hosting tiers operate with strict 512 MB memory limits and shared 0.1 vCPU. As a result, the live web deployment cannot run real-time neural audio alignment on new uploads due to cloud container memory limits.
 > - **To run live alignment on custom recordings**: Please run SpeechCoach locally or via Docker (`docker run -p 7860:7860 speechcoach:latest`), where full PyTorch GPU/CPU inference executes with full fidelity in seconds. Complete 1-line setup instructions are provided below.
 
@@ -586,7 +587,7 @@ The interactive frontend dashboard is built with React 19, Vite, WaveSurfer.js, 
 </p>
 
 ### Walkthrough & Usage Steps
-1. **Navigate to Application**: Open [http://localhost:5173](http://localhost:5173).
+1. **Navigate to Application**: Open the live dashboard at [https://speechcoach-4wc1.onrender.com/#/](https://speechcoach-4wc1.onrender.com/#/) (or [http://localhost:5173](http://localhost:5173) for local development).
 2. **Choose Input Mode**:
    - **Upload Mode**: Drag and drop any 16 kHz mono WAV file, paste or load a baseline transcript.
    - **Record Mode**: Record live speech directly through the browser microphone.
@@ -622,3 +623,22 @@ The interactive frontend dashboard is built with React 19, Vite, WaveSurfer.js, 
 - **Tech Stack**: Python 3.11.9, PyTorch 2.5.1+cu124, Torchaudio, Parselmouth (Praat), PyWorld, PyLoudnorm, Librosa, Scikit-Learn, FastAPI, React 19, Vite, WaveSurfer.js.
 - **License**: [MIT License](LICENSE)
 - **Contact / GitHub**: [https://github.com/Melwin-2007/speechCoach](https://github.com/Melwin-2007/speechCoach)
+
+---
+
+## 13. AI Usage Disclosure
+
+In compliance with the **Multimodal AI Hackathon 2026** competition guidelines and ethical transparency standards, we disclose the usage of artificial intelligence tools during the development of **SpeechCoach**:
+
+### 1. In-Product Architecture: Deterministic & Zero-LLM Guarantee
+- **No Generative LLMs in Runtime Evaluation**: SpeechCoach contains **zero generative LLM calls, prompts, or external AI API wrappers** in its evaluation pipeline.
+- **Acoustic Pretrained Foundation Model**: The pipeline uses Meta's open-weights [`torchaudio.pipelines.MMS_FA`](https://pytorch.org/audio/stable/pipelines.html#torchaudio.pipelines.MMS_FA) Wav2Vec 2.0 acoustic model strictly for millisecond-level character and word forced alignment. No generative or speculative inference is performed.
+- **Deterministic Explanations & Scoring**: All pedagogical feedback, numerical delta comparisons, and rubric scores are computed using pure statistical signal analysis (median, median absolute deviation, signed z-scores) and deterministic sentence templates. This guarantees 100% bit-exact reproducibility, zero hallucinations, and sub-10ms explanation generation.
+
+### 2. Development & Coding Assistance
+- **AI Coding Assistants**: AI development assistants (Claude 3.7 Sonnet and Gemini models via Antigravity / IDE plugins) were employed as pair programmers for:
+  - Repository structure, Dockerfile configuration, batch scripts, and CI workflow scaffolding.
+  - Generating synthetic test audio signals (sine waves, silence intervals) for unit testing in `pytest`.
+  - Assisting with CSS Modules, token typography alignment, and SVG trigonometry for the interactive 7-axis radar chart.
+  - Code review, type-hint verification, and documentation formatting.
+- **Human Authorship & Domain Logic**: All acoustic algorithms (pitch semitone normalization, LUFS calibration, confidence corridor formulation, dual-threshold hysteresis state machines, and rubric penalty weighting) were designed, tuned, mathematically derived, and validated by the student engineering team.
