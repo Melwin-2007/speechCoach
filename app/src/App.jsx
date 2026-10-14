@@ -39,7 +39,7 @@ import styles from "./App.module.css";
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash || "#/");
-  const [activeTab, setActiveTab] = useState("upload"); // 'upload' | 'sample'
+  const [activeTab, setActiveTab] = useState("sample"); // 'sample' | 'upload'
   const [preset, setPreset] = useState("botched");
 
   // File & input state
@@ -525,16 +525,6 @@ export default function App() {
             <div className={styles.segmentedTabs}>
               <button
                 type="button"
-                className={`${styles.tabBtn} ${activeTab === "upload" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("upload");
-                  setError(null);
-                }}
-              >
-                Analyze a recording
-              </button>
-              <button
-                type="button"
                 className={`${styles.tabBtn} ${activeTab === "sample" ? styles.tabBtnActive : ""}`}
                 onClick={() => {
                   setActiveTab("sample");
@@ -542,6 +532,16 @@ export default function App() {
                 }}
               >
                 Try a sample
+              </button>
+              <button
+                type="button"
+                className={`${styles.tabBtn} ${activeTab === "upload" ? styles.tabBtnActive : ""}`}
+                onClick={() => {
+                  setActiveTab("upload");
+                  setError(null);
+                }}
+              >
+                Analyze a recording
               </button>
             </div>
           </div>
