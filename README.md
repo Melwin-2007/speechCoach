@@ -73,7 +73,24 @@ Human speech adjudication (speech competitions, debate, declamation, and present
 
 For complete platform-specific walkthroughs and PowerShell security settings, consult [`setup.md`](setup.md).
 
-### 3.1 Local Installation
+### 3.1 ⚡ 1-Click Windows Launcher (Judges & Evaluators)
+
+Simply double-click the included batch script:
+```bat
+run_speechcoach.bat
+```
+*(Or execute `.\run_speechcoach.bat` from Command Prompt / PowerShell)*
+
+**What it does automatically:**
+1. Detects Python on your system (3.10+ / 3.11).
+2. Automatically sets up the virtual environment (`.venv`) and installs dependencies if needed.
+3. Launches the unified SpeechCoach server on `http://localhost:7860`.
+4. Automatically opens your default web browser directly to the dashboard.
+*(No Node.js or npm installation required—uses pre-compiled production assets).*
+
+---
+
+### 3.2 Manual Local Installation
 
 ```bash
 # Clone repository
@@ -91,7 +108,7 @@ pip install -r requirements.txt
 cd app && npm install && cd ..
 ```
 
-### 3.2 Docker Build & Run
+### 3.3 Docker Build & Run
 ```bash
 # Build multi-stage Docker container
 docker build -t speechcoach:latest .
@@ -101,7 +118,7 @@ docker run -p 7860:7860 speechcoach:latest
 ```
 Access the application at [http://localhost:7860](http://localhost:7860).
 
-### 3.3 Run the Interactive Dashboard (Development)
+### 3.4 Run the Interactive Dashboard (Development Mode)
 Open two terminal windows:
 
 ```bash
@@ -114,7 +131,9 @@ cd app && npm run dev
 - Frontend Web App: [http://localhost:5173](http://localhost:5173)
 - Interactive OpenAPI Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-### 3.4 Run CLI on a Sample Recording
+*(Tip: You can also simply run `run_dev.bat` on Windows to launch both simultaneously).*
+
+### 3.5 Run CLI on a Sample Recording
 Analyze a real audio recording against its transcript directly from your terminal:
 
 ```bash
