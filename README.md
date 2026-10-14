@@ -19,7 +19,14 @@
 | **Interactive Dashboard** | [http://localhost:5173](http://localhost:5173) (Local Dev) / Port 7860 (Docker) | Fully Operational |
 | **API Documentation** | [http://localhost:8000/docs](http://localhost:8000/docs) (OpenAPI / Swagger) | Live on Active Server |
 
-![SpeechCoach Dashboard Preview](docs/images/dashboard_preview.png)
+<p align="center">
+  <img src="docs/images/01_hero_upload.png" alt="SpeechCoach Hero Landing & Audio Upload" width="49%" />
+  <img src="docs/images/02_transcript_analyze.png" alt="Speech Selection & Alignment Transcript" width="49%" />
+</p>
+<p align="center">
+  <img src="docs/images/03_insights_radar.png" alt="7-Dimension Objective Rubric Scoring & Radar Profile" width="49%" />
+  <img src="docs/images/04_waveform_flaws.png" alt="WaveSurfer Audio Waveform, Temporal Flaw Grounding & Deviation Pulse" width="49%" />
+</p>
 
 > [!IMPORTANT]
 > ### 📢 Note for Evaluators & Judges: Cloud Demo vs. Local Execution
@@ -552,6 +559,31 @@ The interactive frontend dashboard is built with React 19, Vite, WaveSurfer.js, 
 - **Confidence Corridors**: Overlays participant pitch ($st$) and loudness ($dB$) contours against shaded baseline corridors.
 - **Color-Coded Flaw Intervals**: Overlaid badges indicating flaw channel, start/end bounds, and severity band (`major`, `moderate`, `minor`).
 - **Pedagogical Explanation Cards**: Clicking any flaw or word displays the 5-part explanation card with observed values, baseline comparison, and actionable recommendations.
+
+### Visual Interface Tour
+
+| Screen | Description |
+|---|---|
+| **1. Landing & Audio Upload** | Clean hero landing with dual sample/upload modes, audio playback controls, and speech topic selection. |
+| **2. Transcript & Baseline Alignment** | Prefilled or custom transcript input for millisecond-level forced alignment and pause boundary detection. |
+| **3. Objective Scores & Dimension Radar** | Holistic 0–100 composite evaluation and 7-axis radar profile across Pacing, Pausing, Pitch, Loudness, Emphasis, Clarity, and Fluency. |
+| **4. Waveform & Flaw Grounding** | Synchronized WaveSurfer audio timeline with grounded flaw intervals (Dragging, Volume Drop, Overlong Pause) and color-coded acoustic deviation pulse. |
+
+<p align="center">
+  <img src="docs/images/01_hero_upload.png" alt="Landing & Audio Upload" width="100%" />
+</p>
+
+<p align="center">
+  <img src="docs/images/02_transcript_analyze.png" alt="Transcript & Baseline Alignment" width="100%" />
+</p>
+
+<p align="center">
+  <img src="docs/images/03_insights_radar.png" alt="Objective Rubric Scores & 7-Axis Radar" width="100%" />
+</p>
+
+<p align="center">
+  <img src="docs/images/04_waveform_flaws.png" alt="Waveform, Temporal Flaw Grounding & Acoustic Deviation Pulse" width="100%" />
+</p>
 
 ### Walkthrough & Usage Steps
 1. **Navigate to Application**: Open [http://localhost:5173](http://localhost:5173).
