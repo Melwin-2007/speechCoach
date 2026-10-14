@@ -690,8 +690,8 @@ export default function App() {
                   onClick={() => setPreset("botched")}
                 >
                   <h3 className="h3">Botched Take</h3>
-                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual recording with an excessive 3.3s hesitation pause anomaly.</p>
-                  <span className="mono-sm">Score: ~70.5 · 1 flaw</span>
+                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual recording with an excessive 3.34s hesitation pause anomaly at 0:33.0.</p>
+                  <span className="mono-sm">Score: ~56.5 · 2 flaws</span>
                 </div>
 
                 <div
@@ -705,8 +705,8 @@ export default function App() {
                   onClick={() => setPreset("almost")}
                 >
                   <h3 className="h3">Almost Perfect</h3>
-                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual recording with a fast pacing anomaly at 48.3s.</p>
-                  <span className="mono-sm">Score: ~64.3 · 1 flaw</span>
+                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual recording with a fast pacing anomaly around 25.4s.</p>
+                  <span className="mono-sm">Score: ~51.8 · 5 flaws</span>
                 </div>
 
                 <div
@@ -720,8 +720,8 @@ export default function App() {
                   onClick={() => setPreset("ideal")}
                 >
                   <h3 className="h3">Ideal Baseline</h3>
-                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual reference recording of T01 with clean, balanced delivery.</p>
-                  <span className="mono-sm">Score: ~64.3 · 0 flaws</span>
+                  <p className="small" style={{ margin: "var(--s-2) 0" }}>Actual reference recording of T03 with clean, balanced delivery.</p>
+                  <span className="mono-sm">Score: ~98.5 · 0 flaws</span>
                 </div>
               </div>
 

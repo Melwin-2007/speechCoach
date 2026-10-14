@@ -109,7 +109,9 @@ def test_flawed_speech_score_penalties_and_band():
     """Verify that speech with pacing flaws receives appropriate penalties (not ~98%),
     negative deviations receive 'major' band, and flaws are strictly sorted."""
     from pathlib import Path
-    audio_path = Path("app/public/demo-audio/almost.wav")
+    audio_path = Path("dataset/raw/flawed/S01/S01_T01_PACE_FAST_L4.wav")
+    if not audio_path.exists():
+        audio_path = Path("app/public/demo-audio/almost.wav")
     if not audio_path.exists():
         return
     wav_bytes = audio_path.read_bytes()

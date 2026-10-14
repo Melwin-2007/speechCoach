@@ -420,3 +420,18 @@ pm run build), design linter passes with 0 violations (
 ode scripts/check-design.mjs), all API tests pass (10/10).
 - **How to verify**: Open http://localhost:5173/, verify clean vertical cadence and tight, balanced spacing across hero, input card, waveform, and results sections.
 - **Requests**: None.
+
+### [2026-10-14 14:30] Member C (Finalize Demo Presets: Ideal, Almost Perfect, Botched Take)
+- **Goal**: Connect all three demo presets in the 'Try a sample' tab strictly to verified real audio recordings and accurate pipeline analysis results.
+- **Files changed**:
+  - pp/public/demo-audio/ideal.wav & pp/public/demo/ideal.json: Powered by S05_T03_GOOD.wav against baseline T03 (51.5s, score 98.5, 0 flaws).
+  - pp/public/demo-audio/almost.wav & pp/public/demo/almost.json: Powered by S04_T05_PACE_FAST_L4.wav against baseline T05 (54.7s, score 51.8, 5 flaws with fast pacing at 25.4s).
+  - pp/public/demo-audio/botched.wav, pp/public/demo/botched.json & pp/public/mock_result.json: Powered by S01_T01_PAUSE_LONG_L4.wav against baseline T01 (65.6s, score 56.5, 2 major hesitation pause flaws including primary anomaly at 0:33.0 / 32.7s).
+  - pp/src/App.jsx: Updated preset cards with matching descriptions, timestamps, and overall scores.
+  - src/speechcoach/features/phrases.py: Ensured pauses >= 1.0s remain reliable for detection even across shorter syllable counts.
+  - 	ests/test_api_analyze.py: Updated test audio path to reference S01_T01_PACE_FAST_L4.wav directly.
+- **Status**: Completed. All tests pass (10/10 in 	ests/test_api_analyze.py), design linter passes with 0 violations (
+pm run lint:design), and production build succeeds (
+pm run build). Dev servers active on ports 8000 & 5173.
+- **How to verify**: Open http://localhost:5173/, navigate to 'Try a sample', and test all three presets (Ideal Baseline, Almost Perfect, Botched Take).
+- **Requests**: None.

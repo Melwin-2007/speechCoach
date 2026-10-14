@@ -177,7 +177,7 @@ def interpolate_to_grid(phrase_feats: list[dict], duration_s: float, hop_s: floa
             grid["pause_s"][pause_mask] = p["pause_before"]
             grid["pause_type"][pause_mask] = p["pause_type"]
             prev_reliable = phrase_feats[i-1]["reliable"]
-            grid["pause_ok"][pause_mask] = prev_reliable or p["reliable"]
+            grid["pause_ok"][pause_mask] = prev_reliable or p["reliable"] or (p["pause_before"] >= 1.0)
         else:
             pause_mask = (t_grid < p['start'])
             grid["pause_s"][pause_mask] = p["pause_before"]
