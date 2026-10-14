@@ -19,6 +19,7 @@ import {
   Square,
 } from "lucide-react";
 import Styleguide from "./components/Styleguide/Styleguide";
+import About from "./components/About/About";
 import ScoreCard from "./components/ScoreCard/ScoreCard";
 import RadarCard from "./components/Charts/RadarCard";
 import WaveformPanel from "./components/WaveformPanel/WaveformPanel";
@@ -442,6 +443,28 @@ export default function App() {
   const wordCount = transcript.trim() ? transcript.trim().split(/\s+/).length : 0;
   const isAnalyzeDisabled = activeTab === "upload" ? (!file || wordCount < 5) : false;
 
+  if (route === "#/about" || route === "#about") {
+    return (
+      <About
+        onNavigateHome={(targetSection) => {
+          setRoute("#/");
+          window.location.hash = "#/";
+          if (targetSection && targetSection !== "home") {
+            setTimeout(() => {
+              const el = document.getElementById(targetSection);
+              if (el) {
+                const y = el.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({ top: y, behavior: "smooth" });
+              }
+            }, 60);
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }}
+      />
+    );
+  }
+
   if (route === "#/styleguide") {
     return <Styleguide />;
   }
@@ -460,7 +483,18 @@ export default function App() {
             <a href="#home" onClick={(e) => scrollToSection(e, "home")} className={activeSection === "home" ? styles.navLinkActive : styles.navLink}>Home</a>
             <a href="#analyze" onClick={(e) => scrollToSection(e, "analyze")} className={activeSection === "analyze" ? styles.navLinkActive : styles.navLink}>Analyze</a>
             <a href="#insights" onClick={(e) => scrollToSection(e, "insights")} className={activeSection === "insights" ? styles.navLinkActive : styles.navLink}>Insights</a>
-            <a href="#about" onClick={(e) => scrollToSection(e, "about")} className={activeSection === "about" ? styles.navLinkActive : styles.navLink}>About</a>
+            <a
+              href="#/about"
+              onClick={(e) => {
+                e.preventDefault();
+                setRoute("#/about");
+                window.location.hash = "#/about";
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={route === "#/about" ? styles.navLinkActive : styles.navLink}
+            >
+              About
+            </a>
           </div>
           <div className={styles.navActions}>
             {/* Buttons removed as requested */}
@@ -895,8 +929,21 @@ export default function App() {
         </div>
       </main>
 
-      <footer id="about" className={styles.footer} style={{ color: 'var(--faint)', letterSpacing: '1.5px', fontSize: '12px', textTransform: 'uppercase' }}>
-        CRAFTED WITH INTENTION
+      <footer className={styles.footer} style={{ color: 'var(--muted)', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+        <span>Crafted with intention</span>
+        <span>·</span>
+        <a
+          href="#/about"
+          onClick={(e) => {
+            e.preventDefault();
+            setRoute("#/about");
+            window.location.hash = "#/about";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          style={{ color: 'var(--ink)', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}
+        >
+          About SpeechCoach &amp; Team
+        </a>
       </footer>
     </div>
   </div>

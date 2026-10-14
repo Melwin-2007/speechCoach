@@ -435,3 +435,17 @@ pm run lint:design), and production build succeeds (
 pm run build). Dev servers active on ports 8000 & 5173.
 - **How to verify**: Open http://localhost:5173/, navigate to 'Try a sample', and test all three presets (Ideal Baseline, Almost Perfect, Botched Take).
 - **Requests**: None.
+
+### [2026-10-14 15:40] Member C (Create About Page & Team Showcase)
+- **Goal**: Build an explainable, engaging About page matching the design system, explaining SpeechCoach simply and showcasing the 4 VTU Belagavi student builders with photos and roles.
+- **Files changed**:
+  - `app/src/components/About/About.jsx`: Main container with hero banner, pipeline overview, and navigation back to Analyzer.
+  - `app/src/components/About/AboutProject.jsx`: Simple plain-language explanation of contrastive baseline comparison, 4-step architecture, 7 vocal dimensions, and deterministic guarantees.
+  - `app/src/components/About/AboutTeam.jsx`: Grid showcasing Aditya Patange, Melwin Fernandes, Sagar Hulikavi, and Pritam Shetty with photos, degrees, roles, and responsibilities.
+  - `app/src/components/About/About.module.css`: CSS module adhering to design tokens (`--paper`, `--card`, `--ink`, `--muted`, `--r-card`, `--shadow-1`, no blue/purple, no gradients).
+  - `app/src/App.jsx`: Connected `#about` and `#/about` routes in the navbar and footer.
+  - `app/public/team/`: Team images copied and served (`melwin.jpg`, `sagar.jpg`, `pritam.jpg`).
+- **Status**: Completed. Design linter passes (`npm run lint:design` -> 0 violations), production build succeeds (`npm run build` in 1.35s). Dev server running at `http://localhost:5173/#/about`.
+- **How to verify**: Open `http://localhost:5173/#/about` or click the 'About' link in the top navbar.
+- **Requests**: None.
+

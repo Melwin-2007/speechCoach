@@ -2,10 +2,12 @@ import sys
 import csv
 import json
 from pathlib import Path
+from typing import Any
 import numpy as np
 import librosa
 import soundfile as sf
-import pyworld as pw
+import pyworld as _pw
+pw: Any = _pw
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from speechcoach.compare.deviation import CHANNELS
@@ -144,7 +146,10 @@ def apply_pitch_flat(y, sr, words, start_w, end_w, severity):
                 break
             curr_f = curr_f * (target / (meas + 1e-6))
             
-        synthesized = best_syn.astype(np.float32)
+        if best_syn is not None:
+            synthesized = best_syn.astype(np.float32)
+        else:
+            synthesized = segment.astype(np.float32)
         if len(synthesized) > len(segment):
             synthesized = synthesized[:len(segment)]
         elif len(synthesized) < len(segment):
@@ -203,7 +208,10 @@ def apply_pitch_erratic(y, sr, words, start_w, end_w, severity):
                 break
             curr_f = curr_f * (target / (meas + 1e-6))
             
-        synthesized = best_syn.astype(np.float32)
+        if best_syn is not None:
+            synthesized = best_syn.astype(np.float32)
+        else:
+            synthesized = segment.astype(np.float32)
         if len(synthesized) > len(segment):
             synthesized = synthesized[:len(segment)]
         elif len(synthesized) < len(segment):
@@ -305,21 +313,21 @@ def main():
                 
                 if flaw_type == "PAUSE_LONG":
                     if pause_points:
-                        pt_idx = int(rng.integers(0, len(pause_points)))
+                        pt_idx = rng.integers(0, len(pause_points))
                         start_w = pause_points[pt_idx]
                     else:
                         min_w = 4
                         max_w = max(min_w + 1, n_words - 8)
-                        start_w = int(rng.integers(min_w, max_w))
+                        start_w = rng.integers(min_w, max_w)
                     end_w = start_w
                 else:
                     if valid_spans:
-                        span_idx = int(rng.integers(0, len(valid_spans)))
+                        span_idx = rng.integers(0, len(valid_spans))
                         start_w, end_w = valid_spans[span_idx]
                     else:
                         min_w = 4
                         max_w = max(min_w + 1, n_words - 8)
-                        start_w = int(rng.integers(min_w, max_w))
+                        start_w = rng.integers(min_w, max_w)
                         end_w = min(start_w + 6, n_words - 4)
                 
                 y_new, flaw_start, flaw_end, expected_val, params, remapped_words = flaw_func(

@@ -118,9 +118,9 @@ def analyze(audio_path: str | Path, transcript: str, baseline_id: str | None = N
                 "dev_peak": round(dev_peak, 2),
                 "dev_mean": round(dev_mean, 2),
                 "phrase_dur": round(float(p_dur), 2),
-                "syllable_count": int(p_sylls),
+                "syllable_count": p_sylls,
                 "voiced_frac": round(float(p_vf), 2),
-                "reliable": bool(p_rel)
+                "reliable": p_rel
             }
             
             # Additional context for specific flaws
