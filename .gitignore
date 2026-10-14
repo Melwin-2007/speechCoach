@@ -25,7 +25,9 @@ Thumbs.db
 
 # IDE
 .vscode/
+.vscode*/
 .idea/
+* - Copy/
 
 # Model weights (downloaded or trained locally)
 *.pt
