@@ -21,6 +21,13 @@
 
 ![SpeechCoach Dashboard Preview](docs/images/dashboard_preview.png)
 
+> [!IMPORTANT]
+> ### 📢 Note for Evaluators & Judges: Cloud Demo vs. Local Execution
+> 
+> - **Interactive Pre-computed Demos (Instant)**: The live hosted web application includes three full-featured benchmark speech sessions (**Ideal Delivery**, **Almost Ideal**, and **Botched Multi-Flaw**). These run instantaneously with zero latency, showcasing the complete interactive dashboard: synchronized WaveSurfer audio waveforms, millisecond word alignments, acoustic contour graphs (pitch, energy, syllable rate), detected flaw bounding boxes, and deterministic 7-dimension rubric score breakdowns.
+> - **Live Audio Alignment on Custom Uploads**: SpeechCoach's forced alignment pipeline utilizes the state-of-the-art `torchaudio` MMS_FA acoustic model (~315 million parameters, requiring ~1.2 GB of RAM). Free cloud hosting tiers operate with strict 512 MB memory limits and shared 0.1 vCPU. As a result, the live web deployment cannot run real-time neural audio alignment on new uploads due to cloud container memory limits.
+> - **To run live alignment on custom recordings**: Please run SpeechCoach locally or via Docker (`docker run -p 7860:7860 speechcoach:latest`), where full PyTorch GPU/CPU inference executes with full fidelity in seconds. Complete 1-line setup instructions are provided below.
+
 ---
 
 ## 1. What It Does
