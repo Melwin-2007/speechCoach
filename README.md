@@ -19,7 +19,7 @@
 | **Technical Documentation** | [Google Drive PDF](https://drive.google.com/file/d/1-cjG_0UyigmlwsyfyeKEpBD1WvO0JXki/view?usp=sharing) | Complete & Verified |
 | **Local Dashboard** | [http://localhost:5173](http://localhost:5173) (Vite Dev) / Port 7860 (Docker) | Fully Operational |
 | **API Documentation** | [http://localhost:8000/docs](http://localhost:8000/docs) (OpenAPI / Swagger) | Live on Active Server |
-| **Demo Video (YouTube)** | [TBD — Video Link](https://youtube.com) *(to be uploaded prior to final deadline)* | Pending Recording |
+| **Demo Video (YouTube)** | [Youtube Video](https://www.youtube.com/watch?v=hwj9JGHXGdk) | Uploaded |
 
 <p align="center">
   <img src="docs/images/01_hero_upload.png" alt="SpeechCoach Hero Landing & Audio Upload" width="49%" />
