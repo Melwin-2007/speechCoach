@@ -68,7 +68,7 @@ Human speech adjudication (speech competitions, debate, declamation, and present
 | **Reproducibility Harness** | Frozen hashes, evaluation report, parameter verification scripts | [`results/frozen.json`](results/frozen.json), [`scripts/`](scripts/) | Fully frozen (commit `93369be3`) |
 | **Docker Container** | Two-stage Dockerfile bundling frontend build + Python runtime | [`Dockerfile`](Dockerfile) | Validated syntax (Port 7860) |
 | **Technical Document** | System specification and methodology report | [Technical Documentation (PDF)](https://drive.google.com/file/d/1-cjG_0UyigmlwsyfyeKEpBD1WvO0JXki/view?usp=sharing) · [Dataset Documentation (PDF)](https://drive.google.com/file/d/1Ls4ereJI7CHkAZnZvz4HC-lWCeEfQIGs/view?usp=sharing) | Complete |
-| **Demo Video** | 3–10 minute video demonstration of pipeline and dashboard | TBD *(Link will be placed here)* | Pending final recording |
+| **Demo Video** | 3–10 minute video demonstration of pipeline and dashboard | [Youtube Video](https://www.youtube.com/watch?v=hwj9JGHXGdk) | Uploaded |
 
 ---
 
